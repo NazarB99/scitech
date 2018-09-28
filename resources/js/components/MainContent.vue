@@ -613,7 +613,7 @@
                                                 <div class="vc_empty_space" style="height: 40px">
                                                     <span class="vc_empty_space_inner"></span>
                                                 </div>
-                                                <illustrations></illustrations>
+                                                <!--<illustrations></illustrations>-->
                                             </div>
                                         </div>
                                         <div class="widget-area widget-area-1 " role="complementary">
@@ -633,7 +633,6 @@
                                                                 src="../../max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/08/banner.jpg"
                                                                 class="penci-image-holder penci-ad-image  penci-lazy attachment-full"
                                                                 alt=""
-                                                                srcset="http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/08/banner.jpg 600w, http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/08/banner-300x250.jpg 300w, http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/08/banner-480x400.jpg 480w, http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/08/banner-585x488.jpg 585w"
                                                                 sizes="(max-width: 600px) 100vw, 600px"/></div>
                                                     </div>
                                                 </div>
@@ -655,7 +654,7 @@
 </template>
 <script>
     import ThreeDDesign from './articles/ThreeDDesign.vue';
-    import Illustrations from "./articles/Illustrations";
+    import Illustrations from "./articles/Illustrations.vue";
     // import Recents from "./articles/Recents.vue";
     // import UiUx from "./articles/UIUX.vue";
     // import Latest from "./articles/Latest.vue";
