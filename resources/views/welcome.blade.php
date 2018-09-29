@@ -222,33 +222,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <style>#penci_block_6__98815468 .penci-subcat-filter .penci-subcat-item a, #penci_block_6__98815468 .penci-subcat-list .flexMenu-viewMore > a {
-                                    font-family: "Roboto";
-                                    font-weight: 400;
-                                }
-
-                                #penci_block_6__98815468 .penci__post-title {
-                                    font-family: "Overpass Mono";
-                                    font-weight: 400;
-                                }
-
-                                #penci_block_6__98815468.penci__general-meta .penci_post-meta {
-                                    font-family: "Roboto Mono";
-                                    font-weight: 400;
-                                }</style>
-                            <script>if (typeof(penciBlock) === "undefined") {
-                                    function penciBlock() {
-                                        this.atts_json = '';
-                                        this.content = '';
-                                    }
-                                }
-                                var penciBlocksArray = penciBlocksArray || [];
-                                var PENCILOCALCACHE = PENCILOCALCACHE || {};
-                                var penci_block_6__98815468 = new penciBlock();
-                                penci_block_6__98815468.blockID = "penci_block_6__98815468";
-                                penci_block_6__98815468.atts_json = '{"build_query":"size:2","add_title_icon":"","title_i_align":"","title_icon":"","hide_thumb":"","thumb_pos":"left","image_type":"landscape","block_title_meta_settings":"","block_title_align":"","block_title_off_uppercase":"","block_title_wborder_left_right":"5px","block_title_wborder":"3px","hide_post_date":"","hide_icon_post_format":"","hide_comment":"","dis_bg_block":"","enable_stiky_post":"","show_count_view":"","post_title_trimword_settings":"","post_standard_title_length":"20","style_pag":"","limit_loadmore":"3","pagination_css":"","loadmore_css":"","disable_bg_load_more":"","custom_markup_1":"","ajax_filter_type":"","ajax_filter_selected":"","ajax_filter_number_item":"5","infeed_ads__order":"","block_id":"penci-widget__block_6-1","penci_show_desk":"Yes","penci_show_tablet":"Yes","penci_show_mobile":"Yes","paged":1,"unique_id":"penci_block_6__98815468","shortcode_id":"block_6","category_ids":"","taxonomy":""}';
-                                penci_block_6__98815468.content = "";
-                                penciBlocksArray.push(penci_block_6__98815468);</script>
                         </div>
                         <div id="footer-2" class="footer-sidebar-item footer-2 penci-col-6">
                             <div id="penci_instagram-2"
@@ -320,13 +293,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <style>#penci_instagram-2 .penci-insta-user h4 {
-                                    font-family: 'Mukta Vaani', sans-serif;
-                                }
-
-                                #penci_instagram-2 .penci-insta-user h4 {
-                                    font-weight: 600;
-                                }</style>
                         </div>
                         <div id="footer-3" class="footer-sidebar-item footer-3 penci-col-3">
                             <div id="penci-popular-cat--38952"
@@ -358,10 +324,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <style>#penci-popular-cat--38952.widget_categories li, #penci-popular-cat--38952.widget_categories li a {
-                                    font-family: "Roboto Mono";
-                                    font-weight: 400;
-                                }</style>
                         </div>
                     </div>
                 </div>
@@ -583,6 +545,7 @@
 <script src="/js/jquery.ratyo.js"></script>
 <script src="/js/rating_review.js"></script>
 <script src="/js/script.min.js"></script>
+<script src="/js/others.js"></script>
 <script src="{{mix('/js/app.js')}}"></script>
 </body>
 </html>

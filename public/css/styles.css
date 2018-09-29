@@ -108,3 +108,121 @@ div.wpcf7 input[type="file"] {
 div.wpcf7 input[type="file"]:disabled {
     cursor: default;
 }
+
+#penci_block_6__98815468 .penci-subcat-filter .penci-subcat-item a, #penci_block_6__98815468 .penci-subcat-list .flexMenu-viewMore > a {
+    font-family: "Roboto";
+    font-weight: 400;
+}
+
+#penci_block_6__98815468 .penci__post-title {
+    font-family: "Overpass Mono";
+    font-weight: 400;
+}
+
+#penci_block_6__98815468.penci__general-meta .penci_post-meta {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+}
+
+#penci_instagram-2 .penci-insta-user h4 {
+    font-family: 'Mukta Vaani', sans-serif;
+}
+
+#penci_instagram-2 .penci-insta-user h4 {
+    font-weight: 600;
+}
+
+#penci-popular-cat--38952.widget_categories li, #penci-popular-cat--38952.widget_categories li a {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+}
+
+#penci-ad_box--33124 .penci-promo-item.penci-banner-has-text:after {
+    content: none;
+}
+
+@media screen and (min-width: 768px ) {
+}
+
+#penci_block_6__24888952.style-title-7 .penci-block__title {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_block_6__24888952.style-title-7 .penci-block__title {
+        font-size: 24px !important;
+    }
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_block_6__24888952 .penci__post-title {
+        font-size: 13px !important;
+    }
+}
+
+@media screen and (min-width: 768px ) {
+}
+
+#penci_grid_2__5897368.style-title-7 .penci-block__title {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_grid_2__5897368.style-title-7 .penci-block__title {
+        font-size: 24px !important;
+    }
+}
+
+#penci_grid_2__5897368 .penci__post-title {
+    font-family: "Overpass Mono";
+    font-weight: 600;
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_grid_2__5897368 .penci__post-title {
+        font-size: 22px !important;
+    }
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_grid_2__5897368 .grid2_first_item .penci__post-title {
+        font-size: 24px !important;
+    }
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_grid_2__5897368 .grid2_items .penci-post-item:first-child .penci__post-title {
+        font-size: 24px !important;
+    }
+}
+
+#penci_grid_2__5897368 .penci_post-meta {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+}
+
+@media screen and (min-width: 768px ) {
+}
+
+#penci_block_23__32021619.style-title-7 .penci-block__title {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_block_23__32021619.style-title-7 .penci-block__title {
+        font-size: 24px !important;
+    }
+}
+
+#penci_block_23__32021619 .penci-pmore-link .more-link {
+    font-family: "Mukta Vaani";
+    font-weight: 500;
+}
+
+#penci_block_23__32021619 .block23_first_item .penci-post-excerpt {
+    font-family: "Roboto Mono";
+    font-weight: 400;
+}

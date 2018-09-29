@@ -52243,17 +52243,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_ThreeDDesign_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__articles_ThreeDDesign_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__articles_Illustrations_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__articles_Illustrations_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__articles_Illustrations_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue__);
 //
 //
 //
@@ -52900,16 +52893,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-// import Recents from "./articles/Recents.vue";
-// import UiUx from "./articles/UIUX.vue";
-// import Latest from "./articles/Latest.vue";
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            mainArticle: {},
+            latestArticles: []
+        };
+    },
+    created: function created() {
+        this.fetchLatestArticles();
+        this.fetchMainArticle();
+    },
+
+    methods: {
+        fetchLatestArticles: function fetchLatestArticles() {
+            var _this = this;
+
+            axios.get('/category/1').then(function (_ref) {
+                var data = _ref.data;
+
+                _this.latestArticles = data.data;
+                console.log(_this.latestArticles);
+            });
+        },
+        fetchMainArticle: function fetchMainArticle() {
+            var _this2 = this;
+
+            axios.get('/get-first/category/1').then(function (_ref2) {
+                var data = _ref2.data;
+
+                console.log(data);
+                _this2.mainArticle = data;
+                console.log(_this2.mainArticle);
+            });
+        }
+    },
     components: {
         Illustrations: __WEBPACK_IMPORTED_MODULE_1__articles_Illustrations_vue___default.a,
-        ThreeDDesign: __WEBPACK_IMPORTED_MODULE_0__articles_ThreeDDesign_vue___default.a
-        // Recents,
-        // UiUx,
-        // Latest
+        ThreeDDesign: __WEBPACK_IMPORTED_MODULE_0__articles_ThreeDDesign_vue___default.a,
+        Animation: __WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue___default.a,
+        RightSidebar: __WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue___default.a
     }
 
 });
@@ -53110,84 +53136,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            mainArticle: {},
-            latestArticle: []
-        };
-    },
-    created: function created() {
-        this.fetchLatestArticles();
-        this.fetchMainArticle();
-    },
-
-    methods: {
-        fetchLatestArticles: function fetchLatestArticles() {
-            var _this = this;
-
-            axios.get('/category/1').then(function (_ref) {
-                var data = _ref.data;
-
-                console.log(data);
-                _this.latestArticle = data;
-            });
-        },
-        fetchMainArticle: function fetchMainArticle() {
-            var _this2 = this;
-
-            axios.get('/get-first/category/1').then(function (_ref2) {
-                var data = _ref2.data;
-
-                console.log(data);
-                _this2.latestArticle = data;
-            });
-        }
-    },
+    props: ['mainArticle', 'latestArticles'],
     components: {
         Animation: __WEBPACK_IMPORTED_MODULE_0__Animation_vue___default.a
     }
@@ -53309,9 +53262,385 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "penci-block-vc penci-block_23 penci__general-meta style-title-7 style-title-left penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-2",
+        attrs: { id: "penci_block_23__32021619" }
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "penci-block_content",
+            attrs: { id: "penci_block_23__32021619block_content" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "penci-block_content__items penci-block-items__1"
+              },
+              [
+                _c("div", { staticClass: "penci-block-wrapper-item" }, [
+                  _c(
+                    "article",
+                    {
+                      staticClass: "block23_first_item hentry penci-post-item"
+                    },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "penci_post_content" }, [
+                        _c(
+                          "h3",
+                          { staticClass: "penci__post-title entry-title" },
+                          [
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href:
+                                    "13-tips-making-vr-gaming-world/index.html",
+                                  title:
+                                    " 13 tips for making a VR gaming world "
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(_vm.mainArticle.title) +
+                                    "\n                                "
+                                )
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "penci_post-meta" }, [
+                          _c(
+                            "span",
+                            { staticClass: "entry-meta-item penci-posted-on" },
+                            [
+                              _c("i", { staticClass: "fa fa-clock-o" }),
+                              _vm._v(" "),
+                              _c(
+                                "time",
+                                { staticClass: "entry-date published" },
+                                [
+                                  _vm._v(
+                                    "\n                                                    " +
+                                      _vm._s(_vm.mainArticle.created_at) +
+                                      "\n                                                "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "penci-post-excerpt" }, [
+                          _vm._v(
+                            "Far far away,\n                                behind the word mountains, far from the\n                                countries Vokalia and Consonantia, there\n                                live the...\n                            "
+                          )
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "block23_items" },
+                    _vm._l(_vm.latestArticles, function(article) {
+                      return _c(
+                        "article",
+                        { staticClass: "hentry penci-post-item" },
+                        [
+                          _vm._m(4, true),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "penci_post_content" }, [
+                            _c(
+                              "h3",
+                              { staticClass: "penci__post-title entry-title" },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: {
+                                      href:
+                                        "develop-mythical-creatures/index.html"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(article.title) +
+                                        "\n                                    "
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "penci-schema-markup" }, [
+                              _vm._m(5, true),
+                              _vm._v(" "),
+                              _c(
+                                "time",
+                                { staticClass: "entry-date published" },
+                                [
+                                  _vm._v(
+                                    "\n                                        " +
+                                      _vm._s(article.created_at) +
+                                      "\n                                    "
+                                  )
+                                ]
+                              )
+                            ])
+                          ])
+                        ]
+                      )
+                    })
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c("animation")
+          ],
+          1
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _vm._m(6)
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-block-heading" }, [
+      _c("h3", { staticClass: "penci-block__title" }, [
+        _c(
+          "a",
+          {
+            attrs: {
+              href: "category/creative-news/3d-design/index.html",
+              title: "3D Design"
+            }
+          },
+          [_vm._v("3D Design")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci_post_thumb" }, [
+      _c("a", {
+        staticClass: "penci-image-holder  penci-lazy penci-image_has_icon",
+        attrs: {
+          "data-delay": "",
+          href: "13-tips-making-vr-gaming-world/index.html",
+          title: "13 tips for making a VR gaming world"
+        }
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "social-buttons" }, [
+        _c("span", { staticClass: "social-buttons__content" }, [
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item facebook",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-facebook" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item twitter",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://twitter.com/intent/tweet?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F&text=13%20tips%20for%20making%20a%20VR%20gaming%20world"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-twitter" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item google_plus",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://plus.google.com/share?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-google-plus" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item pinterest",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "http://pinterest.com/pin/create/button?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F&media=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fwp-content%2Fuploads%2Fsites%2F30%2F2017%2F11%2F3d4.jpg&description=13%20tips%20for%20making%20a%20VR%20gaming%20world"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-pinterest" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item email",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href:
+                  "mailto:?subject=13%20tips%20for%20making%20a%20VR%20gaming%20world&#038;BODY=http://pennews.pencidesign.com/pennews-creative/13-tips-making-vr-gaming-world/"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-envelope" })]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          { staticClass: "social-buttons__toggle", attrs: { href: "#" } },
+          [_c("i", { staticClass: "fa fa-share" })]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-schema-markup" }, [
+      _c("span", { staticClass: "author vcard" }, [
+        _c(
+          "a",
+          {
+            staticClass: "url fn n",
+            attrs: { href: "author/admin/index.html" }
+          },
+          [_vm._v("Penci Design")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "time",
+        {
+          staticClass: "entry-date published",
+          attrs: { datetime: "2017-11-03T03:11:58+00:00" }
+        },
+        [
+          _vm._v(
+            "\n                                    November 3, 2017\n                                "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "time",
+        {
+          staticClass: "updated",
+          attrs: { datetime: "2017-12-01T07:35:21+00:00" }
+        },
+        [
+          _vm._v(
+            "\n                                    December 1, 2017\n                                "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
+      _c(
+        "a",
+        {
+          staticClass: "penci_pmeta-link",
+          attrs: { href: "13-tips-making-vr-gaming-world/index.html#respond" }
+        },
+        [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci_post_thumb" }, [
+      _c("a", {
+        staticClass: "penci-image-holder  penci-lazy penci-image_has_icon",
+        attrs: {
+          "data-src":
+            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d5-280x186.jpg",
+          "data-delay": "",
+          href: "develop-mythical-creatures/index.html",
+          title: "How to develop mythical creatures"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "author vcard" }, [
+      _c(
+        "a",
+        { staticClass: "url fn n", attrs: { href: "author/admin/index.html" } },
+        [_vm._v("Penci Design")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "vc_empty_space", staticStyle: { height: "40px" } },
+      [_c("span", { staticClass: "vc_empty_space_inner" })]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -54233,7 +54562,12 @@ var render = function() {
                                     "div",
                                     { staticClass: "theiaStickySidebar" },
                                     [
-                                      _c("three-d-design"),
+                                      _c("three-d-design", {
+                                        attrs: {
+                                          mainArticle: _vm.mainArticle,
+                                          latestArticles: _vm.latestArticles
+                                        }
+                                      }),
                                       _vm._v(" "),
                                       _vm._m(1)
                                     ],
@@ -54242,13 +54576,16 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm._m(2)
-                            ]
+                              _c("right-sidebar", {
+                                attrs: { latestArticles: _vm.latestArticles }
+                              })
+                            ],
+                            1
                           )
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(3)
+                      _vm._m(2)
                     ])
                   ]
                 )
@@ -54287,63 +54624,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      {
-        staticClass: "widget-area widget-area-1 ",
-        attrs: { role: "complementary" }
-      },
-      [
-        _c("div", { staticClass: "theiaStickySidebar" }, [
-          _c(
-            "div",
-            { staticClass: "vc_empty_space", staticStyle: { height: "40px" } },
-            [_c("span", { staticClass: "vc_empty_space_inner" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "penci-block-vc penci-ad-box penci-list-banner style-title-1 style-title-left penci-link-filter-hidden penci-empty-block-title penci-vc-column-1",
-              attrs: { id: "penci-ad_box--33124" }
-            },
-            [
-              _c("div", { staticClass: "penci-block-heading" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "penci-block_content" }, [
-                _c(
-                  "div",
-                  { staticClass: "penci-promo-item penci-banner-has-text" },
-                  [
-                    _c("a", {
-                      staticClass: "penci-promo-link",
-                      attrs: { href: "#", target: "_self" }
-                    }),
-                    _c("img", {
-                      staticClass:
-                        "penci-image-holder penci-ad-image  penci-lazy attachment-full",
-                      attrs: {
-                        width: "600",
-                        height: "500",
-                        src: __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../../max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/08/banner.jpg\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
-                        alt: "",
-                        sizes: "(max-width: 600px) 100vw, 600px"
-                      }
-                    })
-                  ]
-                )
-              ])
-            ]
-          )
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
       { staticClass: "vc_empty_space", staticStyle: { height: "20px" } },
       [_c("span", { staticClass: "vc_empty_space_inner" })]
     )
@@ -54363,6 +54643,436 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(64)
+/* template */
+var __vue_template__ = __webpack_require__(65)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/articles/RightSidebar.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7fff23d2", Component.options)
+  } else {
+    hotAPI.reload("data-v-7fff23d2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Animation_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['latestArticles'],
+    components: {
+        Animation: __WEBPACK_IMPORTED_MODULE_0__Animation_vue___default.a
+    }
+});
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "widget-area widget-area-1 ",
+      attrs: { role: "complementary" }
+    },
+    [
+      _c("div", { staticClass: "theiaStickySidebar" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "penci-block-vc penci-block_6 penci__general-meta style-title-7 style-title-left penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-1",
+            attrs: {
+              id: "penci_block_6__24888952",
+              "data-current": "1",
+              "data-blockUid": "penci_block_6__24888952"
+            }
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "penci-block_content",
+                attrs: { id: "penci_block_6__24888952block_content" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "penci-block_content__items penci-block-items__1"
+                  },
+                  _vm._l(_vm.latestArticles, function(article) {
+                    return _c(
+                      "article",
+                      { staticClass: "hentry penci-post-item" },
+                      [
+                        _c("div", { staticClass: "penci_media_object " }, [
+                          _c("a", {
+                            staticClass:
+                              "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                            attrs: {
+                              "data-src":
+                                "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu4-280x186.jpg",
+                              "data-delay": "",
+                              href:
+                                "10-incredible-online-art-schools/index.html",
+                              title: "10 incredible online art schools"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "penci_post_content penci_mobj__body"
+                            },
+                            [
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "penci__post-title entry-title"
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "10-incredible-online-art-schools/index.html",
+                                        title:
+                                          " 10 incredible online art schools "
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(article.title) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(1, true),
+                              _vm._v(" "),
+                              _vm._m(2, true)
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  })
+                ),
+                _vm._v(" "),
+                _c("animation")
+              ],
+              1
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
+        _vm._m(4)
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-block-heading" }, [
+      _c("h3", { staticClass: "penci-block__title" }, [
+        _c("span", [_vm._v("Recent Posts")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-schema-markup" }, [
+      _c("span", { staticClass: "author vcard" }, [
+        _c(
+          "a",
+          {
+            staticClass: "url fn n",
+            attrs: { href: "author/admin/index.html" }
+          },
+          [_vm._v("Penci Design")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "time",
+        {
+          staticClass: "entry-date published",
+          attrs: { datetime: "2017-11-03T03:12:23+00:00" }
+        },
+        [
+          _vm._v(
+            "\n                                        November 3, 2017\n                                    "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "time",
+        {
+          staticClass: "updated",
+          attrs: { datetime: "2017-12-01T07:45:01+00:00" }
+        },
+        [
+          _vm._v(
+            "\n                                        December 1, 2017\n                                    "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci_post-meta" }, [
+      _c("span", { staticClass: "entry-meta-item penci-posted-on" }, [
+        _c("i", { staticClass: "fa fa-clock-o" }),
+        _vm._v(" "),
+        _c("time", { staticClass: "entry-date published" }, [
+          _vm._v("November 3, 2017")
+        ]),
+        _vm._v(" "),
+        _c(
+          "time",
+          {
+            staticClass: "updated",
+            attrs: { datetime: "2017-12-01T07:45:01+00:00" }
+          },
+          [_vm._v("December 1, 2017")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
+        _c(
+          "a",
+          {
+            staticClass: "penci_pmeta-link",
+            attrs: {
+              href: "10-incredible-online-art-schools/index.html#respond"
+            }
+          },
+          [
+            _c("i", { staticClass: "la la-comments" }),
+            _vm._v("0\n                                            ")
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "vc_empty_space", staticStyle: { height: "40px" } },
+      [_c("span", { staticClass: "vc_empty_space_inner" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "penci-block-vc penci-ad-box penci-list-banner style-title-1 style-title-left penci-link-filter-hidden penci-empty-block-title penci-vc-column-1",
+        attrs: { id: "penci-ad_box--33124" }
+      },
+      [
+        _c("div", { staticClass: "penci-block-heading" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "penci-block_content" }, [
+          _c("div", { staticClass: "penci-promo-item penci-banner-has-text" }, [
+            _c("a", {
+              staticClass: "penci-promo-link",
+              attrs: { href: "#", target: "_self" }
+            }),
+            _vm._v(" "),
+            _c("img", {
+              staticClass:
+                "penci-image-holder penci-ad-image penci-lazy attachment-full",
+              attrs: {
+                width: "600",
+                height: "500",
+                src: "/img/banner.jpg",
+                alt: ""
+              }
+            })
+          ])
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7fff23d2", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
