@@ -619,7 +619,7 @@
                                                      style="height: 40px">
                                                     <span class="vc_empty_space_inner"></span>
                                                 </div>
-                                                <!--<illustrations></illustrations>-->
+                                                <<illustrations v-bind:articles="articles"></illustrations>
                                             </div>
                                         </div>
 

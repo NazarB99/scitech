@@ -53113,16 +53113,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -53132,6 +53122,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Animation: __WEBPACK_IMPORTED_MODULE_0__Animation_vue___default.a
     },
     computed: {
+        mainThreeD: function mainThreeD() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 1;
+            });
+            return filteredArticles[0];
+        },
         threeDArticles: function threeDArticles() {
             var filteredArticles = this.articles.filter(function (article) {
                 return article.category.id === 1;
@@ -53282,7 +53278,77 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "penci-block-wrapper-item" }, [
-                  _vm._m(1),
+                  _c(
+                    "article",
+                    {
+                      staticClass: "block23_first_item hentry penci-post-item"
+                    },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "penci_post_content" }, [
+                        _c(
+                          "h3",
+                          { staticClass: "penci__post-title entry-title" },
+                          [
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href:
+                                    "13-tips-making-vr-gaming-world/index.html"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(_vm.mainThreeD.title) +
+                                    "\n                                "
+                                )
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "penci_post-meta" }, [
+                          _c(
+                            "span",
+                            { staticClass: "entry-meta-item penci-posted-on" },
+                            [
+                              _c("i", { staticClass: "fa fa-clock-o" }),
+                              _vm._v(" "),
+                              _c(
+                                "time",
+                                { staticClass: "entry-date published" },
+                                [
+                                  _vm._v(
+                                    "\n                                                    " +
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          _vm.mainThreeD.created_at.date,
+                                          "MMMM D, YYYY"
+                                        )
+                                      ) +
+                                      "\n                                                "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "penci-post-excerpt" }, [
+                          _vm._v(
+                            "Far far away,\n                                behind the word mountains, far from the\n                                countries Vokalia and Consonantia, there\n                                live the...\n                            "
+                          )
+                        ])
+                      ])
+                    ]
+                  ),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -53292,7 +53358,7 @@ var render = function() {
                         "article",
                         { staticClass: "hentry penci-post-item" },
                         [
-                          _vm._m(2, true),
+                          _vm._m(4, true),
                           _vm._v(" "),
                           _c("div", { staticClass: "penci_post_content" }, [
                             _c(
@@ -53319,7 +53385,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "penci-schema-markup" }, [
-                              _vm._m(3, true),
+                              _vm._m(5, true),
                               _vm._v(" "),
                               _c(
                                 "time",
@@ -53349,7 +53415,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(4)
+    _vm._m(6)
   ])
 }
 var staticRenderFns = [
@@ -53376,195 +53442,132 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "article",
-      { staticClass: "block23_first_item hentry penci-post-item" },
-      [
-        _c("div", { staticClass: "penci_post_thumb" }, [
-          _c("a", {
-            staticClass: "penci-image-holder  penci-lazy penci-image_has_icon",
-            attrs: {
-              "data-delay": "",
-              href: "13-tips-making-vr-gaming-world/index.html",
-              title: "13 tips for making a VR gaming world"
-            }
-          }),
+    return _c("div", { staticClass: "penci_post_thumb" }, [
+      _c("a", {
+        staticClass: "penci-image-holder  penci-lazy penci-image_has_icon",
+        attrs: {
+          "data-delay": "",
+          href: "13-tips-making-vr-gaming-world/index.html",
+          title: "13 tips for making a VR gaming world"
+        }
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "social-buttons" }, [
+        _c("span", { staticClass: "social-buttons__content" }, [
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item facebook",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-facebook" })]
+          ),
           _vm._v(" "),
-          _c("span", { staticClass: "social-buttons" }, [
-            _c("span", { staticClass: "social-buttons__content" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "penci-social-item facebook",
-                  attrs: {
-                    target: "_blank",
-                    rel: "noopener",
-                    title: "",
-                    href:
-                      "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F"
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-facebook" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "penci-social-item twitter",
-                  attrs: {
-                    target: "_blank",
-                    rel: "noopener",
-                    title: "",
-                    href:
-                      "https://twitter.com/intent/tweet?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F&text=13%20tips%20for%20making%20a%20VR%20gaming%20world"
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-twitter" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "penci-social-item google_plus",
-                  attrs: {
-                    target: "_blank",
-                    rel: "noopener",
-                    title: "",
-                    href:
-                      "https://plus.google.com/share?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F"
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-google-plus" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "penci-social-item pinterest",
-                  attrs: {
-                    target: "_blank",
-                    rel: "noopener",
-                    title: "",
-                    href:
-                      "http://pinterest.com/pin/create/button?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F&media=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fwp-content%2Fuploads%2Fsites%2F30%2F2017%2F11%2F3d4.jpg&description=13%20tips%20for%20making%20a%20VR%20gaming%20world"
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-pinterest" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "penci-social-item email",
-                  attrs: {
-                    target: "_blank",
-                    rel: "noopener",
-                    href:
-                      "mailto:?subject=13%20tips%20for%20making%20a%20VR%20gaming%20world&#038;BODY=http://pennews.pencidesign.com/pennews-creative/13-tips-making-vr-gaming-world/"
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-envelope" })]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              { staticClass: "social-buttons__toggle", attrs: { href: "#" } },
-              [_c("i", { staticClass: "fa fa-share" })]
-            )
-          ])
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item twitter",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://twitter.com/intent/tweet?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F&text=13%20tips%20for%20making%20a%20VR%20gaming%20world"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-twitter" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item google_plus",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://plus.google.com/share?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-google-plus" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item pinterest",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "http://pinterest.com/pin/create/button?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2F13-tips-making-vr-gaming-world%2F&media=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fwp-content%2Fuploads%2Fsites%2F30%2F2017%2F11%2F3d4.jpg&description=13%20tips%20for%20making%20a%20VR%20gaming%20world"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-pinterest" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item email",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href:
+                  "mailto:?subject=13%20tips%20for%20making%20a%20VR%20gaming%20world&#038;BODY=http://pennews.pencidesign.com/pennews-creative/13-tips-making-vr-gaming-world/"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-envelope" })]
+          )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "penci_post_content" }, [
-          _c("h3", { staticClass: "penci__post-title entry-title" }, [
-            _c(
-              "a",
-              {
-                attrs: {
-                  href: "13-tips-making-vr-gaming-world/index.html",
-                  title: " 13 tips for making a VR gaming world "
-                }
-              },
-              [
-                _vm._v(
-                  "\n                                    Hello\n                                "
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "penci-schema-markup" }, [
-            _c("span", { staticClass: "author vcard" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "url fn n",
-                  attrs: { href: "author/admin/index.html" }
-                },
-                [_vm._v("Penci Design")]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "time",
-              {
-                staticClass: "entry-date published",
-                attrs: { datetime: "2017-11-03T03:11:58+00:00" }
-              },
-              [
-                _vm._v(
-                  "\n                                    November 3, 2017\n                                "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "time",
-              {
-                staticClass: "updated",
-                attrs: { datetime: "2017-12-01T07:35:21+00:00" }
-              },
-              [
-                _vm._v(
-                  "\n                                    December 1, 2017\n                                "
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "penci_post-meta" }, [
-            _c("span", { staticClass: "entry-meta-item penci-posted-on" }, [
-              _c("i", { staticClass: "fa fa-clock-o" }),
-              _vm._v(" "),
-              _c("time", { staticClass: "entry-date published" }, [
-                _vm._v(
-                  "\n                                                    Hello\n                                                "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "penci_pmeta-link",
-                  attrs: {
-                    href: "13-tips-making-vr-gaming-world/index.html#respond"
-                  }
-                },
-                [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "penci-post-excerpt" }, [
-            _vm._v(
-              "Far far away,\n                                behind the word mountains, far from the\n                                countries Vokalia and Consonantia, there\n                                live the...\n                            "
-            )
-          ])
-        ])
-      ]
-    )
+        _c(
+          "a",
+          { staticClass: "social-buttons__toggle", attrs: { href: "#" } },
+          [_c("i", { staticClass: "fa fa-share" })]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-schema-markup" }, [
+      _c("span", { staticClass: "author vcard" }, [
+        _c(
+          "a",
+          {
+            staticClass: "url fn n",
+            attrs: { href: "author/admin/index.html" }
+          },
+          [_vm._v("Penci Design")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
+      _c(
+        "a",
+        {
+          staticClass: "penci_pmeta-link",
+          attrs: { href: "13-tips-making-vr-gaming-world/index.html#respond" }
+        },
+        [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
+      )
+    ])
   },
   function() {
     var _vm = this
@@ -53766,101 +53769,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['articles'],
     components: {
         Animation: __WEBPACK_IMPORTED_MODULE_0__Animation___default.a
+    },
+    computed: {
+        mainIllustration: function mainIllustration() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 2;
+            });
+            return filteredArticles[0];
+        },
+        illustrations: function illustrations() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 2;
+            });
+            return filteredArticles.slice(1, 4);
+        }
     }
 });
 
@@ -53892,7 +53821,209 @@ var render = function() {
           staticClass: "penci-block_content",
           attrs: { id: "penci_grid_2__5897368block_content" }
         },
-        [_vm._m(1), _vm._v(" "), _c("animation")],
+        [
+          _c(
+            "div",
+            { staticClass: "penci-block_content__items penci-block-items__1" },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "penci-block-wrapper-item penci-wrapper-hasitems"
+                },
+                [
+                  _c(
+                    "article",
+                    { staticClass: "grid2_first_item hentry penci-post-item" },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "penci_post_content" }, [
+                        _c(
+                          "h3",
+                          { staticClass: "penci__post-title entry-title" },
+                          [
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href:
+                                    "10-incredible-online-art-schools/index.html",
+                                  title: " 10 incredible online art schools "
+                                }
+                              },
+                              [_vm._v(_vm._s(_vm.mainIllustration.title))]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "penci_post-meta" }, [
+                          _c(
+                            "span",
+                            { staticClass: "entry-meta-item penci-posted-on" },
+                            [
+                              _c("i", { staticClass: "fa fa-clock-o" }),
+                              _vm._v(" "),
+                              _c(
+                                "time",
+                                { staticClass: "entry-date published" },
+                                [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          _vm.mainIllustration.created_at.date,
+                                          "MMMM D, YYYY"
+                                        )
+                                      ) +
+                                      "\n                                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("time", { staticClass: "updated" }, [
+                                _vm._v("December 1, 2017")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "grid2_items" },
+                    _vm._l(_vm.illustrations, function(article) {
+                      return _c(
+                        "article",
+                        { staticClass: "penci-post-item hentry" },
+                        [
+                          _vm._m(4, true),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "penci_post_content" }, [
+                            _c(
+                              "h3",
+                              { staticClass: "penci__post-title entry-title" },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: {
+                                      href:
+                                        "movie-fans-will-love-illustrated-movie-maps/index.html"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(article.title) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "penci-schema-markup" }, [
+                              _vm._m(5, true),
+                              _vm._v(" "),
+                              _c(
+                                "time",
+                                {
+                                  staticClass: "entry-date published",
+                                  attrs: {
+                                    datetime: "2017-11-03T03:11:31+00:00"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          article.created_at.date,
+                                          "MMMM D, YYYY"
+                                        )
+                                      ) +
+                                      "\n                                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "time",
+                                {
+                                  staticClass: "updated",
+                                  attrs: {
+                                    datetime: "2017-12-01T07:36:13+00:00"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    December 1, 2017\n                                "
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "penci_post-meta" }, [
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "entry-meta-item penci-posted-on"
+                                },
+                                [
+                                  _c("i", { staticClass: "fa fa-clock-o" }),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "entry-date published",
+                                      attrs: {
+                                        datetime: "2017-11-03T03:11:31+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("moment")(
+                                            article.created_at.date,
+                                            "MMMM D, YYYY"
+                                          )
+                                        )
+                                      )
+                                    ]
+                                  ),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "updated",
+                                      attrs: {
+                                        datetime: "2017-12-01T07:36:13+00:00"
+                                      }
+                                    },
+                                    [_vm._v("December 1, 2017")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(6, true)
+                            ])
+                          ])
+                        ]
+                      )
+                    })
+                  )
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("animation")
+        ],
         1
       )
     ]
@@ -53923,541 +54054,102 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "div",
-      { staticClass: "penci-block_content__items penci-block-items__1" },
+      "a",
+      {
+        staticClass:
+          "penci-image-holder  penci-lazy penci-gradient penci-image_has_icon",
+        attrs: {
+          href: "10-incredible-online-art-schools/index.html",
+          title: "10 incredible online art schools"
+        }
+      },
       [
-        _c(
-          "div",
-          { staticClass: "penci-block-wrapper-item penci-wrapper-hasitems" },
-          [
-            _c(
-              "article",
-              { staticClass: "grid2_first_item hentry penci-post-item" },
-              [
-                _c(
-                  "a",
-                  {
-                    staticClass:
-                      "penci-image-holder  penci-lazy penci-gradient penci-image_has_icon",
-                    attrs: {
-                      "data-src":
-                        "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu4-480x645.jpg",
-                      "data-delay": "",
-                      href: "10-incredible-online-art-schools/index.html",
-                      title: "10 incredible online art schools"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "screen-reader-text" }, [
-                      _vm._v("10 incredible online art schools")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "penci_post_content" }, [
-                  _c("h3", { staticClass: "penci__post-title entry-title" }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: {
-                          href: "10-incredible-online-art-schools/index.html",
-                          title: " 10 incredible online art schools "
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "10\n                            incredible online art schools"
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci-schema-markup" }, [
-                    _c("span", { staticClass: "author vcard" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "url fn n",
-                          attrs: { href: "author/admin/index.html" }
-                        },
-                        [_vm._v("Penci Design")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "entry-date published",
-                        attrs: { datetime: "2017-11-03T03:12:23+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                November 3, 2017\n                            "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "updated",
-                        attrs: { datetime: "2017-12-01T07:45:01+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                December 1, 2017\n                            "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci_post-meta" }, [
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-posted-on" },
-                      [
-                        _c("i", { staticClass: "fa fa-clock-o" }),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "entry-date published",
-                            attrs: { datetime: "2017-11-03T03:12:23+00:00" }
-                          },
-                          [_vm._v("November 3, 2017")]
-                        ),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "updated",
-                            attrs: { datetime: "2017-12-01T07:45:01+00:00" }
-                          },
-                          [_vm._v("December 1, 2017")]
-                        )
-                      ]
-                    ),
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-comment-count" },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "penci_pmeta-link",
-                            attrs: {
-                              href:
-                                "10-incredible-online-art-schools/index.html#respond"
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "la la-comments" }),
-                            _vm._v("0")
-                          ]
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "grid2_items" }, [
-              _c("article", { staticClass: "penci-post-item hentry" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass:
-                      "penci-image-holder  penci-lazy penci-gradient",
-                    attrs: {
-                      "data-src":
-                        "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu5-960x640.jpg",
-                      "data-delay": "",
-                      href:
-                        "movie-fans-will-love-illustrated-movie-maps/index.html",
-                      title: "Movie fans will love these illustrated movie maps"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "screen-reader-text" }, [
-                      _vm._v(
-                        "Movie fans will love these illustrated movie maps"
-                      )
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "penci_post_content" }, [
-                  _c("h3", { staticClass: "penci__post-title entry-title" }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: {
-                          href:
-                            "movie-fans-will-love-illustrated-movie-maps/index.html",
-                          title:
-                            " Movie fans will love these illustrated movie maps "
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "Movie\n                                    fans will love these illustrated\n                                    movie maps"
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci-schema-markup" }, [
-                    _c("span", { staticClass: "author vcard" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "url fn n",
-                          attrs: { href: "author/admin/index.html" }
-                        },
-                        [_vm._v("Penci Design")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "entry-date published",
-                        attrs: { datetime: "2017-11-03T03:11:31+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    November 3, 2017\n                                "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "updated",
-                        attrs: { datetime: "2017-12-01T07:36:13+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    December 1, 2017\n                                "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci_post-meta" }, [
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-posted-on" },
-                      [
-                        _c("i", { staticClass: "fa fa-clock-o" }),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "entry-date published",
-                            attrs: { datetime: "2017-11-03T03:11:31+00:00" }
-                          },
-                          [_vm._v("November 3, 2017")]
-                        ),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "updated",
-                            attrs: { datetime: "2017-12-01T07:36:13+00:00" }
-                          },
-                          [_vm._v("December 1, 2017")]
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-comment-count" },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "penci_pmeta-link",
-                            attrs: {
-                              href:
-                                "movie-fans-will-love-illustrated-movie-maps/index.html#respond"
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "la la-comments" }),
-                            _vm._v("0")
-                          ]
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("article", { staticClass: "penci-post-item hentry" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass:
-                      "penci-image-holder  penci-lazy penci-gradient",
-                    attrs: {
-                      "data-src":
-                        "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu6-480x320.jpg",
-                      "data-delay": "",
-                      href:
-                        "8-ways-use-illustration-agency-projects/index.html",
-                      title:
-                        "8 ways to use illustration in your agency projects"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "screen-reader-text" }, [
-                      _vm._v(
-                        "8 ways to use illustration in your agency projects"
-                      )
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "penci_post_content" }, [
-                  _c("h3", { staticClass: "penci__post-title entry-title" }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: {
-                          href:
-                            "8-ways-use-illustration-agency-projects/index.html",
-                          title:
-                            " 8 ways to use illustration in your agency projects "
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "8\n                                    ways to use illustration in your\n                                    agency projects"
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci-schema-markup" }, [
-                    _c("span", { staticClass: "author vcard" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "url fn n",
-                          attrs: { href: "author/admin/index.html" }
-                        },
-                        [_vm._v("Penci Design")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "entry-date published",
-                        attrs: { datetime: "2017-11-03T03:11:05+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    November 3, 2017\n                                "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "updated",
-                        attrs: { datetime: "2017-12-01T07:36:46+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    December 1, 2017\n                                "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci_post-meta" }, [
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-posted-on" },
-                      [
-                        _c("i", { staticClass: "fa fa-clock-o" }),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "entry-date published",
-                            attrs: { datetime: "2017-11-03T03:11:05+00:00" }
-                          },
-                          [_vm._v("November 3, 2017")]
-                        ),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "updated",
-                            attrs: { datetime: "2017-12-01T07:36:46+00:00" }
-                          },
-                          [_vm._v("December 1, 2017")]
-                        )
-                      ]
-                    ),
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-comment-count" },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "penci_pmeta-link",
-                            attrs: {
-                              href:
-                                "8-ways-use-illustration-agency-projects/index.html#respond"
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "la la-comments" }),
-                            _vm._v("0")
-                          ]
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("article", { staticClass: "penci-post-item hentry" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass:
-                      "penci-image-holder  penci-lazy penci-gradient",
-                    attrs: {
-                      "data-src":
-                        "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu7-480x320.jpg",
-                      "data-delay": "",
-                      href:
-                        "20-best-ipad-art-apps-painting-sketching/index.html",
-                      title: "20 best iPad art apps for painting and sketching"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "screen-reader-text" }, [
-                      _vm._v("20 best iPad art apps for painting and sketching")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "penci_post_content" }, [
-                  _c("h3", { staticClass: "penci__post-title entry-title" }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: {
-                          href:
-                            "20-best-ipad-art-apps-painting-sketching/index.html",
-                          title:
-                            " 20 best iPad art apps for painting and sketching "
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "20\n                                    best iPad art apps for painting\n                                    and\n                                    sketching"
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci-schema-markup" }, [
-                    _c("span", { staticClass: "author vcard" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "url fn n",
-                          attrs: { href: "author/admin/index.html" }
-                        },
-                        [_vm._v("Penci Design")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "entry-date published",
-                        attrs: { datetime: "2017-11-03T03:10:58+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    November 3, 2017\n                                "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "time",
-                      {
-                        staticClass: "updated",
-                        attrs: { datetime: "2017-12-01T07:36:55+00:00" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    December 1, 2017\n                                "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "penci_post-meta" }, [
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-posted-on" },
-                      [
-                        _c("i", { staticClass: "fa fa-clock-o" }),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "entry-date published",
-                            attrs: { datetime: "2017-11-03T03:10:58+00:00" }
-                          },
-                          [_vm._v("November 3, 2017")]
-                        ),
-                        _c(
-                          "time",
-                          {
-                            staticClass: "updated",
-                            attrs: { datetime: "2017-12-01T07:36:55+00:00" }
-                          },
-                          [_vm._v("December 1, 2017")]
-                        )
-                      ]
-                    ),
-                    _c(
-                      "span",
-                      { staticClass: "entry-meta-item penci-comment-count" },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "penci_pmeta-link",
-                            attrs: {
-                              href:
-                                "20-best-ipad-art-apps-painting-sketching/index.html#respond"
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "la la-comments" }),
-                            _vm._v("0")
-                          ]
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ]
-        )
+        _c("span", { staticClass: "screen-reader-text" }, [
+          _vm._v("10 incredible online art schools")
+        ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-schema-markup" }, [
+      _c("span", { staticClass: "author vcard" }, [
+        _c(
+          "a",
+          {
+            staticClass: "url fn n",
+            attrs: { href: "author/admin/index.html" }
+          },
+          [_vm._v("Penci Design")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
+      _c("a", { staticClass: "penci_pmeta-link", attrs: { href: "#" } }, [
+        _c("i", { staticClass: "la la-comments" }),
+        _vm._v("0")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "penci-image-holder  penci-lazy penci-gradient",
+        attrs: {
+          "data-src":
+            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu5-960x640.jpg",
+          "data-delay": "",
+          href: "movie-fans-will-love-illustrated-movie-maps/index.html",
+          title: "Movie fans will love these illustrated movie maps"
+        }
+      },
+      [
+        _c("span", { staticClass: "screen-reader-text" }, [
+          _vm._v("Movie fans will love these illustrated movie maps")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "author vcard" }, [
+      _c(
+        "a",
+        { staticClass: "url fn n", attrs: { href: "author/admin/index.html" } },
+        [_vm._v("Penci Design")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
+      _c(
+        "a",
+        {
+          staticClass: "penci_pmeta-link",
+          attrs: {
+            href:
+              "movie-fans-will-love-illustrated-movie-maps/index.html#respond"
+          }
+        },
+        [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -54986,7 +54678,13 @@ var render = function() {
                                         attrs: { articles: _vm.articles }
                                       }),
                                       _vm._v(" "),
-                                      _vm._m(1)
+                                      _vm._m(1),
+                                      _vm._v(
+                                        "\n                                            <"
+                                      ),
+                                      _c("illustrations", {
+                                        attrs: { articles: _vm.articles }
+                                      })
                                     ],
                                     1
                                   )
