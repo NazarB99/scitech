@@ -8,12 +8,9 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function getByCategory($id)
+    public function getByCategory()
     {
-        $articles = Article::where('category_id',$id)
-            ->skip(1)
-            ->orderBy('created_at', 'desc')
-            ->take(4)
+        $articles = Article::orderBy('created_at', 'desc')
             ->get();
 
         return ArticleResource::collection($articles);

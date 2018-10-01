@@ -613,8 +613,7 @@
                                              role="complementary">
                                             <div class="theiaStickySidebar">
                                                 <three-d-design
-                                                        v-bind:mainArticle="mainArticle"
-                                                        v-bind:latestArticles="latestArticles">
+                                                        v-bind:articles="articles">
                                                 </three-d-design>
                                                 <div class="vc_empty_space"
                                                      style="height: 40px">
@@ -624,7 +623,7 @@
                                             </div>
                                         </div>
 
-                                        <right-sidebar v-bind:latestArticles="latestArticles"></right-sidebar>
+                                        <right-sidebar v-bind:articles="articles"></right-sidebar>
 
                                     </div>
                                 </div>
@@ -650,30 +649,28 @@
     export default {
         data() {
             return {
-                mainArticle: {},
-                latestArticles: []
+                articles: []
             }
         },
         created() {
             this.fetchLatestArticles();
-            this.fetchMainArticle();
         },
         methods: {
             fetchLatestArticles() {
-                axios.get('/category/1')
+                axios.get('/articles')
                     .then(({data}) => {
-                        this.latestArticles = data.data;
-                        console.log(this.latestArticles)
+                        this.articles = data.data;
+                        console.log(this.articles)
                     })
             },
-            fetchMainArticle() {
-                axios.get('/get-first/category/1')
-                    .then(({data}) => {
-                        console.log(data);
-                        this.mainArticle = data;
-                        console.log(this.mainArticle);
-                    })
-            }
+            // fetchMainArticle() {
+            //     axios.get('/get-first/category/1')
+            //         .then(({data}) => {
+            //             console.log(data);
+            //             this.mainArticle = data;
+            //             console.log(this.mainArticle);
+            //         })
+            // }
         },
         components: {
             Illustrations,

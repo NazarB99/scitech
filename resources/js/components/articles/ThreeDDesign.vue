@@ -62,7 +62,7 @@
                                 <h3 class="penci__post-title entry-title">
                                     <a href="13-tips-making-vr-gaming-world/index.html"
                                        title=" 13 tips for making a VR gaming world ">
-                                        {{mainArticle.title}}
+                                        Hello
                                     </a>
                                 </h3>
                                 <div class="penci-schema-markup">
@@ -84,7 +84,7 @@
                                                 <span class="entry-meta-item penci-posted-on">
                                                     <i class="fa fa-clock-o"></i>
                                                     <time class="entry-date published">
-                                                        {{mainArticle.created_at}}
+                                                        Hello
                                                     </time>
                                                 </span>
                                     <span class="entry-meta-item penci-comment-count">
@@ -102,7 +102,7 @@
                         </article>
                         <div class="block23_items">
                             <article class="hentry penci-post-item"
-                                     v-for="article in latestArticles">
+                                     v-for="article in threeDArticles">
                                 <div class="penci_post_thumb">
                                     <a class="penci-image-holder  penci-lazy penci-image_has_icon"
                                        data-src="http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d5-280x186.jpg"
@@ -143,9 +143,15 @@
     import Animation from './Animation.vue'
 
     export default {
-        props:['mainArticle','latestArticles'],
+        props:['articles'],
         components:{
             Animation
+        },
+        computed:{
+            threeDArticles(){
+                let filteredArticles = this.articles.filter(article => article.category.id === 1);
+                return filteredArticles.slice(1,5)
+            }
         }
     }
 </script>

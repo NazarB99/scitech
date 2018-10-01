@@ -18,6 +18,7 @@ window.Vue = require('vue');
 Vue.component('top-header', require('./components/Header.vue'));
 Vue.component('logo', require('./components/Logo.vue'));
 Vue.component('main-content', require('./components/MainContent.vue'));
+Vue.use(require('vue-moment'));
 
 const app = new Vue({
     el: '#app'

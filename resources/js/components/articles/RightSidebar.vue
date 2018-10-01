@@ -48,7 +48,9 @@
 
                                                 <span class="entry-meta-item penci-posted-on">
                                                     <i class="fa fa-clock-o"></i>
-                                                    <time class="entry-date published">November 3, 2017</time>
+                                                    <time class="entry-date published">
+                                                        {{article.created_at.date | moment("MMMM D, YYYY")}}
+                                                    </time>
                                                     <time class="updated"
                                                           datetime="2017-12-01T07:45:01+00:00">December 1, 2017</time>
                                                 </span>
@@ -94,9 +96,14 @@
 <script>
     import Animation from './Animation.vue';
     export default {
-        props:['latestArticles'],
+        props:['articles'],
         components:{
             Animation
+        },
+        computed:{
+            latestArticles(){
+                return this.articles.slice(1,6).filter(article => article.category.id);
+            }
         }
     }
 </script>
