@@ -646,32 +646,30 @@
     import Illustrations from "./articles/Illustrations.vue";
     import RightSidebar from "./articles/RightSidebar.vue";
     import Animation from './articles/Animation.vue'
-
     export default {
-        data() {
-            return {
-                mainArticle: {},
-                latestArticles: []
-            }
+        data(){
+          return{
+              mainArticle:{},
+              latestArticles:[]
+          }
         },
-        created() {
-            this.fetchLatestArticles();
-            this.fetchMainArticle();
+        created(){
+          this.fetchMainArticle();
+          this.fetchLatestArticles();
         },
         methods: {
             fetchLatestArticles() {
                 axios.get('/category/1')
                     .then(({data}) => {
+                        console.log(data.data);
                         this.latestArticles = data.data;
-                        console.log(this.latestArticles)
                     })
             },
             fetchMainArticle() {
-                axios.get('/get-first/category/1')
+                axios.get(`/get-first/category/1`)
                     .then(({data}) => {
                         console.log(data);
                         this.mainArticle = data;
-                        console.log(this.mainArticle);
                     })
             }
         },

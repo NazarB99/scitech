@@ -21,7 +21,7 @@ class ArticleController extends Controller
 
     public function getFirstByCategory($id)
     {
-        $articles = Article::where('category_id',$id)->orderBy('created_at', 'desc')->first();
+        $articles = Article::with('category')->where('category_id',$id)->orderBy('created_at', 'desc')->first();
 
         return $articles;
     }
