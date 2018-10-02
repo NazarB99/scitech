@@ -15,5 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/category/{id}','ArticleController@getByCategory')->name('articles_by_category');
+Route::get('/articles','ArticleController@getByCategory')->name('articles_by_category');
 Route::get('/get-first/category/{id}','ArticleController@getFirstByCategory')->name('articles_by_category');

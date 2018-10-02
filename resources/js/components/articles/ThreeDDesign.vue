@@ -60,31 +60,21 @@
                             </div>
                             <div class="penci_post_content">
                                 <h3 class="penci__post-title entry-title">
-                                    <a href="13-tips-making-vr-gaming-world/index.html"
-                                       title=" 13 tips for making a VR gaming world ">
-                                        {{mainArticle.title}}
+                                    <a href="13-tips-making-vr-gaming-world/index.html">
+                                        {{mainThreeD.title}}
                                     </a>
                                 </h3>
                                 <div class="penci-schema-markup">
-
-                                                <span class="author vcard">
-                                                    <a class="url fn n"
-                                                       href="author/admin/index.html">Penci Design</a>
-                                                </span>
-                                    <time class="entry-date published"
-                                          datetime="2017-11-03T03:11:58+00:00">
-                                        November 3, 2017
-                                    </time>
-                                    <time class="updated"
-                                          datetime="2017-12-01T07:35:21+00:00">
-                                        December 1, 2017
-                                    </time>
+                                    <span class="author vcard">
+                                        <a class="url fn n"
+                                           href="author/admin/index.html">Penci Design</a>
+                                    </span>
                                 </div>
                                 <div class="penci_post-meta">
                                                 <span class="entry-meta-item penci-posted-on">
                                                     <i class="fa fa-clock-o"></i>
                                                     <time class="entry-date published">
-                                                        {{mainArticle.created_at}}
+                                                        {{mainThreeD.created_at.date | moment("MMMM D, YYYY") }}
                                                     </time>
                                                 </span>
                                     <span class="entry-meta-item penci-comment-count">
@@ -102,7 +92,7 @@
                         </article>
                         <div class="block23_items">
                             <article class="hentry penci-post-item"
-                                     v-for="article in latestArticles">
+                                     v-for="article in threeDArticles">
                                 <div class="penci_post_thumb">
                                     <a class="penci-image-holder  penci-lazy penci-image_has_icon"
                                        data-src="http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d5-280x186.jpg"
@@ -143,9 +133,19 @@
     import Animation from './Animation.vue'
 
     export default {
-        props:['mainArticle','latestArticles'],
+        props:['articles'],
         components:{
             Animation
+        },
+        computed:{
+            mainThreeD(){
+                let filteredArticles = this.articles.filter(article => article.category.id === 1);
+                return filteredArticles[0];
+            },
+            threeDArticles(){
+                let filteredArticles = this.articles.filter(article => article.category.id === 1);
+                return filteredArticles.slice(1,5)
+            }
         }
     }
 </script>

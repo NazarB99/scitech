@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/review.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/inline.css">
+    <link rel="stylesheet" href="/css/custom.css">
     <link rel="stylesheet" href="/css/composer.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{mix('/css/app.css')}}">
@@ -397,9 +398,7 @@
             <div class="footer__copyright_menu">
                 <div class="footer__sidebars-inner penci-container-fluid penci_bottom-sub penci_has_copyright">
                     <div class="site-info">
-                        @2018 - PenciDesign. All Right Reserved. Designed and Developed by
-                        <a href="https://themeforest.net/item/news-wordpress-theme-focus-only-for-magazinenews-pennews/20822517?ref=PenciDesign"
-                           target="_blank">PenciDesign</a></div><!-- .site-info -->
+                        {{ Carbon\Carbon::now()->year }}. All Right Reserved.</div>
                 </div>
             </div>
         </footer><!-- #colophon -->
@@ -536,9 +535,9 @@
         }
 
     })();</script>
-<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto+Mono&amp;ver=4.9.8">
-<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Mukta+Vaani&amp;ver=4.9.8">
-<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Overpass+Mono&amp;ver=4.9.8">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto+Mono">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Mukta+Vaani">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Overpass+Mono">
 <script src="/js/scripts.js"></script>
 <script src="/js/demobar.js"></script>
 <script src="/js/easypiechart.js"></script>

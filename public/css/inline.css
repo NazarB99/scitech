@@ -818,3 +818,7 @@ blockquote.style-2:before, blockquote.style-2 cite, blockquote.style-2 .author, 
 #scroll-to-top:hover {
     background-color: #2962ff;
 }
+
+.entry-title{
+    font-family: 'Overpass Mono', monospace;
+}
