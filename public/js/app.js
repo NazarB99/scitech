@@ -14035,7 +14035,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(14);
-module.exports = __webpack_require__(61);
+module.exports = __webpack_require__(62);
 
 
 /***/ }),
@@ -14062,10 +14062,32 @@ window.Vue = __webpack_require__(38);
 Vue.component('top-header', __webpack_require__(41));
 Vue.component('logo', __webpack_require__(44));
 Vue.component('main-content', __webpack_require__(47));
-Vue.use(__webpack_require__(66));
+Vue.component('additional-topics', __webpack_require__(67));
+Vue.use(__webpack_require__(61));
 
 var app = new Vue({
-  el: '#app'
+    el: '#app',
+    data: function data() {
+        return {
+            articles: []
+        };
+    },
+    created: function created() {
+        this.fetchLatestArticles();
+    },
+
+    methods: {
+        fetchLatestArticles: function fetchLatestArticles() {
+            var _this = this;
+
+            axios.get('/articles').then(function (_ref) {
+                var data = _ref.data;
+
+                _this.articles = data.data;
+                console.log(_this.articles);
+            });
+        }
+    }
 });
 
 /***/ }),
@@ -47392,524 +47414,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__);
 //
 //
 //
@@ -48189,7 +47695,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['articles'],
+    components: {
+        Animation: __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default.a
+    },
+    computed: {
+        threeDArticles: function threeDArticles() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 1;
+            });
+            return filteredArticles.slice(1, 6);
+        },
+        illustrations: function illustrations() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 2;
+            });
+            return filteredArticles.slice(1, 7);
+        }
+    }
+});
 
 /***/ }),
 /* 43 */
@@ -48199,7 +47726,411 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "header",
+    {
+      staticClass: "site-header header--s3 header--s4",
+      attrs: { id: "masthead" }
+    },
+    [
+      _c("div", { staticClass: "penci-container-fluid" }, [
+        _c(
+          "nav",
+          {
+            staticClass:
+              "main-navigation penci_disable_padding_menu pencimn-slide_down",
+            attrs: {
+              id: "site-navigation",
+              itemtype: "http://schema.org/SiteNavigationElement"
+            }
+          },
+          [
+            _c("ul", { staticClass: "menu", attrs: { id: "menu-main-menu" } }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass:
+                    "menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726",
+                  attrs: { id: "menu-item-726" }
+                },
+                [
+                  _c(
+                    "a",
+                    { attrs: { href: "category/creative-news/index.html" } },
+                    [_vm._v("Creative News")]
+                  ),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "sub-menu" }, [
+                    _c(
+                      "li",
+                      {
+                        staticClass: "menu-item-0",
+                        attrs: { id: "menu-item-0" }
+                      },
+                      [
+                        _c("div", { staticClass: "penci-megamenu" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "penci-content-megamenu penci-content-megamenu-style-1"
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "penci-mega-latest-posts col-mn-5 mega-row-1 penci-post-border-bottom"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "penci-mega-row penci-mega-8 row-active",
+                                      attrs: {
+                                        "data-current": "1",
+                                        "data-blockUid": "penci_megamenu__47694"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "penci-block_content penci-mega-row_content",
+                                          attrs: {
+                                            id:
+                                              "penci_megamenu__47694block_content"
+                                          }
+                                        },
+                                        [
+                                          _vm._l(_vm.threeDArticles, function(
+                                            article
+                                          ) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+                                              },
+                                              [
+                                                _vm._m(2, true),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-mega-thumbnail"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass:
+                                                          "mega-cat-name",
+                                                        attrs: {
+                                                          href:
+                                                            "category/creative-news/illustrations/index.html"
+                                                        }
+                                                      },
+                                                      [_vm._v("Illustrations")]
+                                                    ),
+                                                    _c("a", {
+                                                      staticClass:
+                                                        "penci-image-holder  penci-lazy",
+                                                      style: article.image
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-mega-meta "
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "h3",
+                                                      {
+                                                        staticClass:
+                                                          "post-mega-title entry-title"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "a",
+                                                          {
+                                                            attrs: {
+                                                              href:
+                                                                "13-tips-making-vr-gaming-world/index.html"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                                    " +
+                                                                _vm._s(
+                                                                  article.title
+                                                                ) +
+                                                                "\n                                                                "
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "p",
+                                                      {
+                                                        staticClass:
+                                                          "penci-mega-date"
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-clock-o"
+                                                        }),
+                                                        _vm._v(
+                                                          "\n                                                                " +
+                                                            _vm._s(
+                                                              _vm._f("moment")(
+                                                                article
+                                                                  .created_at
+                                                                  .date,
+                                                                "MMMM D, YYYY"
+                                                              )
+                                                            ) +
+                                                            "\n                                                            "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          }),
+                                          _vm._v(" "),
+                                          _c("animation")
+                                        ],
+                                        2
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(3)
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(4),
+                                  _vm._v(" "),
+                                  _vm._m(5),
+                                  _vm._v(" "),
+                                  _vm._m(6),
+                                  _vm._v(" "),
+                                  _vm._m(7),
+                                  _vm._v(" "),
+                                  _c("animation")
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass:
+                    "menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu penci-megamenu-container menu-item-748",
+                  attrs: { id: "menu-item-748" }
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "category/creative-news/illustrations/index.html"
+                      }
+                    },
+                    [_vm._v("Illustrations")]
+                  ),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "sub-menu" }, [
+                    _c("li", { staticClass: "menu-item-0" }, [
+                      _c("div", { staticClass: "penci-megamenu" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "penci-content-megamenu penci-content-megamenu-style-1"
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "penci-mega-latest-posts col-mn-6 mega-row-1 "
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "penci-mega-row penci-mega-4 row-active",
+                                    attrs: {
+                                      "data-current": "1",
+                                      "data-blockUid": "penci_megamenu__6823"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block_content penci-mega-row_content",
+                                        attrs: {
+                                          id:
+                                            "penci_megamenu__6823block_content"
+                                        }
+                                      },
+                                      [
+                                        _vm._l(_vm.illustrations, function(
+                                          article
+                                        ) {
+                                          return _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "penci-mega-thumbnail"
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      staticClass:
+                                                        "mega-cat-name",
+                                                      attrs: {
+                                                        href:
+                                                          "category/creative-news/illustrations/index.html"
+                                                      }
+                                                    },
+                                                    [_vm._v("Illustrations")]
+                                                  ),
+                                                  _c("a", {
+                                                    staticClass:
+                                                      "penci-image-holder  penci-lazy",
+                                                    style: article.image
+                                                  })
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "penci-mega-meta "
+                                                },
+                                                [
+                                                  _c(
+                                                    "h3",
+                                                    {
+                                                      staticClass:
+                                                        "post-mega-title entry-title"
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          attrs: {
+                                                            href:
+                                                              "10-incredible-online-art-schools/index.html"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                                    " +
+                                                              _vm._s(
+                                                                article.title
+                                                              ) +
+                                                              "\n                                                                "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "p",
+                                                    {
+                                                      staticClass:
+                                                        "penci-mega-date"
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fa fa-clock-o"
+                                                      }),
+                                                      _vm._v(
+                                                        "\n                                                                " +
+                                                          _vm._s(
+                                                            _vm._f("moment")(
+                                                              article.created_at
+                                                                .date,
+                                                              "MMMM D, YYYY"
+                                                            )
+                                                          ) +
+                                                          "\n                                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }),
+                                        _vm._v(" "),
+                                        _c("animation")
+                                      ],
+                                      2
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._m(8)
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("animation")
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(9)
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -48207,3849 +48138,579 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "header",
+      "li",
       {
-        staticClass: "site-header header--s3 header--s4",
-        attrs: { id: "masthead" }
+        staticClass:
+          "menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751",
+        attrs: { id: "menu-item-751" }
+      },
+      [_c("a", { attrs: { href: "index.html" } }, [_vm._v("Home")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "penci-mega-child-categories col-mn-5 mega-row-1 penci-child_cat-style-1"
       },
       [
-        _c("div", { staticClass: "penci-container-fluid" }, [
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child  cat-active mega-cat-child-loaded",
+            attrs: {
+              "data-id": "penci-mega-8",
+              href: "category/creative-news/3d-design/index.html"
+            }
+          },
+          [_c("span", [_vm._v("3D Design")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-4",
+              href: "category/creative-news/illustrations/index.html"
+            }
+          },
+          [_c("span", [_vm._v("Illustrations")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-5",
+              href: "category/creative-news/typography/index.html"
+            }
+          },
+          [_c("span", [_vm._v("Typography")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-6",
+              href: "category/creative-news/uiux/index.html"
+            }
+          },
+          [_c("span", [_vm._v("UI/UX")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-7",
+              href: "category/creative-news/web-design/index.html"
+            }
+          },
+          [_c("span", [_vm._v("Web Design")])]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
+      _c(
+        "a",
+        {
+          staticClass: "mega-cat-name",
+          attrs: { href: "category/creative-news/3d-design/index.html" }
+        },
+        [
+          _vm._v(
+            "\n                                                                3D Design\n                                                            "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "penci-slider-nav" }, [
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-prev penci-pag-disabled",
+          attrs: {
+            "data-block_id": "penci_megamenu__47694block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-left" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-next ",
+          attrs: {
+            "data-block_id": "penci_megamenu__47694block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-right" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-4",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__59081" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__59081block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
           _c(
-            "nav",
+            "a",
             {
               staticClass:
-                "main-navigation penci_disable_padding_menu pencimn-slide_down",
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
               attrs: {
-                id: "site-navigation",
-                itemtype: "http://schema.org/SiteNavigationElement"
+                "data-block_id": "penci_megamenu__59081block_content",
+                href: "#"
               }
             },
-            [
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__59081block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-5",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__53493" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__53493block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
+              attrs: {
+                "data-block_id": "penci_megamenu__53493block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__53493block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-6",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__83815" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__83815block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
+              attrs: {
+                "data-block_id": "penci_megamenu__83815block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__83815block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-7",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__19103" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__19103block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
+              attrs: {
+                "data-block_id": "penci_megamenu__19103block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__19103block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "penci-slider-nav" }, [
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-prev penci-pag-disabled",
+          attrs: {
+            "data-block_id": "penci_megamenu__6823block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-left" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-next ",
+          attrs: {
+            "data-block_id": "penci_megamenu__6823block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-right" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "header__social-search" }, [
+      _c(
+        "div",
+        {
+          staticClass: "header__search header__search_dis_bg",
+          attrs: { id: "top-search" }
+        },
+        [
+          _c("a", { staticClass: "search-click" }, [
+            _c("i", { staticClass: "fa fa-search" })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "show-search" }, [
+            _c("div", { staticClass: "show-search__content" }, [
               _c(
-                "ul",
-                { staticClass: "menu", attrs: { id: "menu-main-menu" } },
+                "form",
+                {
+                  staticClass: "search-form",
+                  attrs: {
+                    method: "get",
+                    action: "http://pennews.pencidesign.com/pennews-creative/"
+                  }
+                },
                 [
-                  _c(
-                    "li",
-                    {
-                      staticClass:
-                        "menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751",
-                      attrs: { id: "menu-item-751" }
-                    },
-                    [
-                      _c("a", { attrs: { href: "index.html" } }, [
-                        _vm._v("Home")
-                      ])
-                    ]
-                  ),
+                  _c("label", [
+                    _c("span", { staticClass: "screen-reader-text" }, [
+                      _vm._v("Search for:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "search-field",
+                      attrs: {
+                        id: "penci-header-search",
+                        type: "search",
+                        placeholder: "Enter keyword...",
+                        value: "",
+                        name: "s",
+                        autocomplete: "off"
+                      }
+                    })
+                  ]),
                   _vm._v(" "),
                   _c(
-                    "li",
-                    {
-                      staticClass:
-                        "menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726",
-                      attrs: { id: "menu-item-726" }
-                    },
+                    "button",
+                    { staticClass: "search-submit", attrs: { type: "submit" } },
                     [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "category/creative-news/index.html" }
-                        },
-                        [_vm._v("Creative News")]
-                      ),
+                      _c("i", { staticClass: "fa fa-search" }),
                       _vm._v(" "),
-                      _c("ul", { staticClass: "sub-menu" }, [
-                        _c(
-                          "li",
-                          {
-                            staticClass: "menu-item-0",
-                            attrs: { id: "menu-item-0" }
-                          },
-                          [
-                            _c("div", { staticClass: "penci-megamenu" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "penci-mega-child-categories col-mn-5 mega-row-1 penci-child_cat-style-1"
-                                },
-                                [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass:
-                                        "mega-cat-child  cat-active mega-cat-child-loaded",
-                                      attrs: {
-                                        "data-id": "penci-mega-8",
-                                        href:
-                                          "category/creative-news/3d-design/index.html"
-                                      }
-                                    },
-                                    [_c("span", [_vm._v("3D Design")])]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "mega-cat-child ",
-                                      attrs: {
-                                        "data-id": "penci-mega-4",
-                                        href:
-                                          "category/creative-news/illustrations/index.html"
-                                      }
-                                    },
-                                    [_c("span", [_vm._v("Illustrations")])]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "mega-cat-child ",
-                                      attrs: {
-                                        "data-id": "penci-mega-5",
-                                        href:
-                                          "category/creative-news/typography/index.html"
-                                      }
-                                    },
-                                    [_c("span", [_vm._v("Typography")])]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "mega-cat-child ",
-                                      attrs: {
-                                        "data-id": "penci-mega-6",
-                                        href:
-                                          "category/creative-news/uiux/index.html"
-                                      }
-                                    },
-                                    [_c("span", [_vm._v("UI/UX")])]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "mega-cat-child ",
-                                      attrs: {
-                                        "data-id": "penci-mega-7",
-                                        href:
-                                          "category/creative-news/web-design/index.html"
-                                      }
-                                    },
-                                    [_c("span", [_vm._v("Web Design")])]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "penci-content-megamenu penci-content-megamenu-style-1"
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "penci-mega-latest-posts col-mn-5 mega-row-1 penci-post-border-bottom"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "penci-mega-row penci-mega-8 row-active",
-                                          attrs: {
-                                            "data-current": "1",
-                                            "data-blockUid":
-                                              "penci_megamenu__47694"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "penci-block_content penci-mega-row_content",
-                                              attrs: {
-                                                id:
-                                                  "penci_megamenu__47694block_content"
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-thumbnail"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "mega-cat-name",
-                                                          attrs: {
-                                                            href:
-                                                              "category/creative-news/3d-design/index.html"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "3D\n                                                            Design"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _c("a", {
-                                                        staticClass:
-                                                          "penci-image-holder  penci-lazy",
-                                                        attrs: {
-                                                          "data-src":
-                                                            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d4-280x186.jpg",
-                                                          "data-delay": "",
-                                                          href:
-                                                            "13-tips-making-vr-gaming-world/index.html",
-                                                          title:
-                                                            "13 tips for making a VR gaming world"
-                                                        }
-                                                      })
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-meta "
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "h3",
-                                                        {
-                                                          staticClass:
-                                                            "post-mega-title entry-title"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "a",
-                                                            {
-                                                              attrs: {
-                                                                href:
-                                                                  "13-tips-making-vr-gaming-world/index.html"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "13\n                                                                    tips for making a VR gaming world"
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "p",
-                                                        {
-                                                          staticClass:
-                                                            "penci-mega-date"
-                                                        },
-                                                        [
-                                                          _c("i", {
-                                                            staticClass:
-                                                              "fa fa-clock-o"
-                                                          }),
-                                                          _vm._v(
-                                                            "November\n                                                                3, 2017"
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-post penci-mega-post-2 penci-imgtype-landscape"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-thumbnail"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "mega-cat-name",
-                                                          attrs: {
-                                                            href:
-                                                              "category/creative-news/3d-design/index.html"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "3D\n                                                            Design"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _c("a", {
-                                                        staticClass:
-                                                          "penci-image-holder  penci-lazy",
-                                                        attrs: {
-                                                          "data-src":
-                                                            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d5-280x186.jpg",
-                                                          "data-delay": "",
-                                                          href:
-                                                            "develop-mythical-creatures/index.html",
-                                                          title:
-                                                            "How to develop mythical creatures"
-                                                        }
-                                                      })
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-meta "
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "h3",
-                                                        {
-                                                          staticClass:
-                                                            "post-mega-title entry-title"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "a",
-                                                            {
-                                                              attrs: {
-                                                                href:
-                                                                  "develop-mythical-creatures/index.html"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "How\n                                                                    to develop mythical creatures"
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "p",
-                                                        {
-                                                          staticClass:
-                                                            "penci-mega-date"
-                                                        },
-                                                        [
-                                                          _c("i", {
-                                                            staticClass:
-                                                              "fa fa-clock-o"
-                                                          }),
-                                                          _vm._v(
-                                                            "November\n                                                                3, 2017"
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-post penci-mega-post-3 penci-imgtype-landscape"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-thumbnail"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "mega-cat-name",
-                                                          attrs: {
-                                                            href:
-                                                              "category/creative-news/3d-design/index.html"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "3D\n                                                            Design"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _c("a", {
-                                                        staticClass:
-                                                          "penci-image-holder  penci-lazy",
-                                                        attrs: {
-                                                          "data-src":
-                                                            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d6-280x186.jpg",
-                                                          "data-delay": "",
-                                                          href:
-                                                            "see-maya-2018s-amazing-new-3d-tools-action/index.html",
-                                                          title:
-                                                            "See Maya 2018&#8217;s amazing new 3D tools in action"
-                                                        }
-                                                      })
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-meta "
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "h3",
-                                                        {
-                                                          staticClass:
-                                                            "post-mega-title entry-title"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "a",
-                                                            {
-                                                              attrs: {
-                                                                href:
-                                                                  "see-maya-2018s-amazing-new-3d-tools-action/index.html"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "See\n                                                                    Maya 2018’s amazing new 3D tools\n                                                                    in…"
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "p",
-                                                        {
-                                                          staticClass:
-                                                            "penci-mega-date"
-                                                        },
-                                                        [
-                                                          _c("i", {
-                                                            staticClass:
-                                                              "fa fa-clock-o"
-                                                          }),
-                                                          _vm._v(
-                                                            "November\n                                                                3, 2017"
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-post penci-mega-post-4 penci-imgtype-landscape"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-thumbnail"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "mega-cat-name",
-                                                          attrs: {
-                                                            href:
-                                                              "category/creative-news/3d-design/index.html"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "3D\n                                                            Design"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _c("a", {
-                                                        staticClass:
-                                                          "penci-image-holder  penci-lazy",
-                                                        attrs: {
-                                                          "data-src":
-                                                            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d7-280x186.jpg",
-                                                          "data-delay": "",
-                                                          href:
-                                                            "experimental-vfx-videos-push-limits-3d-animation/index.html",
-                                                          title:
-                                                            "Experimental VFX videos push limits of 3D animation"
-                                                        }
-                                                      })
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-meta "
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "h3",
-                                                        {
-                                                          staticClass:
-                                                            "post-mega-title entry-title"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "a",
-                                                            {
-                                                              attrs: {
-                                                                href:
-                                                                  "experimental-vfx-videos-push-limits-3d-animation/index.html"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "Experimental\n                                                                    VFX videos push limits of 3D animation"
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "p",
-                                                        {
-                                                          staticClass:
-                                                            "penci-mega-date"
-                                                        },
-                                                        [
-                                                          _c("i", {
-                                                            staticClass:
-                                                              "fa fa-clock-o"
-                                                          }),
-                                                          _vm._v(
-                                                            "November\n                                                                3, 2017"
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-post penci-mega-post-5 penci-imgtype-landscape"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-thumbnail"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "mega-cat-name",
-                                                          attrs: {
-                                                            href:
-                                                              "category/creative-news/3d-design/index.html"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "3D\n                                                            Design"
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _c("a", {
-                                                        staticClass:
-                                                          "penci-image-holder  penci-lazy",
-                                                        attrs: {
-                                                          "data-src":
-                                                            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d8-280x186.jpg",
-                                                          "data-delay": "",
-                                                          href:
-                                                            "videogame-graphics-movie-vfx-converging/index.html",
-                                                          title:
-                                                            "How videogame graphics and movie VFX are converging"
-                                                        }
-                                                      })
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-meta "
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "h3",
-                                                        {
-                                                          staticClass:
-                                                            "post-mega-title entry-title"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "a",
-                                                            {
-                                                              attrs: {
-                                                                href:
-                                                                  "videogame-graphics-movie-vfx-converging/index.html"
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "How\n                                                                    videogame graphics and movie VFX are\n                                                                    converging"
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "p",
-                                                        {
-                                                          staticClass:
-                                                            "penci-mega-date"
-                                                        },
-                                                        [
-                                                          _c("i", {
-                                                            staticClass:
-                                                              "fa fa-clock-o"
-                                                          }),
-                                                          _vm._v(
-                                                            "November\n                                                                3, 2017"
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-loader-effect penci-loading-animation-9"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "penci-loading-circle"
-                                                    },
-                                                    [
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle1 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle2 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle3 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle4 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle5 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle6 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle7 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle8 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle9 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle10 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle11 penci-loading-circle-inner"
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("div", {
-                                                        staticClass:
-                                                          "penci-loading-circle12 penci-loading-circle-inner"
-                                                      })
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            { staticClass: "penci-slider-nav" },
-                                            [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-prev penci-pag-disabled",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__47694block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-left"
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-next ",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__47694block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-right"
-                                                  })
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "penci-mega-row penci-mega-4",
-                                          attrs: {
-                                            "data-current": "1",
-                                            "data-blockUid":
-                                              "penci_megamenu__59081"
-                                          }
-                                        },
-                                        [
-                                          _c("div", {
-                                            staticClass:
-                                              "penci-block_content penci-mega-row_content",
-                                            attrs: {
-                                              id:
-                                                "penci_megamenu__59081block_content"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            { staticClass: "penci-slider-nav" },
-                                            [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-prev penci-pag-disabled",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__59081block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-left"
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-next ",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__59081block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-right"
-                                                  })
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "penci-mega-row penci-mega-5",
-                                          attrs: {
-                                            "data-current": "1",
-                                            "data-blockUid":
-                                              "penci_megamenu__53493"
-                                          }
-                                        },
-                                        [
-                                          _c("div", {
-                                            staticClass:
-                                              "penci-block_content penci-mega-row_content",
-                                            attrs: {
-                                              id:
-                                                "penci_megamenu__53493block_content"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            { staticClass: "penci-slider-nav" },
-                                            [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-prev penci-pag-disabled",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__53493block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-left"
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-next ",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__53493block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-right"
-                                                  })
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "penci-mega-row penci-mega-6",
-                                          attrs: {
-                                            "data-current": "1",
-                                            "data-blockUid":
-                                              "penci_megamenu__83815"
-                                          }
-                                        },
-                                        [
-                                          _c("div", {
-                                            staticClass:
-                                              "penci-block_content penci-mega-row_content",
-                                            attrs: {
-                                              id:
-                                                "penci_megamenu__83815block_content"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            { staticClass: "penci-slider-nav" },
-                                            [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-prev penci-pag-disabled",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__83815block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-left"
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-next ",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__83815block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-right"
-                                                  })
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "penci-mega-row penci-mega-7",
-                                          attrs: {
-                                            "data-current": "1",
-                                            "data-blockUid":
-                                              "penci_megamenu__19103"
-                                          }
-                                        },
-                                        [
-                                          _c("div", {
-                                            staticClass:
-                                              "penci-block_content penci-mega-row_content",
-                                            attrs: {
-                                              id:
-                                                "penci_megamenu__19103block_content"
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            { staticClass: "penci-slider-nav" },
-                                            [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-prev penci-pag-disabled",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__19103block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-left"
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-pag penci-slider-next ",
-                                                  attrs: {
-                                                    "data-block_id":
-                                                      "penci_megamenu__19103block_content",
-                                                    href: "#"
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-angle-right"
-                                                  })
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "penci-loader-effect penci-loading-animation-9"
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "penci-loading-circle"
-                                            },
-                                            [
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle1 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle2 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle3 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle4 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle5 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle6 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle7 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle8 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle9 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle10 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle11 penci-loading-circle-inner"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("div", {
-                                                staticClass:
-                                                  "penci-loading-circle12 penci-loading-circle-inner"
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]
-                              )
-                            ])
-                          ]
-                        )
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    {
-                      staticClass:
-                        "menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu penci-megamenu-container menu-item-748",
-                      attrs: { id: "menu-item-748" }
-                    },
-                    [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href:
-                              "category/creative-news/illustrations/index.html"
-                          }
-                        },
-                        [_vm._v("Illustrations")]
-                      ),
-                      _vm._v(" "),
-                      _c("ul", { staticClass: "sub-menu" }, [
-                        _c("li", { staticClass: "menu-item-0" }, [
-                          _c("div", { staticClass: "penci-megamenu" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "penci-content-megamenu penci-content-megamenu-style-1"
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "penci-mega-latest-posts col-mn-6 mega-row-1 "
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-mega-row penci-mega-4 row-active",
-                                        attrs: {
-                                          "data-current": "1",
-                                          "data-blockUid":
-                                            "penci_megamenu__6823"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "penci-block_content penci-mega-row_content",
-                                            attrs: {
-                                              id:
-                                                "penci_megamenu__6823block_content"
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu4-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "10-incredible-online-art-schools/index.html",
-                                                        title:
-                                                          "10 incredible online art schools"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "10-incredible-online-art-schools/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "10\n                                                                    incredible online art schools"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-2 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu5-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "movie-fans-will-love-illustrated-movie-maps/index.html",
-                                                        title:
-                                                          "Movie fans will love these illustrated movie maps"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "movie-fans-will-love-illustrated-movie-maps/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "Movie\n                                                                    fans will love these illustrated movie maps"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-3 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu6-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "8-ways-use-illustration-agency-projects/index.html",
-                                                        title:
-                                                          "8 ways to use illustration in your agency projects"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "8-ways-use-illustration-agency-projects/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "8\n                                                                    ways to use illustration in your\n                                                                    agency…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-4 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu7-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "20-best-ipad-art-apps-painting-sketching/index.html",
-                                                        title:
-                                                          "20 best iPad art apps for painting and sketching"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "20-best-ipad-art-apps-painting-sketching/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "20\n                                                                    best iPad art apps for painting and…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-5 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu1-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "meet-artist-brought-pratchetts-discworld-life/index.html",
-                                                        title:
-                                                          "Meet the artist who brought Pratchett&#8217;s Discworld to life"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "meet-artist-brought-pratchetts-discworld-life/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "Meet\n                                                                    the artist who brought Pratchett’s\n                                                                    Discworld to…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-6 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu3-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "10-top-tools-illustrators-try-october/index.html",
-                                                        title:
-                                                          "10 top tools for illustrators to try this October"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "10-top-tools-illustrators-try-october/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "10\n                                                                    top tools for illustrators to try\n                                                                    this…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-loader-effect penci-loading-animation-9"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-loading-circle"
-                                                  },
-                                                  [
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle1 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle2 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle3 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle4 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle5 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle6 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle7 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle8 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle9 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle10 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle11 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle12 penci-loading-circle-inner"
-                                                    })
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "penci-slider-nav" },
-                                          [
-                                            _c(
-                                              "a",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-pag penci-slider-prev penci-pag-disabled",
-                                                attrs: {
-                                                  "data-block_id":
-                                                    "penci_megamenu__6823block_content",
-                                                  href: "#"
-                                                }
-                                              },
-                                              [
-                                                _c("i", {
-                                                  staticClass:
-                                                    "fa fa-angle-left"
-                                                })
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "a",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-pag penci-slider-next ",
-                                                attrs: {
-                                                  "data-block_id":
-                                                    "penci_megamenu__6823block_content",
-                                                  href: "#"
-                                                }
-                                              },
-                                              [
-                                                _c("i", {
-                                                  staticClass:
-                                                    "fa fa-angle-right"
-                                                })
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-loader-effect penci-loading-animation-9"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "penci-loading-circle"
-                                          },
-                                          [
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle1 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle2 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle3 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle4 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle5 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle6 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle7 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle8 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle9 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle10 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle11 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle12 penci-loading-circle-inner"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    {
-                      staticClass:
-                        "menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu penci-megamenu-container menu-item-749",
-                      attrs: { id: "menu-item-749" }
-                    },
-                    [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "category/creative-news/uiux/index.html"
-                          }
-                        },
-                        [_vm._v("UI/UX")]
-                      ),
-                      _vm._v(" "),
-                      _c("ul", { staticClass: "sub-menu" }, [
-                        _c("li", { staticClass: "menu-item-0" }, [
-                          _c("div", { staticClass: "penci-megamenu" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "penci-content-megamenu penci-content-megamenu-style-1"
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "penci-mega-latest-posts col-mn-6 mega-row-1 "
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-mega-row penci-mega-6 row-active",
-                                        attrs: {
-                                          "data-current": "1",
-                                          "data-blockUid":
-                                            "penci_megamenu__67105"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "penci-block_content penci-mega-row_content",
-                                            attrs: {
-                                              id:
-                                                "penci_megamenu__67105block_content"
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/uiux/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("UI/UX")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux3-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "create-engaging-designs-ui-ux-courses/index.html",
-                                                        title:
-                                                          "Create engaging designs with these UI and UX courses"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "create-engaging-designs-ui-ux-courses/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "Create\n                                                                    engaging designs with these UI and UX…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-2 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/uiux/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("UI/UX")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux4-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "tackle-user-research-testing/index.html",
-                                                        title:
-                                                          "How do you tackle user research and testing?"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "tackle-user-research-testing/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "How\n                                                                    do you tackle user research and testing?"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-3 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/uiux/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("UI/UX")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux5-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "8-great-business-cards-ux-designers/index.html",
-                                                        title:
-                                                          "8 great business cards for UX designers"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "8-great-business-cards-ux-designers/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "8\n                                                                    great business cards for UX designers"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-4 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/uiux/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("UI/UX")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux6-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "design-millions-new-users/index.html",
-                                                        title:
-                                                          "How to design for millions of new users"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "design-millions-new-users/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "How\n                                                                    to design for millions of new users"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-5 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/uiux/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("UI/UX")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux1-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "10-essential-tools-freelance-ux-designers/index.html",
-                                                        title:
-                                                          "10 essential tools for freelance UX designers"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "10-essential-tools-freelance-ux-designers/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "10\n                                                                    essential tools for freelance UX designers"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-6 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/uiux/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("UI/UX")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux2-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "ultimate-guide-better-service-design/index.html",
-                                                        title:
-                                                          "The ultimate guide to better service design"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "ultimate-guide-better-service-design/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "The\n                                                                    ultimate guide to better service design"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-loader-effect penci-loading-animation-9"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-loading-circle"
-                                                  },
-                                                  [
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle1 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle2 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle3 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle4 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle5 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle6 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle7 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle8 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle9 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle10 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle11 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle12 penci-loading-circle-inner"
-                                                    })
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-loader-effect penci-loading-animation-9"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "penci-loading-circle"
-                                          },
-                                          [
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle1 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle2 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle3 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle4 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle5 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle6 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle7 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle8 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle9 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle10 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle11 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle12 penci-loading-circle-inner"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    {
-                      staticClass:
-                        "menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu penci-megamenu-container menu-item-750",
-                      attrs: { id: "menu-item-750" }
-                    },
-                    [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "category/creative-news/web-design/index.html"
-                          }
-                        },
-                        [_vm._v("Web Design")]
-                      ),
-                      _vm._v(" "),
-                      _c("ul", { staticClass: "sub-menu" }, [
-                        _c("li", { staticClass: "menu-item-0" }, [
-                          _c("div", { staticClass: "penci-megamenu" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "penci-content-megamenu penci-content-megamenu-style-1"
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "penci-mega-latest-posts col-mn-6 mega-row-1 "
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-mega-row penci-mega-7 row-active",
-                                        attrs: {
-                                          "data-current": "1",
-                                          "data-blockUid":
-                                            "penci_megamenu__9750"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "penci-block_content penci-mega-row_content",
-                                            attrs: {
-                                              id:
-                                                "penci_megamenu__9750block_content"
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/web-design/index.html"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "Web\n                                                            Design"
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web4-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "developer-tools-need-know-right-now/index.html",
-                                                        title:
-                                                          "The developer tools you need to know right now"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "developer-tools-need-know-right-now/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "The\n                                                                    developer tools you need to know\n                                                                    right…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-2 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/web-design/index.html"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "Web\n                                                            Design"
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web5-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "web-industry-coping-uncertain-times/index.html",
-                                                        title:
-                                                          "How the web industry is coping in uncertain times"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "web-industry-coping-uncertain-times/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "How\n                                                                    the web industry is coping in\n                                                                    uncertain…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-3 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/web-design/index.html"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "Web\n                                                            Design"
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web6-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "everything-need-know-new-node-js-8/index.html",
-                                                        title:
-                                                          "Everything you need to know about the new Node.js 8"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "everything-need-know-new-node-js-8/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "Everything\n                                                                    you need to know about the new…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-4 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/web-design/index.html"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "Web\n                                                            Design"
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web1-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "build-web-animations-without-writing-line-code/index.html",
-                                                        title:
-                                                          "Build web animations without writing a line of code"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "build-web-animations-without-writing-line-code/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "Build\n                                                                    web animations without writing a line\n                                                                    of…"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-5 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/web-design/index.html"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "Web\n                                                            Design"
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web2-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "use-markdown-web-development/index.html",
-                                                        title:
-                                                          "How to use Markdown in web development"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "use-markdown-web-development/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "How\n                                                                    to use Markdown in web development"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-6 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/web-design/index.html"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "Web\n                                                            Design"
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      attrs: {
-                                                        "data-src":
-                                                          "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web3-280x186.jpg",
-                                                        "data-delay": "",
-                                                        href:
-                                                          "12-common-javascript-questions-answered/index.html",
-                                                        title:
-                                                          "12 common JavaScript questions answered"
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "12-common-javascript-questions-answered/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "12\n                                                                    common JavaScript questions answered"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "November\n                                                                3, 2017"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-loader-effect penci-loading-animation-9"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-loading-circle"
-                                                  },
-                                                  [
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle1 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle2 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle3 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle4 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle5 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle6 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle7 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle8 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle9 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle10 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle11 penci-loading-circle-inner"
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("div", {
-                                                      staticClass:
-                                                        "penci-loading-circle12 penci-loading-circle-inner"
-                                                    })
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-loader-effect penci-loading-animation-9"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "penci-loading-circle"
-                                          },
-                                          [
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle1 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle2 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle3 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle4 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle5 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle6 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle7 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle8 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle9 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle10 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle11 penci-loading-circle-inner"
-                                            }),
-                                            _vm._v(" "),
-                                            _c("div", {
-                                              staticClass:
-                                                "penci-loading-circle12 penci-loading-circle-inner"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ])
-                        ])
+                      _c("span", { staticClass: "screen-reader-text" }, [
+                        _vm._v("Search")
                       ])
                     ]
                   )
                 ]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "header__social-search" }, [
-            _c(
-              "div",
-              {
-                staticClass: "header__search header__search_dis_bg",
-                attrs: { id: "top-search" }
-              },
-              [
-                _c("a", { staticClass: "search-click" }, [
-                  _c("i", { staticClass: "fa fa-search" })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "show-search" }, [
-                  _c("div", { staticClass: "show-search__content" }, [
-                    _c(
-                      "form",
-                      {
-                        staticClass: "search-form",
-                        attrs: {
-                          method: "get",
-                          action:
-                            "http://pennews.pencidesign.com/pennews-creative/"
-                        }
-                      },
-                      [
-                        _c("label", [
-                          _c("span", { staticClass: "screen-reader-text" }, [
-                            _vm._v("Search for:")
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            staticClass: "search-field",
-                            attrs: {
-                              id: "penci-header-search",
-                              type: "search",
-                              placeholder: "Enter keyword...",
-                              value: "",
-                              name: "s",
-                              autocomplete: "off"
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "search-submit",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-search" }),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "screen-reader-text" }, [
-                              _vm._v("Search")
-                            ])
-                          ]
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "penci-ajax-search-results" }, [
-                      _c("div", {
-                        staticClass: "penci-ajax-search-results-wrapper",
-                        attrs: { id: "penci-ajax-search-results-wrapper" }
-                      })
-                    ])
-                  ])
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "header__social-media" }, [
-              _c("div", { staticClass: "header__content-social-media" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__facebook",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Facebook",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-facebook" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Facebook")]
-                      )
-                    ])
-                  ]
-                ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__twitter",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Twitter",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-twitter" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Twitter")]
-                      )
-                    ])
-                  ]
-                ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__instagram",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Instagram",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-instagram" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Instagram")]
-                      )
-                    ])
-                  ]
-                ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__pinterest",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Pinterest",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-pinterest" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Pinterest")]
-                      )
-                    ])
-                  ]
-                ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__behance",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Behance",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-behance" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Behance")]
-                      )
-                    ])
-                  ]
-                ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__tumblr",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Tumblr",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-tumblr" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Tumblr")]
-                      )
-                    ])
-                  ]
-                ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__youtube",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Youtube",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-youtube-play" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Youtube")]
-                      )
-                    ])
-                  ]
-                ),
-                _c(
-                  "a",
-                  {
-                    staticClass: "social-media-item socail_media__snapchat",
-                    attrs: {
-                      target: "_blank",
-                      href: "#",
-                      title: "Snapchat",
-                      rel: "noopener"
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "socail-media-item__content" }, [
-                      _c("i", { staticClass: "fa fa-snapchat" }),
-                      _c(
-                        "span",
-                        { staticClass: "social_title screen-reader-text" },
-                        [_vm._v("Snapchat")]
-                      )
-                    ])
-                  ]
-                )
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "penci-ajax-search-results" }, [
+                _c("div", {
+                  staticClass: "penci-ajax-search-results-wrapper",
+                  attrs: { id: "penci-ajax-search-results-wrapper" }
+                })
               ])
             ])
           ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "header__social-media" }, [
+        _c("div", { staticClass: "header__content-social-media" }, [
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__facebook",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Facebook",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-facebook" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Facebook")
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__twitter",
+              attrs: { target: "_blank", href: "#" }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-twitter" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Twitter")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__instagram",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Instagram",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-instagram" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Instagram")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__pinterest",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Pinterest",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-pinterest" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Pinterest")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__behance",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Behance",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-behance" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Behance")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__tumblr",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Tumblr",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-tumblr" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Tumblr")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__youtube",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Youtube",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-youtube-play" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Youtube")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__snapchat",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Snapchat",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-snapchat" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Snapchat")
+                ])
+              ])
+            ]
+          )
         ])
-      ]
-    )
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -52896,46 +49557,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            articles: []
-        };
-    },
-    created: function created() {
-<<<<<<< HEAD
-        this.fetchMainArticle();
-=======
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
-        this.fetchLatestArticles();
-    },
-
-    methods: {
-        fetchLatestArticles: function fetchLatestArticles() {
-            var _this = this;
-
-            axios.get('/articles').then(function (_ref) {
-                var data = _ref.data;
-
-<<<<<<< HEAD
-                console.log(data.data);
-                _this.latestArticles = data.data;
-            });
-        },
-        fetchMainArticle: function fetchMainArticle() {
-            var _this2 = this;
-
-            axios.get("/get-first/category/1").then(function (_ref2) {
-                var data = _ref2.data;
-
-                console.log(data);
-                _this2.mainArticle = data;
-=======
-                _this.articles = data.data;
-                console.log(_this.articles);
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
-            });
-        }
-    },
+    props: ['articles'],
     components: {
         Illustrations: __WEBPACK_IMPORTED_MODULE_1__articles_Illustrations_vue___default.a,
         ThreeDDesign: __WEBPACK_IMPORTED_MODULE_0__articles_ThreeDDesign_vue___default.a,
@@ -53000,9 +49622,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Animation_vue__);
-//
-//
-//
 //
 //
 //
@@ -53376,7 +49995,13 @@ var render = function() {
                         "article",
                         { staticClass: "hentry penci-post-item" },
                         [
-                          _vm._m(4, true),
+                          _c("div", { staticClass: "penci_post_thumb" }, [
+                            _c("a", {
+                              staticClass:
+                                "penci-image-holder  penci-lazy penci-image_has_icon",
+                              style: article.image
+                            })
+                          ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "penci_post_content" }, [
                             _c(
@@ -53403,7 +50028,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "penci-schema-markup" }, [
-                              _vm._m(5, true),
+                              _vm._m(4, true),
                               _vm._v(" "),
                               _c(
                                 "time",
@@ -53433,7 +50058,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(6)
+    _vm._m(5)
   ])
 }
 var staticRenderFns = [
@@ -53591,23 +50216,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "penci_post_thumb" }, [
-      _c("a", {
-        staticClass: "penci-image-holder  penci-lazy penci-image_has_icon",
-        attrs: {
-          "data-src":
-            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d5-280x186.jpg",
-          "data-delay": "",
-          href: "develop-mythical-creatures/index.html",
-          title: "How to develop mythical creatures"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("span", { staticClass: "author vcard" }, [
       _c(
         "a",
@@ -53691,10 +50299,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Animation__);
-//
-//
-//
-//
 //
 //
 //
@@ -53921,7 +50525,25 @@ var render = function() {
                         "article",
                         { staticClass: "penci-post-item hentry" },
                         [
-                          _vm._m(4, true),
+                          _c(
+                            "a",
+                            {
+                              staticClass:
+                                "penci-image-holder  penci-lazy penci-gradient",
+                              style: article.image
+                            },
+                            [
+                              _c(
+                                "span",
+                                { staticClass: "screen-reader-text" },
+                                [
+                                  _vm._v(
+                                    "Movie fans will love these illustrated movie maps"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
                           _c("div", { staticClass: "penci_post_content" }, [
                             _c(
@@ -53948,7 +50570,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "penci-schema-markup" }, [
-                              _vm._m(5, true),
+                              _vm._m(4, true),
                               _vm._v(" "),
                               _c(
                                 "time",
@@ -54028,7 +50650,7 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm._m(6, true)
+                              _vm._m(5, true)
                             ])
                           ])
                         ]
@@ -54087,8 +50709,6 @@ var staticRenderFns = [
         ])
       ]
     )
-<<<<<<< HEAD
-=======
   },
   function() {
     var _vm = this
@@ -54122,29 +50742,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "penci-image-holder  penci-lazy penci-gradient",
-        attrs: {
-          "data-src":
-            "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu5-960x640.jpg",
-          "data-delay": "",
-          href: "movie-fans-will-love-illustrated-movie-maps/index.html",
-          title: "Movie fans will love these illustrated movie maps"
-        }
-      },
-      [
-        _c("span", { staticClass: "screen-reader-text" }, [
-          _vm._v("Movie fans will love these illustrated movie maps")
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("span", { staticClass: "author vcard" }, [
       _c(
         "a",
@@ -54170,7 +50767,6 @@ var staticRenderFns = [
         [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
       )
     ])
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
   }
 ]
 render._withStripped = true
@@ -54237,9 +50833,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Animation_vue__);
-//
-//
-//
 //
 //
 //
@@ -54400,14 +50993,7 @@ var render = function() {
                           _c("a", {
                             staticClass:
                               "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
-                            attrs: {
-                              "data-src":
-                                "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu4-280x186.jpg",
-                              "data-delay": "",
-                              href:
-                                "10-incredible-online-art-schools/index.html",
-                              title: "10 incredible online art schools"
-                            }
+                            style: article.image
                           }),
                           _vm._v(" "),
                           _c(
@@ -54696,15 +51282,6 @@ var render = function() {
                                     { staticClass: "theiaStickySidebar" },
                                     [
                                       _c("three-d-design", {
-<<<<<<< HEAD
-                                        attrs: {
-                                          mainArticle: _vm.mainArticle,
-                                          latestArticles: _vm.latestArticles
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _vm._m(1)
-=======
                                         attrs: { articles: _vm.articles }
                                       }),
                                       _vm._v(" "),
@@ -54715,7 +51292,6 @@ var render = function() {
                                       _c("illustrations", {
                                         attrs: { articles: _vm.articles }
                                       })
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
                                     ],
                                     1
                                   )
@@ -54723,11 +51299,7 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _c("right-sidebar", {
-<<<<<<< HEAD
-                                attrs: { latestArticles: _vm.latestArticles }
-=======
                                 attrs: { articles: _vm.articles }
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
                               })
                             ],
                             1
@@ -54790,18 +51362,6 @@ if (false) {
 
 /***/ }),
 /* 61 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-<<<<<<< HEAD
-=======
-/***/ }),
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function (global, factory) {
@@ -59511,6 +56071,794 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
+/***/ }),
+/* 62 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(68)
+/* template */
+var __vue_template__ = __webpack_require__(69)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/AdditionalTopics.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8fcb6dd4", Component.options)
+  } else {
+    hotAPI.reload("data-v-8fcb6dd4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['articles'],
+    computed: {
+        uiux: function uiux() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 3;
+            });
+            return filteredArticles.slice(1, 7);
+        },
+        webdesign: function webdesign() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 4;
+            });
+            return filteredArticles.slice(1, 7);
+        }
+    }
+});
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "vc_row wpb_row vc_row_28271398 vc_row-fluid penci-pb-row vc_custom_1509693306480 vc_row-has-fill"
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "wpb_column vc_column_container vc_col-sm-12 penci-col-12"
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "vc_column-inner wpb_column vc_column_container vc_col-sm-12 penci-col-12 "
+            },
+            [
+              _c("div", { staticClass: "wpb_wrapper" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "penci-container-vc penci-container-fluid penci-container-width-1400 penci_vc_sticky_sidebar"
+                  },
+                  [
+                    _c("div", { staticClass: "penci-container__content row" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "penci-content-main penci-col-6 ",
+                          attrs: { role: "complementary" }
+                        },
+                        [
+                          _c("div", { staticClass: "theiaStickySidebar" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "penci-block-vc penci-block_8 penci__general-meta style-title-7 style-title-center penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-2",
+                                attrs: {
+                                  id: "penci_block_8__92338740",
+                                  "data-current": "1",
+                                  "data-blockUid": "penci_block_8__92338740"
+                                }
+                              },
+                              [
+                                _vm._m(0),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "penci-block_content",
+                                    attrs: {
+                                      id: "penci_block_8__92338740block_content"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block_content__items penci-block-items__1"
+                                      },
+                                      _vm._l(_vm.uiux, function(article) {
+                                        return _c(
+                                          "article",
+                                          {
+                                            staticClass:
+                                              "penci-post-item__1 hentry penci-post-item"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "penci_post_thumb"
+                                              },
+                                              [
+                                                _c("a", {
+                                                  staticClass:
+                                                    "penci-image-holder  penci-lazy penci-image_has_icon",
+                                                  style: article.image
+                                                })
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci_post_content"
+                                              },
+                                              [
+                                                _c(
+                                                  "h3",
+                                                  {
+                                                    staticClass:
+                                                      "penci__post-title entry-title"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "create-engaging-designs-ui-ux-courses/index.html"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                                            " +
+                                                            _vm._s(
+                                                              article.title
+                                                                .split(" ")
+                                                                .splice(0, 8)
+                                                                .join(" ")
+                                                            ) +
+                                                            "\n                                                        "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-schema-markup"
+                                                  },
+                                                  [
+                                                    _vm._m(1, true),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "time",
+                                                      {
+                                                        staticClass:
+                                                          "entry-date published",
+                                                        attrs: {
+                                                          datetime:
+                                                            "2017-11-03T03:11:53+00:00"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                                            " +
+                                                            _vm._s(
+                                                              _vm._f("moment")(
+                                                                article
+                                                                  .created_at
+                                                                  .date,
+                                                                "MMMM D, YYYY"
+                                                              )
+                                                            ) +
+                                                            "\n                                                        "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      })
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._m(2)
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "penci-content-main penci-col-6 ",
+                          attrs: { role: "complementary" }
+                        },
+                        [
+                          _c("div", { staticClass: "theiaStickySidebar" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "penci-block-vc penci-block_8 penci__general-meta style-title-7 style-title-center penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-2",
+                                attrs: {
+                                  id: "penci_block_8__41716964",
+                                  "data-current": "1",
+                                  "data-blockUid": "penci_block_8__41716964"
+                                }
+                              },
+                              [
+                                _vm._m(3),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "penci-block_content",
+                                    attrs: {
+                                      id: "penci_block_8__41716964block_content"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block_content__items penci-block-items__1"
+                                      },
+                                      _vm._l(_vm.webdesign, function(article) {
+                                        return _c(
+                                          "article",
+                                          {
+                                            staticClass:
+                                              "penci-post-item__1 hentry penci-post-item"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "penci_post_thumb"
+                                              },
+                                              [
+                                                _c("a", {
+                                                  staticClass:
+                                                    "penci-image-holder  penci-lazy penci-image_has_icon",
+                                                  style: article.image
+                                                })
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci_post_content"
+                                              },
+                                              [
+                                                _c(
+                                                  "h3",
+                                                  {
+                                                    staticClass:
+                                                      "penci__post-title entry-title"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "developer-tools-need-know-right-now/index.html"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                                            " +
+                                                            _vm._s(
+                                                              article.title
+                                                                .split(" ")
+                                                                .splice(0, 5)
+                                                                .join(" ")
+                                                            ) +
+                                                            "\n                                                        "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-schema-markup"
+                                                  },
+                                                  [
+                                                    _vm._m(4, true),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "time",
+                                                      {
+                                                        staticClass:
+                                                          "entry-date published",
+                                                        attrs: {
+                                                          datetime:
+                                                            "2017-11-03T03:11:47+00:00"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                                            " +
+                                                            _vm._s(
+                                                              _vm._f("moment")(
+                                                                article
+                                                                  .created_at
+                                                                  .date,
+                                                                "MMMM D, YYYY"
+                                                              )
+                                                            ) +
+                                                            "\n                                                        "
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "time",
+                                                      {
+                                                        staticClass: "updated",
+                                                        attrs: {
+                                                          datetime:
+                                                            "2017-12-01T07:45:15+00:00"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                                            December 1, 2017\n                                                        "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      })
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._m(5)
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(6)
+              ])
+            ]
+          )
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-block-heading" }, [
+      _c("h3", { staticClass: "penci-block__title" }, [
+        _c(
+          "a",
+          {
+            attrs: {
+              href: "category/creative-news/uiux/index.html",
+              title: "UI/UX Update"
+            }
+          },
+          [_vm._v("UI/UX Update")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "author vcard" }, [
+      _c(
+        "a",
+        { staticClass: "url fn n", attrs: { href: "author/admin/index.html" } },
+        [
+          _vm._v(
+            "Penci Design\n                                                                        "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "penci-loader-effect penci-loading-animation-9" },
+      [
+        _c("div", { staticClass: "penci-loading-circle" }, [
+          _c("div", {
+            staticClass: "penci-loading-circle1 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle2 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle3 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle4 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle5 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle6 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle7 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle8 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle9 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle10 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle11 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle12 penci-loading-circle-inner"
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-block-heading" }, [
+      _c("h3", { staticClass: "penci-block__title" }, [
+        _c(
+          "a",
+          {
+            attrs: {
+              href: "category/creative-news/web-design/index.html",
+              title: "Web Design"
+            }
+          },
+          [_vm._v("Web Design")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "author vcard" }, [
+      _c(
+        "a",
+        { staticClass: "url fn n", attrs: { href: "author/admin/index.html" } },
+        [_vm._v("Penci Design")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "penci-loader-effect penci-loading-animation-9" },
+      [
+        _c("div", { staticClass: "penci-loading-circle" }, [
+          _c("div", {
+            staticClass: "penci-loading-circle1 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle2 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle3 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle4 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle5 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle6 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle7 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle8 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle9 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle10 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle11 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle12 penci-loading-circle-inner"
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "vc_empty_space", staticStyle: { height: "20px" } },
+      [_c("span", { staticClass: "vc_empty_space_inner" })]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8fcb6dd4", module.exports)
+  }
+}
+
 /***/ })
 /******/ ]);

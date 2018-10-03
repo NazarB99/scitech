@@ -646,57 +646,7 @@
     import RightSidebar from "./articles/RightSidebar.vue";
     import Animation from './articles/Animation.vue'
     export default {
-<<<<<<< HEAD
-        data(){
-          return{
-              mainArticle:{},
-              latestArticles:[]
-          }
-        },
-        created(){
-          this.fetchMainArticle();
-          this.fetchLatestArticles();
-=======
-        data() {
-            return {
-                articles: []
-            }
-        },
-        created() {
-            this.fetchLatestArticles();
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
-        },
-        methods: {
-            fetchLatestArticles() {
-                axios.get('/articles')
-                    .then(({data}) => {
-<<<<<<< HEAD
-                        console.log(data.data);
-                        this.latestArticles = data.data;
-                    })
-            },
-            fetchMainArticle() {
-                axios.get(`/get-first/category/1`)
-                    .then(({data}) => {
-                        console.log(data);
-                        this.mainArticle = data;
-                    })
-            }
-=======
-                        this.articles = data.data;
-                        console.log(this.articles)
-                    })
-            },
-            // fetchMainArticle() {
-            //     axios.get('/get-first/category/1')
-            //         .then(({data}) => {
-            //             console.log(data);
-            //             this.mainArticle = data;
-            //             console.log(this.mainArticle);
-            //         })
-            // }
->>>>>>> 1ce7303e201cc24ef146a89fc9ace8b057f7f6eb
-        },
+        props:['articles'],
         components: {
             Illustrations,
             ThreeDDesign,

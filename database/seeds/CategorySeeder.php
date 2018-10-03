@@ -12,15 +12,19 @@ class CategorySeeder extends Seeder
     public function run()
     {
         \App\Category::create([
-           'category' => '3D Design'
+           'category' => 'Наука'
         ]);
 
         \App\Category::create([
-            'category' => 'Illustrations'
+            'category' => 'Техника'
         ]);
 
         \App\Category::create([
-            'category' => 'UI/UX Design'
+            'category' => 'Развлечения'
+        ]);
+
+        \App\Category::create([
+            'category' => 'Здоровье'
         ]);
     }
 }

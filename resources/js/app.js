@@ -18,8 +18,26 @@ window.Vue = require('vue');
 Vue.component('top-header', require('./components/Header.vue'));
 Vue.component('logo', require('./components/Logo.vue'));
 Vue.component('main-content', require('./components/MainContent.vue'));
+Vue.component('additional-topics', require('./components/AdditionalTopics.vue'));
 Vue.use(require('vue-moment'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data() {
+        return {
+            articles: []
+        }
+    },
+    created() {
+        this.fetchLatestArticles();
+    },
+    methods: {
+        fetchLatestArticles() {
+            axios.get('/articles')
+                .then(({data}) => {
+                    this.articles = data.data;
+                    console.log(this.articles)
+                })
+        },
+    },
 });

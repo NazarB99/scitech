@@ -95,10 +95,7 @@
                                      v-for="article in threeDArticles">
                                 <div class="penci_post_thumb">
                                     <a class="penci-image-holder  penci-lazy penci-image_has_icon"
-                                       data-src="http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d5-280x186.jpg"
-                                       data-delay=""
-                                       href="develop-mythical-creatures/index.html"
-                                       title="How to develop mythical creatures"></a>
+                                       :style="article.image"></a>
                                 </div>
                                 <div class="penci_post_content">
                                     <h3 class="penci__post-title entry-title">

@@ -45,11 +45,7 @@
                     </article>
                     <div class="grid2_items">
                         <article class="penci-post-item hentry" v-for="article in illustrations">
-                            <a class="penci-image-holder  penci-lazy penci-gradient"
-                               data-src="http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu5-960x640.jpg"
-                               data-delay=""
-                               href="movie-fans-will-love-illustrated-movie-maps/index.html"
-                               title="Movie fans will love these illustrated movie maps">
+                            <a class="penci-image-holder  penci-lazy penci-gradient" :style="article.image">
                                 <span class="screen-reader-text">Movie fans will love these illustrated movie maps</span></a>
                             <div class="penci_post_content">
                                 <h3 class="penci__post-title entry-title">

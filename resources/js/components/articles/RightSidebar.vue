@@ -18,10 +18,7 @@
                                  v-for="article in latestArticles">
                             <div class="penci_media_object ">
                                 <a class="penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon"
-                                   data-src="http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu4-280x186.jpg"
-                                   data-delay=""
-                                   href="10-incredible-online-art-schools/index.html"
-                                   title="10 incredible online art schools"></a>
+                                   :style="article.image"></a>
                                 <div class="penci_post_content penci_mobj__body">
                                     <h3 class="penci__post-title entry-title">
                                         <a href="10-incredible-online-art-schools/index.html"
