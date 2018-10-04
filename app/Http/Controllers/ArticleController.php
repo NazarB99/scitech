@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Category;
 use App\Http\Resources\ArticleResource;
+use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -14,6 +16,20 @@ class ArticleController extends Controller
             ->get();
 
         return ArticleResource::collection($articles);
+    }
+
+    public function getCategories()
+    {
+        $articles = Category::all();
+
+        return CategoryResource::collection($articles);
+    }
+
+    public function getArticle($id)
+    {
+        $article = Article::find($id);
+
+        return response()->json($article);
     }
 
     public function getFirstByCategory($id)

@@ -1,43 +1,75 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
 window.Vue = require('vue');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
 
-Vue.component('top-header', require('./components/Header.vue'));
-Vue.component('logo', require('./components/Logo.vue'));
-Vue.component('main-content', require('./components/MainContent.vue'));
-Vue.component('additional-topics', require('./components/AdditionalTopics.vue'));
+import MainPage from './views/MainPage';
+import TopHeader from './components/Header.vue';
+import Logo from './components/Logo.vue';
+import FooterSidebars from './components/FooterSidebars.vue';
+import BFooter from './components/Footer.vue';
+import Article from './views/Article.vue';
+import Category from './views/Category.vue';
+
+// Vue.component('single-article', require('./components/Article.vue'));
 Vue.use(require('vue-moment'));
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'main',
+            component: MainPage,
+        },
+        {
+            path: '/article/:id',
+            name: 'article',
+            component: Article,
+        },
+        {
+            path: '/category/:id',
+            name: 'getArticleByCategory',
+            component: Category,
+        },
+    ],
+});
 
 const app = new Vue({
     el: '#app',
     data() {
         return {
-            articles: []
+            articles: [],
+            categories:[]
         }
     },
     created() {
         this.fetchLatestArticles();
+        this.fetchCategories();
     },
     methods: {
         fetchLatestArticles() {
             axios.get('/articles')
                 .then(({data}) => {
                     this.articles = data.data;
-                    console.log(this.articles)
+                    router.push({name: 'main', params: {articles: this.articles}})
+                })
+        },
+        fetchCategories() {
+            axios.get('/categories')
+                .then(({data}) => {
+                    this.categories = data.data;
                 })
         },
     },
+    components:{
+        TopHeader,
+        Logo,
+        MainPage,
+        FooterSidebars,
+        BFooter,
+    },
+    router
 });

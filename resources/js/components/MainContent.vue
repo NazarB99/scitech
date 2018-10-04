@@ -612,14 +612,14 @@
                                         <div class="penci-content-main penci-container penci-sidebar-right "
                                              role="complementary">
                                             <div class="theiaStickySidebar">
-                                                <three-d-design
+                                                <science
                                                         v-bind:articles="articles">
-                                                </three-d-design>
+                                                </science>
                                                 <div class="vc_empty_space"
                                                      style="height: 40px">
                                                     <span class="vc_empty_space_inner"></span>
                                                 </div>
-                                                <<illustrations v-bind:articles="articles"></illustrations>
+                                                <technologies v-bind:articles="articles"></technologies>
                                             </div>
                                         </div>
 
@@ -641,15 +641,15 @@
     </div><!-- #content -->
 </template>
 <script>
-    import ThreeDDesign from './articles/ThreeDDesign.vue';
-    import Illustrations from "./articles/Illustrations.vue";
+    import Science from './articles/Science.vue';
+    import Technologies from "./articles/Technologies.vue";
     import RightSidebar from "./articles/RightSidebar.vue";
     import Animation from './articles/Animation.vue'
     export default {
         props:['articles'],
         components: {
-            Illustrations,
-            ThreeDDesign,
+            Science,
+            Technologies,
             Animation,
             RightSidebar
         }

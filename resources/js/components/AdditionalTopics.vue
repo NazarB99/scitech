@@ -27,8 +27,9 @@
                                                     </div>
                                                     <div class="penci_post_content">
                                                         <h3 class="penci__post-title entry-title">
-                                                            <a href="create-engaging-designs-ui-ux-courses/index.html">
-                                                                {{article.title.split(" ").splice(0,8).join(" ")}}
+                                                            <a v-bind:href="'/article/'+article.id">
+                                                                {{article.title.split(" ").splice(0,5).join(" ") +
+                                                                "..."}}
                                                             </a>
                                                         </h3>
                                                         <div class="penci-schema-markup">
@@ -86,8 +87,9 @@
                                                     </div>
                                                     <div class="penci_post_content">
                                                         <h3 class="penci__post-title entry-title">
-                                                            <a href="developer-tools-need-know-right-now/index.html">
-                                                                {{article.title.split(" ").splice(0,5).join(" ")}}
+                                                            <a v-bind:href="'/article/'+article.id">
+                                                                {{article.title.split(" ").splice(0,5).join(" ") +
+                                                                "..."}}
                                                             </a>
                                                         </h3>
                                                         <div class="penci-schema-markup">

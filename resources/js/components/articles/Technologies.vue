@@ -5,8 +5,9 @@
          data-blockUid="penci_grid_2__5897368">
         <div class="penci-block-heading">
             <h3 class="penci-block__title">
-                <a href="category/creative-news/illustrations/index.html"
-                   title="Illustrations">Illustrations</a></h3></div>
+                <a href="#">Technologies</a>
+            </h3>
+        </div>
         <div id="penci_grid_2__5897368block_content"
              class="penci-block_content">
             <div class="penci-block_content__items penci-block-items__1">
