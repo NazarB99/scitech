@@ -8,6 +8,13 @@
     color: white;
 }
 
+.penci-block__title{
+    font-family: "Roboto Mono", monospace !important;
+    color: white;
+    font-size: 24px !important;
+    font-weight: 400 !important;
+}
+
 @media only screen and (max-width: 650px) {
     .entry-title{
         margin-left: 2%;
