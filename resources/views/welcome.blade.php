@@ -31,6 +31,7 @@
           href="/css/custom.css">
     <link rel="stylesheet"
           href="/css/composer.min.css">
+    <link rel="stylesheet" href="/css/article.css">
     <meta name="csrf-token"
           content="{{ csrf_token() }}">
     <link rel="stylesheet"

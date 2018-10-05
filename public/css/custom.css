@@ -3,6 +3,11 @@
     font-family: "Overpass Mono", monospace !important;
 }
 
+.penci-single-artcontent{
+    font-family: "Roboto Mono", monospace !important;
+    color: white;
+}
+
 @media only screen and (max-width: 650px) {
     .entry-title{
         margin-left: 2%;

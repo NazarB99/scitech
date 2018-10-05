@@ -99,9 +99,9 @@
                                 </div>
                                 <div class="penci_post_content">
                                     <h3 class="penci__post-title entry-title">
-                                        <a href="develop-mythical-creatures/index.html">
+                                        <router-link :to="{ name: 'article', params: { id: article.id }}">
                                             {{article.title}}
-                                        </a>
+                                        </router-link>
                                     </h3>
                                     <div class="penci-schema-markup">
 

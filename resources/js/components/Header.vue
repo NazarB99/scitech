@@ -9,7 +9,8 @@
                     class="menu">
                     <li id="menu-item-751"
                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751">
-                        <a href="index.html">Home</a></li>
+                        <router-link to="{name:'home'}">Home</router-link>
+                    </li>
                     <li id="menu-item-726"
                         class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726">
                         <a href="category/creative-news/index.html">Creative News</a>

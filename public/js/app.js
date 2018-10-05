@@ -65,6 +65,115 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -374,115 +483,6 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
@@ -514,11 +514,11 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(43)
+var __vue_script__ = __webpack_require__(48)
 /* template */
-var __vue_template__ = __webpack_require__(44)
+var __vue_template__ = __webpack_require__(49)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -563,7 +563,7 @@ module.exports = Component.exports
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var normalizeHeaderName = __webpack_require__(23);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -13787,7 +13787,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var settle = __webpack_require__(24);
 var buildURL = __webpack_require__(26);
 var parseHeaders = __webpack_require__(27);
@@ -14035,7 +14035,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(14);
-module.exports = __webpack_require__(71);
+module.exports = __webpack_require__(81);
 
 
 /***/ }),
@@ -14044,20 +14044,20 @@ module.exports = __webpack_require__(71);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_MainPage__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_MainPage__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_MainPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__views_MainPage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Header_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Header_vue__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Header_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Header_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Logo_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Logo_vue__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Logo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Logo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Footer_vue__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Footer_vue__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Footer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Footer_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_Article_vue__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_Article_vue__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_Article_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__views_Article_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_Category_vue__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_Category_vue__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_Category_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__views_Category_vue__);
 __webpack_require__(15);
 
@@ -14075,7 +14075,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
 
 // Vue.component('single-article', require('./components/Article.vue'));
-Vue.use(__webpack_require__(70));
+Vue.use(__webpack_require__(80));
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     mode: 'history',
@@ -35305,7 +35305,7 @@ module.exports = __webpack_require__(20);
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var bind = __webpack_require__(7);
 var Axios = __webpack_require__(22);
 var defaults = __webpack_require__(4);
@@ -35392,7 +35392,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(4);
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(31);
 var dispatchRequest = __webpack_require__(32);
 
@@ -35477,7 +35477,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -35557,7 +35557,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -35630,7 +35630,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -35690,7 +35690,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -35808,7 +35808,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -35868,7 +35868,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -35927,7 +35927,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var transformData = __webpack_require__(33);
 var isCancel = __webpack_require__(11);
 var defaults = __webpack_require__(4);
@@ -36020,7 +36020,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 /**
  * Transform the data for a request or a response
@@ -47411,14 +47411,2644 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 /* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+  * vue-router v3.0.1
+  * (c) 2017 Evan You
+  * @license MIT
+  */
+/*  */
+
+function assert (condition, message) {
+  if (!condition) {
+    throw new Error(("[vue-router] " + message))
+  }
+}
+
+function warn (condition, message) {
+  if ("development" !== 'production' && !condition) {
+    typeof console !== 'undefined' && console.warn(("[vue-router] " + message));
+  }
+}
+
+function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
+}
+
+var View = {
+  name: 'router-view',
+  functional: true,
+  props: {
+    name: {
+      type: String,
+      default: 'default'
+    }
+  },
+  render: function render (_, ref) {
+    var props = ref.props;
+    var children = ref.children;
+    var parent = ref.parent;
+    var data = ref.data;
+
+    data.routerView = true;
+
+    // directly use parent context's createElement() function
+    // so that components rendered by router-view can resolve named slots
+    var h = parent.$createElement;
+    var name = props.name;
+    var route = parent.$route;
+    var cache = parent._routerViewCache || (parent._routerViewCache = {});
+
+    // determine current view depth, also check to see if the tree
+    // has been toggled inactive but kept-alive.
+    var depth = 0;
+    var inactive = false;
+    while (parent && parent._routerRoot !== parent) {
+      if (parent.$vnode && parent.$vnode.data.routerView) {
+        depth++;
+      }
+      if (parent._inactive) {
+        inactive = true;
+      }
+      parent = parent.$parent;
+    }
+    data.routerViewDepth = depth;
+
+    // render previous view if the tree is inactive and kept-alive
+    if (inactive) {
+      return h(cache[name], data, children)
+    }
+
+    var matched = route.matched[depth];
+    // render empty node if no matched route
+    if (!matched) {
+      cache[name] = null;
+      return h()
+    }
+
+    var component = cache[name] = matched.components[name];
+
+    // attach instance registration hook
+    // this will be called in the instance's injected lifecycle hooks
+    data.registerRouteInstance = function (vm, val) {
+      // val could be undefined for unregistration
+      var current = matched.instances[name];
+      if (
+        (val && current !== vm) ||
+        (!val && current === vm)
+      ) {
+        matched.instances[name] = val;
+      }
+    }
+
+    // also register instance in prepatch hook
+    // in case the same component instance is reused across different routes
+    ;(data.hook || (data.hook = {})).prepatch = function (_, vnode) {
+      matched.instances[name] = vnode.componentInstance;
+    };
+
+    // resolve props
+    var propsToPass = data.props = resolveProps(route, matched.props && matched.props[name]);
+    if (propsToPass) {
+      // clone to prevent mutation
+      propsToPass = data.props = extend({}, propsToPass);
+      // pass non-declared props as attrs
+      var attrs = data.attrs = data.attrs || {};
+      for (var key in propsToPass) {
+        if (!component.props || !(key in component.props)) {
+          attrs[key] = propsToPass[key];
+          delete propsToPass[key];
+        }
+      }
+    }
+
+    return h(component, data, children)
+  }
+};
+
+function resolveProps (route, config) {
+  switch (typeof config) {
+    case 'undefined':
+      return
+    case 'object':
+      return config
+    case 'function':
+      return config(route)
+    case 'boolean':
+      return config ? route.params : undefined
+    default:
+      if (true) {
+        warn(
+          false,
+          "props in \"" + (route.path) + "\" is a " + (typeof config) + ", " +
+          "expecting an object, function or boolean."
+        );
+      }
+  }
+}
+
+function extend (to, from) {
+  for (var key in from) {
+    to[key] = from[key];
+  }
+  return to
+}
+
+/*  */
+
+var encodeReserveRE = /[!'()*]/g;
+var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
+var commaRE = /%2C/g;
+
+// fixed encodeURIComponent which is more conformant to RFC3986:
+// - escapes [!'()*]
+// - preserve commas
+var encode = function (str) { return encodeURIComponent(str)
+  .replace(encodeReserveRE, encodeReserveReplacer)
+  .replace(commaRE, ','); };
+
+var decode = decodeURIComponent;
+
+function resolveQuery (
+  query,
+  extraQuery,
+  _parseQuery
+) {
+  if ( extraQuery === void 0 ) extraQuery = {};
+
+  var parse = _parseQuery || parseQuery;
+  var parsedQuery;
+  try {
+    parsedQuery = parse(query || '');
+  } catch (e) {
+    "development" !== 'production' && warn(false, e.message);
+    parsedQuery = {};
+  }
+  for (var key in extraQuery) {
+    parsedQuery[key] = extraQuery[key];
+  }
+  return parsedQuery
+}
+
+function parseQuery (query) {
+  var res = {};
+
+  query = query.trim().replace(/^(\?|#|&)/, '');
+
+  if (!query) {
+    return res
+  }
+
+  query.split('&').forEach(function (param) {
+    var parts = param.replace(/\+/g, ' ').split('=');
+    var key = decode(parts.shift());
+    var val = parts.length > 0
+      ? decode(parts.join('='))
+      : null;
+
+    if (res[key] === undefined) {
+      res[key] = val;
+    } else if (Array.isArray(res[key])) {
+      res[key].push(val);
+    } else {
+      res[key] = [res[key], val];
+    }
+  });
+
+  return res
+}
+
+function stringifyQuery (obj) {
+  var res = obj ? Object.keys(obj).map(function (key) {
+    var val = obj[key];
+
+    if (val === undefined) {
+      return ''
+    }
+
+    if (val === null) {
+      return encode(key)
+    }
+
+    if (Array.isArray(val)) {
+      var result = [];
+      val.forEach(function (val2) {
+        if (val2 === undefined) {
+          return
+        }
+        if (val2 === null) {
+          result.push(encode(key));
+        } else {
+          result.push(encode(key) + '=' + encode(val2));
+        }
+      });
+      return result.join('&')
+    }
+
+    return encode(key) + '=' + encode(val)
+  }).filter(function (x) { return x.length > 0; }).join('&') : null;
+  return res ? ("?" + res) : ''
+}
+
+/*  */
+
+
+var trailingSlashRE = /\/?$/;
+
+function createRoute (
+  record,
+  location,
+  redirectedFrom,
+  router
+) {
+  var stringifyQuery$$1 = router && router.options.stringifyQuery;
+
+  var query = location.query || {};
+  try {
+    query = clone(query);
+  } catch (e) {}
+
+  var route = {
+    name: location.name || (record && record.name),
+    meta: (record && record.meta) || {},
+    path: location.path || '/',
+    hash: location.hash || '',
+    query: query,
+    params: location.params || {},
+    fullPath: getFullPath(location, stringifyQuery$$1),
+    matched: record ? formatMatch(record) : []
+  };
+  if (redirectedFrom) {
+    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery$$1);
+  }
+  return Object.freeze(route)
+}
+
+function clone (value) {
+  if (Array.isArray(value)) {
+    return value.map(clone)
+  } else if (value && typeof value === 'object') {
+    var res = {};
+    for (var key in value) {
+      res[key] = clone(value[key]);
+    }
+    return res
+  } else {
+    return value
+  }
+}
+
+// the starting route that represents the initial state
+var START = createRoute(null, {
+  path: '/'
+});
+
+function formatMatch (record) {
+  var res = [];
+  while (record) {
+    res.unshift(record);
+    record = record.parent;
+  }
+  return res
+}
+
+function getFullPath (
+  ref,
+  _stringifyQuery
+) {
+  var path = ref.path;
+  var query = ref.query; if ( query === void 0 ) query = {};
+  var hash = ref.hash; if ( hash === void 0 ) hash = '';
+
+  var stringify = _stringifyQuery || stringifyQuery;
+  return (path || '/') + stringify(query) + hash
+}
+
+function isSameRoute (a, b) {
+  if (b === START) {
+    return a === b
+  } else if (!b) {
+    return false
+  } else if (a.path && b.path) {
+    return (
+      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
+      a.hash === b.hash &&
+      isObjectEqual(a.query, b.query)
+    )
+  } else if (a.name && b.name) {
+    return (
+      a.name === b.name &&
+      a.hash === b.hash &&
+      isObjectEqual(a.query, b.query) &&
+      isObjectEqual(a.params, b.params)
+    )
+  } else {
+    return false
+  }
+}
+
+function isObjectEqual (a, b) {
+  if ( a === void 0 ) a = {};
+  if ( b === void 0 ) b = {};
+
+  // handle null value #1566
+  if (!a || !b) { return a === b }
+  var aKeys = Object.keys(a);
+  var bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) {
+    return false
+  }
+  return aKeys.every(function (key) {
+    var aVal = a[key];
+    var bVal = b[key];
+    // check nested equality
+    if (typeof aVal === 'object' && typeof bVal === 'object') {
+      return isObjectEqual(aVal, bVal)
+    }
+    return String(aVal) === String(bVal)
+  })
+}
+
+function isIncludedRoute (current, target) {
+  return (
+    current.path.replace(trailingSlashRE, '/').indexOf(
+      target.path.replace(trailingSlashRE, '/')
+    ) === 0 &&
+    (!target.hash || current.hash === target.hash) &&
+    queryIncludes(current.query, target.query)
+  )
+}
+
+function queryIncludes (current, target) {
+  for (var key in target) {
+    if (!(key in current)) {
+      return false
+    }
+  }
+  return true
+}
+
+/*  */
+
+// work around weird flow bug
+var toTypes = [String, Object];
+var eventTypes = [String, Array];
+
+var Link = {
+  name: 'router-link',
+  props: {
+    to: {
+      type: toTypes,
+      required: true
+    },
+    tag: {
+      type: String,
+      default: 'a'
+    },
+    exact: Boolean,
+    append: Boolean,
+    replace: Boolean,
+    activeClass: String,
+    exactActiveClass: String,
+    event: {
+      type: eventTypes,
+      default: 'click'
+    }
+  },
+  render: function render (h) {
+    var this$1 = this;
+
+    var router = this.$router;
+    var current = this.$route;
+    var ref = router.resolve(this.to, current, this.append);
+    var location = ref.location;
+    var route = ref.route;
+    var href = ref.href;
+
+    var classes = {};
+    var globalActiveClass = router.options.linkActiveClass;
+    var globalExactActiveClass = router.options.linkExactActiveClass;
+    // Support global empty active class
+    var activeClassFallback = globalActiveClass == null
+            ? 'router-link-active'
+            : globalActiveClass;
+    var exactActiveClassFallback = globalExactActiveClass == null
+            ? 'router-link-exact-active'
+            : globalExactActiveClass;
+    var activeClass = this.activeClass == null
+            ? activeClassFallback
+            : this.activeClass;
+    var exactActiveClass = this.exactActiveClass == null
+            ? exactActiveClassFallback
+            : this.exactActiveClass;
+    var compareTarget = location.path
+      ? createRoute(null, location, null, router)
+      : route;
+
+    classes[exactActiveClass] = isSameRoute(current, compareTarget);
+    classes[activeClass] = this.exact
+      ? classes[exactActiveClass]
+      : isIncludedRoute(current, compareTarget);
+
+    var handler = function (e) {
+      if (guardEvent(e)) {
+        if (this$1.replace) {
+          router.replace(location);
+        } else {
+          router.push(location);
+        }
+      }
+    };
+
+    var on = { click: guardEvent };
+    if (Array.isArray(this.event)) {
+      this.event.forEach(function (e) { on[e] = handler; });
+    } else {
+      on[this.event] = handler;
+    }
+
+    var data = {
+      class: classes
+    };
+
+    if (this.tag === 'a') {
+      data.on = on;
+      data.attrs = { href: href };
+    } else {
+      // find the first <a> child and apply listener and href
+      var a = findAnchor(this.$slots.default);
+      if (a) {
+        // in case the <a> is a static node
+        a.isStatic = false;
+        var extend = _Vue.util.extend;
+        var aData = a.data = extend({}, a.data);
+        aData.on = on;
+        var aAttrs = a.data.attrs = extend({}, a.data.attrs);
+        aAttrs.href = href;
+      } else {
+        // doesn't have <a> child, apply listener to self
+        data.on = on;
+      }
+    }
+
+    return h(this.tag, data, this.$slots.default)
+  }
+};
+
+function guardEvent (e) {
+  // don't redirect with control keys
+  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) { return }
+  // don't redirect when preventDefault called
+  if (e.defaultPrevented) { return }
+  // don't redirect on right click
+  if (e.button !== undefined && e.button !== 0) { return }
+  // don't redirect if `target="_blank"`
+  if (e.currentTarget && e.currentTarget.getAttribute) {
+    var target = e.currentTarget.getAttribute('target');
+    if (/\b_blank\b/i.test(target)) { return }
+  }
+  // this may be a Weex event which doesn't have this method
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  return true
+}
+
+function findAnchor (children) {
+  if (children) {
+    var child;
+    for (var i = 0; i < children.length; i++) {
+      child = children[i];
+      if (child.tag === 'a') {
+        return child
+      }
+      if (child.children && (child = findAnchor(child.children))) {
+        return child
+      }
+    }
+  }
+}
+
+var _Vue;
+
+function install (Vue) {
+  if (install.installed && _Vue === Vue) { return }
+  install.installed = true;
+
+  _Vue = Vue;
+
+  var isDef = function (v) { return v !== undefined; };
+
+  var registerInstance = function (vm, callVal) {
+    var i = vm.$options._parentVnode;
+    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
+      i(vm, callVal);
+    }
+  };
+
+  Vue.mixin({
+    beforeCreate: function beforeCreate () {
+      if (isDef(this.$options.router)) {
+        this._routerRoot = this;
+        this._router = this.$options.router;
+        this._router.init(this);
+        Vue.util.defineReactive(this, '_route', this._router.history.current);
+      } else {
+        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
+      }
+      registerInstance(this, this);
+    },
+    destroyed: function destroyed () {
+      registerInstance(this);
+    }
+  });
+
+  Object.defineProperty(Vue.prototype, '$router', {
+    get: function get () { return this._routerRoot._router }
+  });
+
+  Object.defineProperty(Vue.prototype, '$route', {
+    get: function get () { return this._routerRoot._route }
+  });
+
+  Vue.component('router-view', View);
+  Vue.component('router-link', Link);
+
+  var strats = Vue.config.optionMergeStrategies;
+  // use the same hook merging strategy for route hooks
+  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created;
+}
+
+/*  */
+
+var inBrowser = typeof window !== 'undefined';
+
+/*  */
+
+function resolvePath (
+  relative,
+  base,
+  append
+) {
+  var firstChar = relative.charAt(0);
+  if (firstChar === '/') {
+    return relative
+  }
+
+  if (firstChar === '?' || firstChar === '#') {
+    return base + relative
+  }
+
+  var stack = base.split('/');
+
+  // remove trailing segment if:
+  // - not appending
+  // - appending to trailing slash (last segment is empty)
+  if (!append || !stack[stack.length - 1]) {
+    stack.pop();
+  }
+
+  // resolve relative path
+  var segments = relative.replace(/^\//, '').split('/');
+  for (var i = 0; i < segments.length; i++) {
+    var segment = segments[i];
+    if (segment === '..') {
+      stack.pop();
+    } else if (segment !== '.') {
+      stack.push(segment);
+    }
+  }
+
+  // ensure leading slash
+  if (stack[0] !== '') {
+    stack.unshift('');
+  }
+
+  return stack.join('/')
+}
+
+function parsePath (path) {
+  var hash = '';
+  var query = '';
+
+  var hashIndex = path.indexOf('#');
+  if (hashIndex >= 0) {
+    hash = path.slice(hashIndex);
+    path = path.slice(0, hashIndex);
+  }
+
+  var queryIndex = path.indexOf('?');
+  if (queryIndex >= 0) {
+    query = path.slice(queryIndex + 1);
+    path = path.slice(0, queryIndex);
+  }
+
+  return {
+    path: path,
+    query: query,
+    hash: hash
+  }
+}
+
+function cleanPath (path) {
+  return path.replace(/\/\//g, '/')
+}
+
+var isarray = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+/**
+ * Expose `pathToRegexp`.
+ */
+var pathToRegexp_1 = pathToRegexp;
+var parse_1 = parse;
+var compile_1 = compile;
+var tokensToFunction_1 = tokensToFunction;
+var tokensToRegExp_1 = tokensToRegExp;
+
+/**
+ * The main path matching regexp utility.
+ *
+ * @type {RegExp}
+ */
+var PATH_REGEXP = new RegExp([
+  // Match escaped characters that would otherwise appear in future matches.
+  // This allows the user to escape special characters that won't transform.
+  '(\\\\.)',
+  // Match Express-style parameters and un-named parameters with a prefix
+  // and optional suffixes. Matches appear as:
+  //
+  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
+  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
+  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
+  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
+].join('|'), 'g');
+
+/**
+ * Parse a string for the raw tokens.
+ *
+ * @param  {string}  str
+ * @param  {Object=} options
+ * @return {!Array}
+ */
+function parse (str, options) {
+  var tokens = [];
+  var key = 0;
+  var index = 0;
+  var path = '';
+  var defaultDelimiter = options && options.delimiter || '/';
+  var res;
+
+  while ((res = PATH_REGEXP.exec(str)) != null) {
+    var m = res[0];
+    var escaped = res[1];
+    var offset = res.index;
+    path += str.slice(index, offset);
+    index = offset + m.length;
+
+    // Ignore already escaped sequences.
+    if (escaped) {
+      path += escaped[1];
+      continue
+    }
+
+    var next = str[index];
+    var prefix = res[2];
+    var name = res[3];
+    var capture = res[4];
+    var group = res[5];
+    var modifier = res[6];
+    var asterisk = res[7];
+
+    // Push the current path onto the tokens.
+    if (path) {
+      tokens.push(path);
+      path = '';
+    }
+
+    var partial = prefix != null && next != null && next !== prefix;
+    var repeat = modifier === '+' || modifier === '*';
+    var optional = modifier === '?' || modifier === '*';
+    var delimiter = res[2] || defaultDelimiter;
+    var pattern = capture || group;
+
+    tokens.push({
+      name: name || key++,
+      prefix: prefix || '',
+      delimiter: delimiter,
+      optional: optional,
+      repeat: repeat,
+      partial: partial,
+      asterisk: !!asterisk,
+      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
+    });
+  }
+
+  // Match any characters still remaining.
+  if (index < str.length) {
+    path += str.substr(index);
+  }
+
+  // If the path exists, push it onto the end.
+  if (path) {
+    tokens.push(path);
+  }
+
+  return tokens
+}
+
+/**
+ * Compile a string to a template function for the path.
+ *
+ * @param  {string}             str
+ * @param  {Object=}            options
+ * @return {!function(Object=, Object=)}
+ */
+function compile (str, options) {
+  return tokensToFunction(parse(str, options))
+}
+
+/**
+ * Prettier encoding of URI path segments.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeURIComponentPretty (str) {
+  return encodeURI(str).replace(/[\/?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeAsterisk (str) {
+  return encodeURI(str).replace(/[?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Expose a method for transforming tokens into the path function.
+ */
+function tokensToFunction (tokens) {
+  // Compile all the tokens into regexps.
+  var matches = new Array(tokens.length);
+
+  // Compile all the patterns before compilation.
+  for (var i = 0; i < tokens.length; i++) {
+    if (typeof tokens[i] === 'object') {
+      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$');
+    }
+  }
+
+  return function (obj, opts) {
+    var path = '';
+    var data = obj || {};
+    var options = opts || {};
+    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent;
+
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i];
+
+      if (typeof token === 'string') {
+        path += token;
+
+        continue
+      }
+
+      var value = data[token.name];
+      var segment;
+
+      if (value == null) {
+        if (token.optional) {
+          // Prepend partial segment prefixes.
+          if (token.partial) {
+            path += token.prefix;
+          }
+
+          continue
+        } else {
+          throw new TypeError('Expected "' + token.name + '" to be defined')
+        }
+      }
+
+      if (isarray(value)) {
+        if (!token.repeat) {
+          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
+        }
+
+        if (value.length === 0) {
+          if (token.optional) {
+            continue
+          } else {
+            throw new TypeError('Expected "' + token.name + '" to not be empty')
+          }
+        }
+
+        for (var j = 0; j < value.length; j++) {
+          segment = encode(value[j]);
+
+          if (!matches[i].test(segment)) {
+            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
+          }
+
+          path += (j === 0 ? token.prefix : token.delimiter) + segment;
+        }
+
+        continue
+      }
+
+      segment = token.asterisk ? encodeAsterisk(value) : encode(value);
+
+      if (!matches[i].test(segment)) {
+        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
+      }
+
+      path += token.prefix + segment;
+    }
+
+    return path
+  }
+}
+
+/**
+ * Escape a regular expression string.
+ *
+ * @param  {string} str
+ * @return {string}
+ */
+function escapeString (str) {
+  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
+}
+
+/**
+ * Escape the capturing group by escaping special characters and meaning.
+ *
+ * @param  {string} group
+ * @return {string}
+ */
+function escapeGroup (group) {
+  return group.replace(/([=!:$\/()])/g, '\\$1')
+}
+
+/**
+ * Attach the keys as a property of the regexp.
+ *
+ * @param  {!RegExp} re
+ * @param  {Array}   keys
+ * @return {!RegExp}
+ */
+function attachKeys (re, keys) {
+  re.keys = keys;
+  return re
+}
+
+/**
+ * Get the flags for a regexp from the options.
+ *
+ * @param  {Object} options
+ * @return {string}
+ */
+function flags (options) {
+  return options.sensitive ? '' : 'i'
+}
+
+/**
+ * Pull out keys from a regexp.
+ *
+ * @param  {!RegExp} path
+ * @param  {!Array}  keys
+ * @return {!RegExp}
+ */
+function regexpToRegexp (path, keys) {
+  // Use a negative lookahead to match only capturing groups.
+  var groups = path.source.match(/\((?!\?)/g);
+
+  if (groups) {
+    for (var i = 0; i < groups.length; i++) {
+      keys.push({
+        name: i,
+        prefix: null,
+        delimiter: null,
+        optional: false,
+        repeat: false,
+        partial: false,
+        asterisk: false,
+        pattern: null
+      });
+    }
+  }
+
+  return attachKeys(path, keys)
+}
+
+/**
+ * Transform an array into a regexp.
+ *
+ * @param  {!Array}  path
+ * @param  {Array}   keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function arrayToRegexp (path, keys, options) {
+  var parts = [];
+
+  for (var i = 0; i < path.length; i++) {
+    parts.push(pathToRegexp(path[i], keys, options).source);
+  }
+
+  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options));
+
+  return attachKeys(regexp, keys)
+}
+
+/**
+ * Create a path regexp from string input.
+ *
+ * @param  {string}  path
+ * @param  {!Array}  keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function stringToRegexp (path, keys, options) {
+  return tokensToRegExp(parse(path, options), keys, options)
+}
+
+/**
+ * Expose a function for taking tokens and returning a RegExp.
+ *
+ * @param  {!Array}          tokens
+ * @param  {(Array|Object)=} keys
+ * @param  {Object=}         options
+ * @return {!RegExp}
+ */
+function tokensToRegExp (tokens, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options);
+    keys = [];
+  }
+
+  options = options || {};
+
+  var strict = options.strict;
+  var end = options.end !== false;
+  var route = '';
+
+  // Iterate over the tokens and create our regexp string.
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i];
+
+    if (typeof token === 'string') {
+      route += escapeString(token);
+    } else {
+      var prefix = escapeString(token.prefix);
+      var capture = '(?:' + token.pattern + ')';
+
+      keys.push(token);
+
+      if (token.repeat) {
+        capture += '(?:' + prefix + capture + ')*';
+      }
+
+      if (token.optional) {
+        if (!token.partial) {
+          capture = '(?:' + prefix + '(' + capture + '))?';
+        } else {
+          capture = prefix + '(' + capture + ')?';
+        }
+      } else {
+        capture = prefix + '(' + capture + ')';
+      }
+
+      route += capture;
+    }
+  }
+
+  var delimiter = escapeString(options.delimiter || '/');
+  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
+
+  // In non-strict mode we allow a slash at the end of match. If the path to
+  // match already ends with a slash, we remove it for consistency. The slash
+  // is valid at the end of a path match, not in the middle. This is important
+  // in non-ending mode, where "/test/" shouldn't match "/test//route".
+  if (!strict) {
+    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?';
+  }
+
+  if (end) {
+    route += '$';
+  } else {
+    // In non-ending mode, we need the capturing groups to match as much as
+    // possible by using a positive lookahead to the end or next path segment.
+    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)';
+  }
+
+  return attachKeys(new RegExp('^' + route, flags(options)), keys)
+}
+
+/**
+ * Normalize the given path string, returning a regular expression.
+ *
+ * An empty array can be passed in for the keys, which will hold the
+ * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+ * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
+ *
+ * @param  {(string|RegExp|Array)} path
+ * @param  {(Array|Object)=}       keys
+ * @param  {Object=}               options
+ * @return {!RegExp}
+ */
+function pathToRegexp (path, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options);
+    keys = [];
+  }
+
+  options = options || {};
+
+  if (path instanceof RegExp) {
+    return regexpToRegexp(path, /** @type {!Array} */ (keys))
+  }
+
+  if (isarray(path)) {
+    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
+  }
+
+  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
+}
+
+pathToRegexp_1.parse = parse_1;
+pathToRegexp_1.compile = compile_1;
+pathToRegexp_1.tokensToFunction = tokensToFunction_1;
+pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
+
+/*  */
+
+// $flow-disable-line
+var regexpCompileCache = Object.create(null);
+
+function fillParams (
+  path,
+  params,
+  routeMsg
+) {
+  try {
+    var filler =
+      regexpCompileCache[path] ||
+      (regexpCompileCache[path] = pathToRegexp_1.compile(path));
+    return filler(params || {}, { pretty: true })
+  } catch (e) {
+    if (true) {
+      warn(false, ("missing param for " + routeMsg + ": " + (e.message)));
+    }
+    return ''
+  }
+}
+
+/*  */
+
+function createRouteMap (
+  routes,
+  oldPathList,
+  oldPathMap,
+  oldNameMap
+) {
+  // the path list is used to control path matching priority
+  var pathList = oldPathList || [];
+  // $flow-disable-line
+  var pathMap = oldPathMap || Object.create(null);
+  // $flow-disable-line
+  var nameMap = oldNameMap || Object.create(null);
+
+  routes.forEach(function (route) {
+    addRouteRecord(pathList, pathMap, nameMap, route);
+  });
+
+  // ensure wildcard routes are always at the end
+  for (var i = 0, l = pathList.length; i < l; i++) {
+    if (pathList[i] === '*') {
+      pathList.push(pathList.splice(i, 1)[0]);
+      l--;
+      i--;
+    }
+  }
+
+  return {
+    pathList: pathList,
+    pathMap: pathMap,
+    nameMap: nameMap
+  }
+}
+
+function addRouteRecord (
+  pathList,
+  pathMap,
+  nameMap,
+  route,
+  parent,
+  matchAs
+) {
+  var path = route.path;
+  var name = route.name;
+  if (true) {
+    assert(path != null, "\"path\" is required in a route configuration.");
+    assert(
+      typeof route.component !== 'string',
+      "route config \"component\" for path: " + (String(path || name)) + " cannot be a " +
+      "string id. Use an actual component instead."
+    );
+  }
+
+  var pathToRegexpOptions = route.pathToRegexpOptions || {};
+  var normalizedPath = normalizePath(
+    path,
+    parent,
+    pathToRegexpOptions.strict
+  );
+
+  if (typeof route.caseSensitive === 'boolean') {
+    pathToRegexpOptions.sensitive = route.caseSensitive;
+  }
+
+  var record = {
+    path: normalizedPath,
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
+    components: route.components || { default: route.component },
+    instances: {},
+    name: name,
+    parent: parent,
+    matchAs: matchAs,
+    redirect: route.redirect,
+    beforeEnter: route.beforeEnter,
+    meta: route.meta || {},
+    props: route.props == null
+      ? {}
+      : route.components
+        ? route.props
+        : { default: route.props }
+  };
+
+  if (route.children) {
+    // Warn if route is named, does not redirect and has a default child route.
+    // If users navigate to this route by name, the default child will
+    // not be rendered (GH Issue #629)
+    if (true) {
+      if (route.name && !route.redirect && route.children.some(function (child) { return /^\/?$/.test(child.path); })) {
+        warn(
+          false,
+          "Named Route '" + (route.name) + "' has a default child route. " +
+          "When navigating to this named route (:to=\"{name: '" + (route.name) + "'\"), " +
+          "the default child route will not be rendered. Remove the name from " +
+          "this route and use the name of the default child route for named " +
+          "links instead."
+        );
+      }
+    }
+    route.children.forEach(function (child) {
+      var childMatchAs = matchAs
+        ? cleanPath((matchAs + "/" + (child.path)))
+        : undefined;
+      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
+    });
+  }
+
+  if (route.alias !== undefined) {
+    var aliases = Array.isArray(route.alias)
+      ? route.alias
+      : [route.alias];
+
+    aliases.forEach(function (alias) {
+      var aliasRoute = {
+        path: alias,
+        children: route.children
+      };
+      addRouteRecord(
+        pathList,
+        pathMap,
+        nameMap,
+        aliasRoute,
+        parent,
+        record.path || '/' // matchAs
+      );
+    });
+  }
+
+  if (!pathMap[record.path]) {
+    pathList.push(record.path);
+    pathMap[record.path] = record;
+  }
+
+  if (name) {
+    if (!nameMap[name]) {
+      nameMap[name] = record;
+    } else if ("development" !== 'production' && !matchAs) {
+      warn(
+        false,
+        "Duplicate named routes definition: " +
+        "{ name: \"" + name + "\", path: \"" + (record.path) + "\" }"
+      );
+    }
+  }
+}
+
+function compileRouteRegex (path, pathToRegexpOptions) {
+  var regex = pathToRegexp_1(path, [], pathToRegexpOptions);
+  if (true) {
+    var keys = Object.create(null);
+    regex.keys.forEach(function (key) {
+      warn(!keys[key.name], ("Duplicate param keys in route with path: \"" + path + "\""));
+      keys[key.name] = true;
+    });
+  }
+  return regex
+}
+
+function normalizePath (path, parent, strict) {
+  if (!strict) { path = path.replace(/\/$/, ''); }
+  if (path[0] === '/') { return path }
+  if (parent == null) { return path }
+  return cleanPath(((parent.path) + "/" + path))
+}
+
+/*  */
+
+
+function normalizeLocation (
+  raw,
+  current,
+  append,
+  router
+) {
+  var next = typeof raw === 'string' ? { path: raw } : raw;
+  // named target
+  if (next.name || next._normalized) {
+    return next
+  }
+
+  // relative params
+  if (!next.path && next.params && current) {
+    next = assign({}, next);
+    next._normalized = true;
+    var params = assign(assign({}, current.params), next.params);
+    if (current.name) {
+      next.name = current.name;
+      next.params = params;
+    } else if (current.matched.length) {
+      var rawPath = current.matched[current.matched.length - 1].path;
+      next.path = fillParams(rawPath, params, ("path " + (current.path)));
+    } else if (true) {
+      warn(false, "relative params navigation requires a current route.");
+    }
+    return next
+  }
+
+  var parsedPath = parsePath(next.path || '');
+  var basePath = (current && current.path) || '/';
+  var path = parsedPath.path
+    ? resolvePath(parsedPath.path, basePath, append || next.append)
+    : basePath;
+
+  var query = resolveQuery(
+    parsedPath.query,
+    next.query,
+    router && router.options.parseQuery
+  );
+
+  var hash = next.hash || parsedPath.hash;
+  if (hash && hash.charAt(0) !== '#') {
+    hash = "#" + hash;
+  }
+
+  return {
+    _normalized: true,
+    path: path,
+    query: query,
+    hash: hash
+  }
+}
+
+function assign (a, b) {
+  for (var key in b) {
+    a[key] = b[key];
+  }
+  return a
+}
+
+/*  */
+
+
+function createMatcher (
+  routes,
+  router
+) {
+  var ref = createRouteMap(routes);
+  var pathList = ref.pathList;
+  var pathMap = ref.pathMap;
+  var nameMap = ref.nameMap;
+
+  function addRoutes (routes) {
+    createRouteMap(routes, pathList, pathMap, nameMap);
+  }
+
+  function match (
+    raw,
+    currentRoute,
+    redirectedFrom
+  ) {
+    var location = normalizeLocation(raw, currentRoute, false, router);
+    var name = location.name;
+
+    if (name) {
+      var record = nameMap[name];
+      if (true) {
+        warn(record, ("Route with name '" + name + "' does not exist"));
+      }
+      if (!record) { return _createRoute(null, location) }
+      var paramNames = record.regex.keys
+        .filter(function (key) { return !key.optional; })
+        .map(function (key) { return key.name; });
+
+      if (typeof location.params !== 'object') {
+        location.params = {};
+      }
+
+      if (currentRoute && typeof currentRoute.params === 'object') {
+        for (var key in currentRoute.params) {
+          if (!(key in location.params) && paramNames.indexOf(key) > -1) {
+            location.params[key] = currentRoute.params[key];
+          }
+        }
+      }
+
+      if (record) {
+        location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""));
+        return _createRoute(record, location, redirectedFrom)
+      }
+    } else if (location.path) {
+      location.params = {};
+      for (var i = 0; i < pathList.length; i++) {
+        var path = pathList[i];
+        var record$1 = pathMap[path];
+        if (matchRoute(record$1.regex, location.path, location.params)) {
+          return _createRoute(record$1, location, redirectedFrom)
+        }
+      }
+    }
+    // no match
+    return _createRoute(null, location)
+  }
+
+  function redirect (
+    record,
+    location
+  ) {
+    var originalRedirect = record.redirect;
+    var redirect = typeof originalRedirect === 'function'
+        ? originalRedirect(createRoute(record, location, null, router))
+        : originalRedirect;
+
+    if (typeof redirect === 'string') {
+      redirect = { path: redirect };
+    }
+
+    if (!redirect || typeof redirect !== 'object') {
+      if (true) {
+        warn(
+          false, ("invalid redirect option: " + (JSON.stringify(redirect)))
+        );
+      }
+      return _createRoute(null, location)
+    }
+
+    var re = redirect;
+    var name = re.name;
+    var path = re.path;
+    var query = location.query;
+    var hash = location.hash;
+    var params = location.params;
+    query = re.hasOwnProperty('query') ? re.query : query;
+    hash = re.hasOwnProperty('hash') ? re.hash : hash;
+    params = re.hasOwnProperty('params') ? re.params : params;
+
+    if (name) {
+      // resolved named direct
+      var targetRecord = nameMap[name];
+      if (true) {
+        assert(targetRecord, ("redirect failed: named route \"" + name + "\" not found."));
+      }
+      return match({
+        _normalized: true,
+        name: name,
+        query: query,
+        hash: hash,
+        params: params
+      }, undefined, location)
+    } else if (path) {
+      // 1. resolve relative redirect
+      var rawPath = resolveRecordPath(path, record);
+      // 2. resolve params
+      var resolvedPath = fillParams(rawPath, params, ("redirect route with path \"" + rawPath + "\""));
+      // 3. rematch with existing query and hash
+      return match({
+        _normalized: true,
+        path: resolvedPath,
+        query: query,
+        hash: hash
+      }, undefined, location)
+    } else {
+      if (true) {
+        warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))));
+      }
+      return _createRoute(null, location)
+    }
+  }
+
+  function alias (
+    record,
+    location,
+    matchAs
+  ) {
+    var aliasedPath = fillParams(matchAs, location.params, ("aliased route with path \"" + matchAs + "\""));
+    var aliasedMatch = match({
+      _normalized: true,
+      path: aliasedPath
+    });
+    if (aliasedMatch) {
+      var matched = aliasedMatch.matched;
+      var aliasedRecord = matched[matched.length - 1];
+      location.params = aliasedMatch.params;
+      return _createRoute(aliasedRecord, location)
+    }
+    return _createRoute(null, location)
+  }
+
+  function _createRoute (
+    record,
+    location,
+    redirectedFrom
+  ) {
+    if (record && record.redirect) {
+      return redirect(record, redirectedFrom || location)
+    }
+    if (record && record.matchAs) {
+      return alias(record, location, record.matchAs)
+    }
+    return createRoute(record, location, redirectedFrom, router)
+  }
+
+  return {
+    match: match,
+    addRoutes: addRoutes
+  }
+}
+
+function matchRoute (
+  regex,
+  path,
+  params
+) {
+  var m = path.match(regex);
+
+  if (!m) {
+    return false
+  } else if (!params) {
+    return true
+  }
+
+  for (var i = 1, len = m.length; i < len; ++i) {
+    var key = regex.keys[i - 1];
+    var val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i];
+    if (key) {
+      params[key.name] = val;
+    }
+  }
+
+  return true
+}
+
+function resolveRecordPath (path, record) {
+  return resolvePath(path, record.parent ? record.parent.path : '/', true)
+}
+
+/*  */
+
+
+var positionStore = Object.create(null);
+
+function setupScroll () {
+  // Fix for #1585 for Firefox
+  window.history.replaceState({ key: getStateKey() }, '');
+  window.addEventListener('popstate', function (e) {
+    saveScrollPosition();
+    if (e.state && e.state.key) {
+      setStateKey(e.state.key);
+    }
+  });
+}
+
+function handleScroll (
+  router,
+  to,
+  from,
+  isPop
+) {
+  if (!router.app) {
+    return
+  }
+
+  var behavior = router.options.scrollBehavior;
+  if (!behavior) {
+    return
+  }
+
+  if (true) {
+    assert(typeof behavior === 'function', "scrollBehavior must be a function");
+  }
+
+  // wait until re-render finishes before scrolling
+  router.app.$nextTick(function () {
+    var position = getScrollPosition();
+    var shouldScroll = behavior(to, from, isPop ? position : null);
+
+    if (!shouldScroll) {
+      return
+    }
+
+    if (typeof shouldScroll.then === 'function') {
+      shouldScroll.then(function (shouldScroll) {
+        scrollToPosition((shouldScroll), position);
+      }).catch(function (err) {
+        if (true) {
+          assert(false, err.toString());
+        }
+      });
+    } else {
+      scrollToPosition(shouldScroll, position);
+    }
+  });
+}
+
+function saveScrollPosition () {
+  var key = getStateKey();
+  if (key) {
+    positionStore[key] = {
+      x: window.pageXOffset,
+      y: window.pageYOffset
+    };
+  }
+}
+
+function getScrollPosition () {
+  var key = getStateKey();
+  if (key) {
+    return positionStore[key]
+  }
+}
+
+function getElementPosition (el, offset) {
+  var docEl = document.documentElement;
+  var docRect = docEl.getBoundingClientRect();
+  var elRect = el.getBoundingClientRect();
+  return {
+    x: elRect.left - docRect.left - offset.x,
+    y: elRect.top - docRect.top - offset.y
+  }
+}
+
+function isValidPosition (obj) {
+  return isNumber(obj.x) || isNumber(obj.y)
+}
+
+function normalizePosition (obj) {
+  return {
+    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
+    y: isNumber(obj.y) ? obj.y : window.pageYOffset
+  }
+}
+
+function normalizeOffset (obj) {
+  return {
+    x: isNumber(obj.x) ? obj.x : 0,
+    y: isNumber(obj.y) ? obj.y : 0
+  }
+}
+
+function isNumber (v) {
+  return typeof v === 'number'
+}
+
+function scrollToPosition (shouldScroll, position) {
+  var isObject = typeof shouldScroll === 'object';
+  if (isObject && typeof shouldScroll.selector === 'string') {
+    var el = document.querySelector(shouldScroll.selector);
+    if (el) {
+      var offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {};
+      offset = normalizeOffset(offset);
+      position = getElementPosition(el, offset);
+    } else if (isValidPosition(shouldScroll)) {
+      position = normalizePosition(shouldScroll);
+    }
+  } else if (isObject && isValidPosition(shouldScroll)) {
+    position = normalizePosition(shouldScroll);
+  }
+
+  if (position) {
+    window.scrollTo(position.x, position.y);
+  }
+}
+
+/*  */
+
+var supportsPushState = inBrowser && (function () {
+  var ua = window.navigator.userAgent;
+
+  if (
+    (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
+    ua.indexOf('Mobile Safari') !== -1 &&
+    ua.indexOf('Chrome') === -1 &&
+    ua.indexOf('Windows Phone') === -1
+  ) {
+    return false
+  }
+
+  return window.history && 'pushState' in window.history
+})();
+
+// use User Timing api (if present) for more accurate key precision
+var Time = inBrowser && window.performance && window.performance.now
+  ? window.performance
+  : Date;
+
+var _key = genKey();
+
+function genKey () {
+  return Time.now().toFixed(3)
+}
+
+function getStateKey () {
+  return _key
+}
+
+function setStateKey (key) {
+  _key = key;
+}
+
+function pushState (url, replace) {
+  saveScrollPosition();
+  // try...catch the pushState call to get around Safari
+  // DOM Exception 18 where it limits to 100 pushState calls
+  var history = window.history;
+  try {
+    if (replace) {
+      history.replaceState({ key: _key }, '', url);
+    } else {
+      _key = genKey();
+      history.pushState({ key: _key }, '', url);
+    }
+  } catch (e) {
+    window.location[replace ? 'replace' : 'assign'](url);
+  }
+}
+
+function replaceState (url) {
+  pushState(url, true);
+}
+
+/*  */
+
+function runQueue (queue, fn, cb) {
+  var step = function (index) {
+    if (index >= queue.length) {
+      cb();
+    } else {
+      if (queue[index]) {
+        fn(queue[index], function () {
+          step(index + 1);
+        });
+      } else {
+        step(index + 1);
+      }
+    }
+  };
+  step(0);
+}
+
+/*  */
+
+function resolveAsyncComponents (matched) {
+  return function (to, from, next) {
+    var hasAsync = false;
+    var pending = 0;
+    var error = null;
+
+    flatMapComponents(matched, function (def, _, match, key) {
+      // if it's a function and doesn't have cid attached,
+      // assume it's an async component resolve function.
+      // we are not using Vue's default async resolving mechanism because
+      // we want to halt the navigation until the incoming component has been
+      // resolved.
+      if (typeof def === 'function' && def.cid === undefined) {
+        hasAsync = true;
+        pending++;
+
+        var resolve = once(function (resolvedDef) {
+          if (isESModule(resolvedDef)) {
+            resolvedDef = resolvedDef.default;
+          }
+          // save resolved on async factory in case it's used elsewhere
+          def.resolved = typeof resolvedDef === 'function'
+            ? resolvedDef
+            : _Vue.extend(resolvedDef);
+          match.components[key] = resolvedDef;
+          pending--;
+          if (pending <= 0) {
+            next();
+          }
+        });
+
+        var reject = once(function (reason) {
+          var msg = "Failed to resolve async component " + key + ": " + reason;
+          "development" !== 'production' && warn(false, msg);
+          if (!error) {
+            error = isError(reason)
+              ? reason
+              : new Error(msg);
+            next(error);
+          }
+        });
+
+        var res;
+        try {
+          res = def(resolve, reject);
+        } catch (e) {
+          reject(e);
+        }
+        if (res) {
+          if (typeof res.then === 'function') {
+            res.then(resolve, reject);
+          } else {
+            // new syntax in Vue 2.3
+            var comp = res.component;
+            if (comp && typeof comp.then === 'function') {
+              comp.then(resolve, reject);
+            }
+          }
+        }
+      }
+    });
+
+    if (!hasAsync) { next(); }
+  }
+}
+
+function flatMapComponents (
+  matched,
+  fn
+) {
+  return flatten(matched.map(function (m) {
+    return Object.keys(m.components).map(function (key) { return fn(
+      m.components[key],
+      m.instances[key],
+      m, key
+    ); })
+  }))
+}
+
+function flatten (arr) {
+  return Array.prototype.concat.apply([], arr)
+}
+
+var hasSymbol =
+  typeof Symbol === 'function' &&
+  typeof Symbol.toStringTag === 'symbol';
+
+function isESModule (obj) {
+  return obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module')
+}
+
+// in Webpack 2, require.ensure now also returns a Promise
+// so the resolve/reject functions may get called an extra time
+// if the user uses an arrow function shorthand that happens to
+// return that Promise.
+function once (fn) {
+  var called = false;
+  return function () {
+    var args = [], len = arguments.length;
+    while ( len-- ) args[ len ] = arguments[ len ];
+
+    if (called) { return }
+    called = true;
+    return fn.apply(this, args)
+  }
+}
+
+/*  */
+
+var History = function History (router, base) {
+  this.router = router;
+  this.base = normalizeBase(base);
+  // start with a route object that stands for "nowhere"
+  this.current = START;
+  this.pending = null;
+  this.ready = false;
+  this.readyCbs = [];
+  this.readyErrorCbs = [];
+  this.errorCbs = [];
+};
+
+History.prototype.listen = function listen (cb) {
+  this.cb = cb;
+};
+
+History.prototype.onReady = function onReady (cb, errorCb) {
+  if (this.ready) {
+    cb();
+  } else {
+    this.readyCbs.push(cb);
+    if (errorCb) {
+      this.readyErrorCbs.push(errorCb);
+    }
+  }
+};
+
+History.prototype.onError = function onError (errorCb) {
+  this.errorCbs.push(errorCb);
+};
+
+History.prototype.transitionTo = function transitionTo (location, onComplete, onAbort) {
+    var this$1 = this;
+
+  var route = this.router.match(location, this.current);
+  this.confirmTransition(route, function () {
+    this$1.updateRoute(route);
+    onComplete && onComplete(route);
+    this$1.ensureURL();
+
+    // fire ready cbs once
+    if (!this$1.ready) {
+      this$1.ready = true;
+      this$1.readyCbs.forEach(function (cb) { cb(route); });
+    }
+  }, function (err) {
+    if (onAbort) {
+      onAbort(err);
+    }
+    if (err && !this$1.ready) {
+      this$1.ready = true;
+      this$1.readyErrorCbs.forEach(function (cb) { cb(err); });
+    }
+  });
+};
+
+History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
+    var this$1 = this;
+
+  var current = this.current;
+  var abort = function (err) {
+    if (isError(err)) {
+      if (this$1.errorCbs.length) {
+        this$1.errorCbs.forEach(function (cb) { cb(err); });
+      } else {
+        warn(false, 'uncaught error during route navigation:');
+        console.error(err);
+      }
+    }
+    onAbort && onAbort(err);
+  };
+  if (
+    isSameRoute(route, current) &&
+    // in the case the route map has been dynamically appended to
+    route.matched.length === current.matched.length
+  ) {
+    this.ensureURL();
+    return abort()
+  }
+
+  var ref = resolveQueue(this.current.matched, route.matched);
+    var updated = ref.updated;
+    var deactivated = ref.deactivated;
+    var activated = ref.activated;
+
+  var queue = [].concat(
+    // in-component leave guards
+    extractLeaveGuards(deactivated),
+    // global before hooks
+    this.router.beforeHooks,
+    // in-component update hooks
+    extractUpdateHooks(updated),
+    // in-config enter guards
+    activated.map(function (m) { return m.beforeEnter; }),
+    // async components
+    resolveAsyncComponents(activated)
+  );
+
+  this.pending = route;
+  var iterator = function (hook, next) {
+    if (this$1.pending !== route) {
+      return abort()
+    }
+    try {
+      hook(route, current, function (to) {
+        if (to === false || isError(to)) {
+          // next(false) -> abort navigation, ensure current URL
+          this$1.ensureURL(true);
+          abort(to);
+        } else if (
+          typeof to === 'string' ||
+          (typeof to === 'object' && (
+            typeof to.path === 'string' ||
+            typeof to.name === 'string'
+          ))
+        ) {
+          // next('/') or next({ path: '/' }) -> redirect
+          abort();
+          if (typeof to === 'object' && to.replace) {
+            this$1.replace(to);
+          } else {
+            this$1.push(to);
+          }
+        } else {
+          // confirm transition and pass on the value
+          next(to);
+        }
+      });
+    } catch (e) {
+      abort(e);
+    }
+  };
+
+  runQueue(queue, iterator, function () {
+    var postEnterCbs = [];
+    var isValid = function () { return this$1.current === route; };
+    // wait until async components are resolved before
+    // extracting in-component enter guards
+    var enterGuards = extractEnterGuards(activated, postEnterCbs, isValid);
+    var queue = enterGuards.concat(this$1.router.resolveHooks);
+    runQueue(queue, iterator, function () {
+      if (this$1.pending !== route) {
+        return abort()
+      }
+      this$1.pending = null;
+      onComplete(route);
+      if (this$1.router.app) {
+        this$1.router.app.$nextTick(function () {
+          postEnterCbs.forEach(function (cb) { cb(); });
+        });
+      }
+    });
+  });
+};
+
+History.prototype.updateRoute = function updateRoute (route) {
+  var prev = this.current;
+  this.current = route;
+  this.cb && this.cb(route);
+  this.router.afterHooks.forEach(function (hook) {
+    hook && hook(route, prev);
+  });
+};
+
+function normalizeBase (base) {
+  if (!base) {
+    if (inBrowser) {
+      // respect <base> tag
+      var baseEl = document.querySelector('base');
+      base = (baseEl && baseEl.getAttribute('href')) || '/';
+      // strip full URL origin
+      base = base.replace(/^https?:\/\/[^\/]+/, '');
+    } else {
+      base = '/';
+    }
+  }
+  // make sure there's the starting slash
+  if (base.charAt(0) !== '/') {
+    base = '/' + base;
+  }
+  // remove trailing slash
+  return base.replace(/\/$/, '')
+}
+
+function resolveQueue (
+  current,
+  next
+) {
+  var i;
+  var max = Math.max(current.length, next.length);
+  for (i = 0; i < max; i++) {
+    if (current[i] !== next[i]) {
+      break
+    }
+  }
+  return {
+    updated: next.slice(0, i),
+    activated: next.slice(i),
+    deactivated: current.slice(i)
+  }
+}
+
+function extractGuards (
+  records,
+  name,
+  bind,
+  reverse
+) {
+  var guards = flatMapComponents(records, function (def, instance, match, key) {
+    var guard = extractGuard(def, name);
+    if (guard) {
+      return Array.isArray(guard)
+        ? guard.map(function (guard) { return bind(guard, instance, match, key); })
+        : bind(guard, instance, match, key)
+    }
+  });
+  return flatten(reverse ? guards.reverse() : guards)
+}
+
+function extractGuard (
+  def,
+  key
+) {
+  if (typeof def !== 'function') {
+    // extend now so that global mixins are applied.
+    def = _Vue.extend(def);
+  }
+  return def.options[key]
+}
+
+function extractLeaveGuards (deactivated) {
+  return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
+}
+
+function extractUpdateHooks (updated) {
+  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
+}
+
+function bindGuard (guard, instance) {
+  if (instance) {
+    return function boundRouteGuard () {
+      return guard.apply(instance, arguments)
+    }
+  }
+}
+
+function extractEnterGuards (
+  activated,
+  cbs,
+  isValid
+) {
+  return extractGuards(activated, 'beforeRouteEnter', function (guard, _, match, key) {
+    return bindEnterGuard(guard, match, key, cbs, isValid)
+  })
+}
+
+function bindEnterGuard (
+  guard,
+  match,
+  key,
+  cbs,
+  isValid
+) {
+  return function routeEnterGuard (to, from, next) {
+    return guard(to, from, function (cb) {
+      next(cb);
+      if (typeof cb === 'function') {
+        cbs.push(function () {
+          // #750
+          // if a router-view is wrapped with an out-in transition,
+          // the instance may not have been registered at this time.
+          // we will need to poll for registration until current route
+          // is no longer valid.
+          poll(cb, match.instances, key, isValid);
+        });
+      }
+    })
+  }
+}
+
+function poll (
+  cb, // somehow flow cannot infer this is a function
+  instances,
+  key,
+  isValid
+) {
+  if (instances[key]) {
+    cb(instances[key]);
+  } else if (isValid()) {
+    setTimeout(function () {
+      poll(cb, instances, key, isValid);
+    }, 16);
+  }
+}
+
+/*  */
+
+
+var HTML5History = (function (History$$1) {
+  function HTML5History (router, base) {
+    var this$1 = this;
+
+    History$$1.call(this, router, base);
+
+    var expectScroll = router.options.scrollBehavior;
+
+    if (expectScroll) {
+      setupScroll();
+    }
+
+    var initLocation = getLocation(this.base);
+    window.addEventListener('popstate', function (e) {
+      var current = this$1.current;
+
+      // Avoiding first `popstate` event dispatched in some browsers but first
+      // history route not updated since async guard at the same time.
+      var location = getLocation(this$1.base);
+      if (this$1.current === START && location === initLocation) {
+        return
+      }
+
+      this$1.transitionTo(location, function (route) {
+        if (expectScroll) {
+          handleScroll(router, route, current, true);
+        }
+      });
+    });
+  }
+
+  if ( History$$1 ) HTML5History.__proto__ = History$$1;
+  HTML5History.prototype = Object.create( History$$1 && History$$1.prototype );
+  HTML5History.prototype.constructor = HTML5History;
+
+  HTML5History.prototype.go = function go (n) {
+    window.history.go(n);
+  };
+
+  HTML5History.prototype.push = function push (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      pushState(cleanPath(this$1.base + route.fullPath));
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HTML5History.prototype.replace = function replace (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      replaceState(cleanPath(this$1.base + route.fullPath));
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HTML5History.prototype.ensureURL = function ensureURL (push) {
+    if (getLocation(this.base) !== this.current.fullPath) {
+      var current = cleanPath(this.base + this.current.fullPath);
+      push ? pushState(current) : replaceState(current);
+    }
+  };
+
+  HTML5History.prototype.getCurrentLocation = function getCurrentLocation () {
+    return getLocation(this.base)
+  };
+
+  return HTML5History;
+}(History));
+
+function getLocation (base) {
+  var path = window.location.pathname;
+  if (base && path.indexOf(base) === 0) {
+    path = path.slice(base.length);
+  }
+  return (path || '/') + window.location.search + window.location.hash
+}
+
+/*  */
+
+
+var HashHistory = (function (History$$1) {
+  function HashHistory (router, base, fallback) {
+    History$$1.call(this, router, base);
+    // check history fallback deeplinking
+    if (fallback && checkFallback(this.base)) {
+      return
+    }
+    ensureSlash();
+  }
+
+  if ( History$$1 ) HashHistory.__proto__ = History$$1;
+  HashHistory.prototype = Object.create( History$$1 && History$$1.prototype );
+  HashHistory.prototype.constructor = HashHistory;
+
+  // this is delayed until the app mounts
+  // to avoid the hashchange listener being fired too early
+  HashHistory.prototype.setupListeners = function setupListeners () {
+    var this$1 = this;
+
+    var router = this.router;
+    var expectScroll = router.options.scrollBehavior;
+    var supportsScroll = supportsPushState && expectScroll;
+
+    if (supportsScroll) {
+      setupScroll();
+    }
+
+    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', function () {
+      var current = this$1.current;
+      if (!ensureSlash()) {
+        return
+      }
+      this$1.transitionTo(getHash(), function (route) {
+        if (supportsScroll) {
+          handleScroll(this$1.router, route, current, true);
+        }
+        if (!supportsPushState) {
+          replaceHash(route.fullPath);
+        }
+      });
+    });
+  };
+
+  HashHistory.prototype.push = function push (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      pushHash(route.fullPath);
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HashHistory.prototype.replace = function replace (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      replaceHash(route.fullPath);
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HashHistory.prototype.go = function go (n) {
+    window.history.go(n);
+  };
+
+  HashHistory.prototype.ensureURL = function ensureURL (push) {
+    var current = this.current.fullPath;
+    if (getHash() !== current) {
+      push ? pushHash(current) : replaceHash(current);
+    }
+  };
+
+  HashHistory.prototype.getCurrentLocation = function getCurrentLocation () {
+    return getHash()
+  };
+
+  return HashHistory;
+}(History));
+
+function checkFallback (base) {
+  var location = getLocation(base);
+  if (!/^\/#/.test(location)) {
+    window.location.replace(
+      cleanPath(base + '/#' + location)
+    );
+    return true
+  }
+}
+
+function ensureSlash () {
+  var path = getHash();
+  if (path.charAt(0) === '/') {
+    return true
+  }
+  replaceHash('/' + path);
+  return false
+}
+
+function getHash () {
+  // We can't use window.location.hash here because it's not
+  // consistent across browsers - Firefox will pre-decode it!
+  var href = window.location.href;
+  var index = href.indexOf('#');
+  return index === -1 ? '' : href.slice(index + 1)
+}
+
+function getUrl (path) {
+  var href = window.location.href;
+  var i = href.indexOf('#');
+  var base = i >= 0 ? href.slice(0, i) : href;
+  return (base + "#" + path)
+}
+
+function pushHash (path) {
+  if (supportsPushState) {
+    pushState(getUrl(path));
+  } else {
+    window.location.hash = path;
+  }
+}
+
+function replaceHash (path) {
+  if (supportsPushState) {
+    replaceState(getUrl(path));
+  } else {
+    window.location.replace(getUrl(path));
+  }
+}
+
+/*  */
+
+
+var AbstractHistory = (function (History$$1) {
+  function AbstractHistory (router, base) {
+    History$$1.call(this, router, base);
+    this.stack = [];
+    this.index = -1;
+  }
+
+  if ( History$$1 ) AbstractHistory.__proto__ = History$$1;
+  AbstractHistory.prototype = Object.create( History$$1 && History$$1.prototype );
+  AbstractHistory.prototype.constructor = AbstractHistory;
+
+  AbstractHistory.prototype.push = function push (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    this.transitionTo(location, function (route) {
+      this$1.stack = this$1.stack.slice(0, this$1.index + 1).concat(route);
+      this$1.index++;
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  AbstractHistory.prototype.replace = function replace (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    this.transitionTo(location, function (route) {
+      this$1.stack = this$1.stack.slice(0, this$1.index).concat(route);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  AbstractHistory.prototype.go = function go (n) {
+    var this$1 = this;
+
+    var targetIndex = this.index + n;
+    if (targetIndex < 0 || targetIndex >= this.stack.length) {
+      return
+    }
+    var route = this.stack[targetIndex];
+    this.confirmTransition(route, function () {
+      this$1.index = targetIndex;
+      this$1.updateRoute(route);
+    });
+  };
+
+  AbstractHistory.prototype.getCurrentLocation = function getCurrentLocation () {
+    var current = this.stack[this.stack.length - 1];
+    return current ? current.fullPath : '/'
+  };
+
+  AbstractHistory.prototype.ensureURL = function ensureURL () {
+    // noop
+  };
+
+  return AbstractHistory;
+}(History));
+
+/*  */
+
+var VueRouter = function VueRouter (options) {
+  if ( options === void 0 ) options = {};
+
+  this.app = null;
+  this.apps = [];
+  this.options = options;
+  this.beforeHooks = [];
+  this.resolveHooks = [];
+  this.afterHooks = [];
+  this.matcher = createMatcher(options.routes || [], this);
+
+  var mode = options.mode || 'hash';
+  this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;
+  if (this.fallback) {
+    mode = 'hash';
+  }
+  if (!inBrowser) {
+    mode = 'abstract';
+  }
+  this.mode = mode;
+
+  switch (mode) {
+    case 'history':
+      this.history = new HTML5History(this, options.base);
+      break
+    case 'hash':
+      this.history = new HashHistory(this, options.base, this.fallback);
+      break
+    case 'abstract':
+      this.history = new AbstractHistory(this, options.base);
+      break
+    default:
+      if (true) {
+        assert(false, ("invalid mode: " + mode));
+      }
+  }
+};
+
+var prototypeAccessors = { currentRoute: { configurable: true } };
+
+VueRouter.prototype.match = function match (
+  raw,
+  current,
+  redirectedFrom
+) {
+  return this.matcher.match(raw, current, redirectedFrom)
+};
+
+prototypeAccessors.currentRoute.get = function () {
+  return this.history && this.history.current
+};
+
+VueRouter.prototype.init = function init (app /* Vue component instance */) {
+    var this$1 = this;
+
+  "development" !== 'production' && assert(
+    install.installed,
+    "not installed. Make sure to call `Vue.use(VueRouter)` " +
+    "before creating root instance."
+  );
+
+  this.apps.push(app);
+
+  // main app already initialized.
+  if (this.app) {
+    return
+  }
+
+  this.app = app;
+
+  var history = this.history;
+
+  if (history instanceof HTML5History) {
+    history.transitionTo(history.getCurrentLocation());
+  } else if (history instanceof HashHistory) {
+    var setupHashListener = function () {
+      history.setupListeners();
+    };
+    history.transitionTo(
+      history.getCurrentLocation(),
+      setupHashListener,
+      setupHashListener
+    );
+  }
+
+  history.listen(function (route) {
+    this$1.apps.forEach(function (app) {
+      app._route = route;
+    });
+  });
+};
+
+VueRouter.prototype.beforeEach = function beforeEach (fn) {
+  return registerHook(this.beforeHooks, fn)
+};
+
+VueRouter.prototype.beforeResolve = function beforeResolve (fn) {
+  return registerHook(this.resolveHooks, fn)
+};
+
+VueRouter.prototype.afterEach = function afterEach (fn) {
+  return registerHook(this.afterHooks, fn)
+};
+
+VueRouter.prototype.onReady = function onReady (cb, errorCb) {
+  this.history.onReady(cb, errorCb);
+};
+
+VueRouter.prototype.onError = function onError (errorCb) {
+  this.history.onError(errorCb);
+};
+
+VueRouter.prototype.push = function push (location, onComplete, onAbort) {
+  this.history.push(location, onComplete, onAbort);
+};
+
+VueRouter.prototype.replace = function replace (location, onComplete, onAbort) {
+  this.history.replace(location, onComplete, onAbort);
+};
+
+VueRouter.prototype.go = function go (n) {
+  this.history.go(n);
+};
+
+VueRouter.prototype.back = function back () {
+  this.go(-1);
+};
+
+VueRouter.prototype.forward = function forward () {
+  this.go(1);
+};
+
+VueRouter.prototype.getMatchedComponents = function getMatchedComponents (to) {
+  var route = to
+    ? to.matched
+      ? to
+      : this.resolve(to).route
+    : this.currentRoute;
+  if (!route) {
+    return []
+  }
+  return [].concat.apply([], route.matched.map(function (m) {
+    return Object.keys(m.components).map(function (key) {
+      return m.components[key]
+    })
+  }))
+};
+
+VueRouter.prototype.resolve = function resolve (
+  to,
+  current,
+  append
+) {
+  var location = normalizeLocation(
+    to,
+    current || this.history.current,
+    append,
+    this
+  );
+  var route = this.match(location, current);
+  var fullPath = route.redirectedFrom || route.fullPath;
+  var base = this.history.base;
+  var href = createHref(base, fullPath, this.mode);
+  return {
+    location: location,
+    route: route,
+    href: href,
+    // for backwards compat
+    normalizedTo: location,
+    resolved: route
+  }
+};
+
+VueRouter.prototype.addRoutes = function addRoutes (routes) {
+  this.matcher.addRoutes(routes);
+  if (this.history.current !== START) {
+    this.history.transitionTo(this.history.getCurrentLocation());
+  }
+};
+
+Object.defineProperties( VueRouter.prototype, prototypeAccessors );
+
+function registerHook (list, fn) {
+  list.push(fn);
+  return function () {
+    var i = list.indexOf(fn);
+    if (i > -1) { list.splice(i, 1); }
+  }
+}
+
+function createHref (base, fullPath, mode) {
+  var path = mode === 'hash' ? '#' + fullPath : fullPath;
+  return base ? cleanPath(base + '/' + path) : path
+}
+
+VueRouter.install = install;
+VueRouter.version = '3.0.1';
+
+if (inBrowser && window.Vue) {
+  window.Vue.use(VueRouter);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (VueRouter);
+
+
+/***/ }),
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(42)
+var __vue_script__ = __webpack_require__(43)
 /* template */
-var __vue_template__ = __webpack_require__(45)
+var __vue_template__ = __webpack_require__(61)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47435,7 +50065,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/Header.vue"
+Component.options.__file = "resources/js/views/MainPage.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47444,9 +50074,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1f42fb90", Component.options)
+    hotAPI.createRecord("data-v-1aff2807", Component.options)
   } else {
-    hotAPI.reload("data-v-1f42fb90", Component.options)
+    hotAPI.reload("data-v-1aff2807", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47457,285 +50087,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue__);
 //
 //
 //
@@ -47748,1272 +50108,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['articles'],
     components: {
-        Animation: __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default.a
-    },
-    computed: {
-        threeDArticles: function threeDArticles() {
-            var filteredArticles = this.articles.filter(function (article) {
-                return article.category.id === 1;
-            });
-            return filteredArticles.slice(1, 6);
-        },
-        illustrations: function illustrations() {
-            var filteredArticles = this.articles.filter(function (article) {
-                return article.category.id === 2;
-            });
-            return filteredArticles.slice(1, 7);
-        }
+        MainContent: __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue___default.a,
+        AdditionalTopics: __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue___default.a
     }
 });
-
-/***/ }),
-/* 43 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "penci-loader-effect penci-loading-animation-9" },
-      [
-        _c("div", { staticClass: "penci-loading-circle" }, [
-          _c("div", {
-            staticClass: "penci-loading-circle1 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle2 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle3 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle4 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle5 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle6 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle7 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle8 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle9 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle10 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle11 penci-loading-circle-inner"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "penci-loading-circle12 penci-loading-circle-inner"
-          })
-        ])
-      ]
-    )
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-652462c6", module.exports)
-  }
-}
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "header",
-    {
-      staticClass: "site-header header--s3 header--s4",
-      attrs: { id: "masthead" }
-    },
-    [
-      _c("div", { staticClass: "penci-container-fluid" }, [
-        _c(
-          "nav",
-          {
-            staticClass:
-              "main-navigation penci_disable_padding_menu pencimn-slide_down",
-            attrs: {
-              id: "site-navigation",
-              itemtype: "http://schema.org/SiteNavigationElement"
-            }
-          },
-          [
-            _c("ul", { staticClass: "menu", attrs: { id: "menu-main-menu" } }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass:
-                    "menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726",
-                  attrs: { id: "menu-item-726" }
-                },
-                [
-                  _c(
-                    "a",
-                    { attrs: { href: "category/creative-news/index.html" } },
-                    [_vm._v("Creative News")]
-                  ),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "sub-menu" }, [
-                    _c(
-                      "li",
-                      {
-                        staticClass: "menu-item-0",
-                        attrs: { id: "menu-item-0" }
-                      },
-                      [
-                        _c("div", { staticClass: "penci-megamenu" }, [
-                          _vm._m(1),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "penci-content-megamenu penci-content-megamenu-style-1"
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "penci-mega-latest-posts col-mn-5 mega-row-1 penci-post-border-bottom"
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "penci-mega-row penci-mega-8 row-active",
-                                      attrs: {
-                                        "data-current": "1",
-                                        "data-blockUid": "penci_megamenu__47694"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "penci-block_content penci-mega-row_content",
-                                          attrs: {
-                                            id:
-                                              "penci_megamenu__47694block_content"
-                                          }
-                                        },
-                                        [
-                                          _vm._l(_vm.threeDArticles, function(
-                                            article
-                                          ) {
-                                            return _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _vm._m(2, true),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      style: article.image
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "13-tips-making-vr-gaming-world/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                                    " +
-                                                                _vm._s(
-                                                                  article.title
-                                                                ) +
-                                                                "\n                                                                "
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "\n                                                                " +
-                                                            _vm._s(
-                                                              _vm._f("moment")(
-                                                                article
-                                                                  .created_at
-                                                                  .date,
-                                                                "MMMM D, YYYY"
-                                                              )
-                                                            ) +
-                                                            "\n                                                            "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          }),
-                                          _vm._v(" "),
-                                          _c("animation")
-                                        ],
-                                        2
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._m(3)
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm._m(4),
-                                  _vm._v(" "),
-                                  _vm._m(5),
-                                  _vm._v(" "),
-                                  _vm._m(6),
-                                  _vm._v(" "),
-                                  _vm._m(7),
-                                  _vm._v(" "),
-                                  _c("animation")
-                                ],
-                                1
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass:
-                    "menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu penci-megamenu-container menu-item-748",
-                  attrs: { id: "menu-item-748" }
-                },
-                [
-                  _c(
-                    "a",
-                    {
-                      attrs: {
-                        href: "category/creative-news/illustrations/index.html"
-                      }
-                    },
-                    [_vm._v("Illustrations")]
-                  ),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "sub-menu" }, [
-                    _c("li", { staticClass: "menu-item-0" }, [
-                      _c("div", { staticClass: "penci-megamenu" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "penci-content-megamenu penci-content-megamenu-style-1"
-                          },
-                          [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "penci-mega-latest-posts col-mn-6 mega-row-1 "
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "penci-mega-row penci-mega-4 row-active",
-                                    attrs: {
-                                      "data-current": "1",
-                                      "data-blockUid": "penci_megamenu__6823"
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-block_content penci-mega-row_content",
-                                        attrs: {
-                                          id:
-                                            "penci_megamenu__6823block_content"
-                                        }
-                                      },
-                                      [
-                                        _vm._l(_vm.illustrations, function(
-                                          article
-                                        ) {
-                                          return _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-thumbnail"
-                                                },
-                                                [
-                                                  _c(
-                                                    "a",
-                                                    {
-                                                      staticClass:
-                                                        "mega-cat-name",
-                                                      attrs: {
-                                                        href:
-                                                          "category/creative-news/illustrations/index.html"
-                                                      }
-                                                    },
-                                                    [_vm._v("Illustrations")]
-                                                  ),
-                                                  _c("a", {
-                                                    staticClass:
-                                                      "penci-image-holder  penci-lazy",
-                                                    style: article.image
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-meta "
-                                                },
-                                                [
-                                                  _c(
-                                                    "h3",
-                                                    {
-                                                      staticClass:
-                                                        "post-mega-title entry-title"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          attrs: {
-                                                            href:
-                                                              "10-incredible-online-art-schools/index.html"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                                    " +
-                                                              _vm._s(
-                                                                article.title
-                                                              ) +
-                                                              "\n                                                                "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "p",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-date"
-                                                    },
-                                                    [
-                                                      _c("i", {
-                                                        staticClass:
-                                                          "fa fa-clock-o"
-                                                      }),
-                                                      _vm._v(
-                                                        "\n                                                                " +
-                                                          _vm._s(
-                                                            _vm._f("moment")(
-                                                              article.created_at
-                                                                .date,
-                                                              "MMMM D, YYYY"
-                                                            )
-                                                          ) +
-                                                          "\n                                                            "
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        }),
-                                        _vm._v(" "),
-                                        _c("animation")
-                                      ],
-                                      2
-                                    ),
-                                    _vm._v(" "),
-                                    _vm._m(8)
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("animation")
-                              ],
-                              1
-                            )
-                          ]
-                        )
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _vm._m(9)
-      ])
-    ]
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "li",
-      {
-        staticClass:
-          "menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751",
-        attrs: { id: "menu-item-751" }
-      },
-      [_c("a", { attrs: { href: "index.html" } }, [_vm._v("Home")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "penci-mega-child-categories col-mn-5 mega-row-1 penci-child_cat-style-1"
-      },
-      [
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child  cat-active mega-cat-child-loaded",
-            attrs: {
-              "data-id": "penci-mega-8",
-              href: "category/creative-news/3d-design/index.html"
-            }
-          },
-          [_c("span", [_vm._v("3D Design")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-4",
-              href: "category/creative-news/illustrations/index.html"
-            }
-          },
-          [_c("span", [_vm._v("Illustrations")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-5",
-              href: "category/creative-news/typography/index.html"
-            }
-          },
-          [_c("span", [_vm._v("Typography")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-6",
-              href: "category/creative-news/uiux/index.html"
-            }
-          },
-          [_c("span", [_vm._v("UI/UX")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-7",
-              href: "category/creative-news/web-design/index.html"
-            }
-          },
-          [_c("span", [_vm._v("Web Design")])]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
-      _c(
-        "a",
-        {
-          staticClass: "mega-cat-name",
-          attrs: { href: "category/creative-news/3d-design/index.html" }
-        },
-        [
-          _vm._v(
-            "\n                                                                3D Design\n                                                            "
-          )
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "penci-slider-nav" }, [
-      _c(
-        "a",
-        {
-          staticClass: "penci-mega-pag penci-slider-prev penci-pag-disabled",
-          attrs: {
-            "data-block_id": "penci_megamenu__47694block_content",
-            href: "#"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-angle-left" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "penci-mega-pag penci-slider-next ",
-          attrs: {
-            "data-block_id": "penci_megamenu__47694block_content",
-            href: "#"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-angle-right" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "penci-mega-row penci-mega-4",
-        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__59081" }
-      },
-      [
-        _c("div", {
-          staticClass: "penci-block_content penci-mega-row_content",
-          attrs: { id: "penci_megamenu__59081block_content" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "penci-slider-nav" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "penci-mega-pag penci-slider-prev penci-pag-disabled",
-              attrs: {
-                "data-block_id": "penci_megamenu__59081block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-left" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "penci-mega-pag penci-slider-next ",
-              attrs: {
-                "data-block_id": "penci_megamenu__59081block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-right" })]
-          )
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "penci-mega-row penci-mega-5",
-        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__53493" }
-      },
-      [
-        _c("div", {
-          staticClass: "penci-block_content penci-mega-row_content",
-          attrs: { id: "penci_megamenu__53493block_content" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "penci-slider-nav" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "penci-mega-pag penci-slider-prev penci-pag-disabled",
-              attrs: {
-                "data-block_id": "penci_megamenu__53493block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-left" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "penci-mega-pag penci-slider-next ",
-              attrs: {
-                "data-block_id": "penci_megamenu__53493block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-right" })]
-          )
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "penci-mega-row penci-mega-6",
-        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__83815" }
-      },
-      [
-        _c("div", {
-          staticClass: "penci-block_content penci-mega-row_content",
-          attrs: { id: "penci_megamenu__83815block_content" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "penci-slider-nav" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "penci-mega-pag penci-slider-prev penci-pag-disabled",
-              attrs: {
-                "data-block_id": "penci_megamenu__83815block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-left" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "penci-mega-pag penci-slider-next ",
-              attrs: {
-                "data-block_id": "penci_megamenu__83815block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-right" })]
-          )
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "penci-mega-row penci-mega-7",
-        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__19103" }
-      },
-      [
-        _c("div", {
-          staticClass: "penci-block_content penci-mega-row_content",
-          attrs: { id: "penci_megamenu__19103block_content" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "penci-slider-nav" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "penci-mega-pag penci-slider-prev penci-pag-disabled",
-              attrs: {
-                "data-block_id": "penci_megamenu__19103block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-left" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "penci-mega-pag penci-slider-next ",
-              attrs: {
-                "data-block_id": "penci_megamenu__19103block_content",
-                href: "#"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-angle-right" })]
-          )
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "penci-slider-nav" }, [
-      _c(
-        "a",
-        {
-          staticClass: "penci-mega-pag penci-slider-prev penci-pag-disabled",
-          attrs: {
-            "data-block_id": "penci_megamenu__6823block_content",
-            href: "#"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-angle-left" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "penci-mega-pag penci-slider-next ",
-          attrs: {
-            "data-block_id": "penci_megamenu__6823block_content",
-            href: "#"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-angle-right" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "header__social-search" }, [
-      _c(
-        "div",
-        {
-          staticClass: "header__search header__search_dis_bg",
-          attrs: { id: "top-search" }
-        },
-        [
-          _c("a", { staticClass: "search-click" }, [
-            _c("i", { staticClass: "fa fa-search" })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "show-search" }, [
-            _c("div", { staticClass: "show-search__content" }, [
-              _c(
-                "form",
-                {
-                  staticClass: "search-form",
-                  attrs: {
-                    method: "get",
-                    action: "http://pennews.pencidesign.com/pennews-creative/"
-                  }
-                },
-                [
-                  _c("label", [
-                    _c("span", { staticClass: "screen-reader-text" }, [
-                      _vm._v("Search for:")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "search-field",
-                      attrs: {
-                        id: "penci-header-search",
-                        type: "search",
-                        placeholder: "Enter keyword...",
-                        value: "",
-                        name: "s",
-                        autocomplete: "off"
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    { staticClass: "search-submit", attrs: { type: "submit" } },
-                    [
-                      _c("i", { staticClass: "fa fa-search" }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "screen-reader-text" }, [
-                        _vm._v("Search")
-                      ])
-                    ]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "penci-ajax-search-results" }, [
-                _c("div", {
-                  staticClass: "penci-ajax-search-results-wrapper",
-                  attrs: { id: "penci-ajax-search-results-wrapper" }
-                })
-              ])
-            ])
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "header__social-media" }, [
-        _c("div", { staticClass: "header__content-social-media" }, [
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__facebook",
-              attrs: {
-                target: "_blank",
-                href: "#",
-                title: "Facebook",
-                rel: "noopener"
-              }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-facebook" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Facebook")
-                ])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__twitter",
-              attrs: { target: "_blank", href: "#" }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-twitter" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Twitter")
-                ])
-              ])
-            ]
-          ),
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__instagram",
-              attrs: {
-                target: "_blank",
-                href: "#",
-                title: "Instagram",
-                rel: "noopener"
-              }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-instagram" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Instagram")
-                ])
-              ])
-            ]
-          ),
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__pinterest",
-              attrs: {
-                target: "_blank",
-                href: "#",
-                title: "Pinterest",
-                rel: "noopener"
-              }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-pinterest" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Pinterest")
-                ])
-              ])
-            ]
-          ),
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__behance",
-              attrs: {
-                target: "_blank",
-                href: "#",
-                title: "Behance",
-                rel: "noopener"
-              }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-behance" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Behance")
-                ])
-              ])
-            ]
-          ),
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__tumblr",
-              attrs: {
-                target: "_blank",
-                href: "#",
-                title: "Tumblr",
-                rel: "noopener"
-              }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-tumblr" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Tumblr")
-                ])
-              ])
-            ]
-          ),
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__youtube",
-              attrs: {
-                target: "_blank",
-                href: "#",
-                title: "Youtube",
-                rel: "noopener"
-              }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-youtube-play" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Youtube")
-                ])
-              ])
-            ]
-          ),
-          _c(
-            "a",
-            {
-              staticClass: "social-media-item socail_media__snapchat",
-              attrs: {
-                target: "_blank",
-                href: "#",
-                title: "Snapchat",
-                rel: "noopener"
-              }
-            },
-            [
-              _c("span", { staticClass: "socail-media-item__content" }, [
-                _c("i", { staticClass: "fa fa-snapchat" }),
-                _c("span", { staticClass: "social_title screen-reader-text" }, [
-                  _vm._v("Snapchat")
-                ])
-              ])
-            ]
-          )
-        ])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1f42fb90", module.exports)
-  }
-}
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(47)
+var __vue_script__ = __webpack_require__(45)
 /* template */
-var __vue_template__ = __webpack_require__(48)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/Logo.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1c796f16", Component.options)
-  } else {
-    hotAPI.reload("data-v-1c796f16", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({});
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "header__top header--s3" }, [
-      _c(
-        "div",
-        { staticClass: "penci-container-fluid header-content__container" },
-        [
-          _c("div", { staticClass: "site-branding" }, [
-            _c("h1", [
-              _c(
-                "a",
-                { staticClass: "custom-logo-link", attrs: { href: "#" } },
-                [
-                  _c("img", {
-                    staticClass: "custom-logo",
-                    attrs: {
-                      width: "357",
-                      height: "120",
-                      src: "/img/logo.png",
-                      alt: "PenNews Creative"
-                    }
-                  })
-                ]
-              )
-            ])
-          ])
-        ]
-      )
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1c796f16", module.exports)
-  }
-}
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(50)
-/* template */
-var __vue_template__ = __webpack_require__(60)
+var __vue_template__ = __webpack_require__(57)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49052,16 +50161,16 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 50 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Science_vue__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Science_vue__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Science_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__articles_Science_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__articles_Technologies_vue__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__articles_Technologies_vue__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__articles_Technologies_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__articles_Technologies_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue__);
@@ -49724,15 +50833,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 51 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(52)
+var __vue_script__ = __webpack_require__(47)
 /* template */
-var __vue_template__ = __webpack_require__(53)
+var __vue_template__ = __webpack_require__(50)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49771,7 +50880,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 52 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49931,7 +51040,115 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 53 */
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "penci-loader-effect penci-loading-animation-9" },
+      [
+        _c("div", { staticClass: "penci-loading-circle" }, [
+          _c("div", {
+            staticClass: "penci-loading-circle1 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle2 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle3 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle4 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle5 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle6 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle7 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle8 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle9 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle10 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle11 penci-loading-circle-inner"
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "penci-loading-circle12 penci-loading-circle-inner"
+          })
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-652462c6", module.exports)
+  }
+}
+
+/***/ }),
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -50057,11 +51274,13 @@ var render = function() {
                               { staticClass: "penci__post-title entry-title" },
                               [
                                 _c(
-                                  "a",
+                                  "router-link",
                                   {
                                     attrs: {
-                                      href:
-                                        "develop-mythical-creatures/index.html"
+                                      to: {
+                                        name: "article",
+                                        params: { id: article.id }
+                                      }
                                     }
                                   },
                                   [
@@ -50072,7 +51291,8 @@ var render = function() {
                                     )
                                   ]
                                 )
-                              ]
+                              ],
+                              1
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "penci-schema-markup" }, [
@@ -50293,15 +51513,15 @@ if (false) {
 }
 
 /***/ }),
-/* 54 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(55)
+var __vue_script__ = __webpack_require__(52)
 /* template */
-var __vue_template__ = __webpack_require__(56)
+var __vue_template__ = __webpack_require__(53)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -50340,7 +51560,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 55 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50465,7 +51685,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 56 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -50819,15 +52039,15 @@ if (false) {
 }
 
 /***/ }),
-/* 57 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(58)
+var __vue_script__ = __webpack_require__(55)
 /* template */
-var __vue_template__ = __webpack_require__(59)
+var __vue_template__ = __webpack_require__(56)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -50866,7 +52086,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 58 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50982,7 +52202,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 59 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -51264,7 +52484,7 @@ if (false) {
 }
 
 /***/ }),
-/* 60 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -51399,15 +52619,15 @@ if (false) {
 }
 
 /***/ }),
-/* 61 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(62)
+var __vue_script__ = __webpack_require__(59)
 /* template */
-var __vue_template__ = __webpack_require__(63)
+var __vue_template__ = __webpack_require__(60)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51446,7 +52666,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 62 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51609,7 +52829,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 63 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52184,15 +53404,1530 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("main-content", { attrs: { articles: _vm.articles } }),
+      _vm._v(" "),
+      _c("additional-topics", { attrs: { articles: _vm.articles } })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1aff2807", module.exports)
+  }
+}
+
+/***/ }),
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(65)
+var __vue_script__ = __webpack_require__(63)
 /* template */
-var __vue_template__ = __webpack_require__(66)
+var __vue_template__ = __webpack_require__(64)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Header.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1f42fb90", Component.options)
+  } else {
+    hotAPI.reload("data-v-1f42fb90", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['articles'],
+    components: {
+        Animation: __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default.a
+    },
+    computed: {
+        threeDArticles: function threeDArticles() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 1;
+            });
+            return filteredArticles.slice(1, 6);
+        },
+        illustrations: function illustrations() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 2;
+            });
+            return filteredArticles.slice(1, 7);
+        }
+    }
+});
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "header",
+    {
+      staticClass: "site-header header--s3 header--s4",
+      attrs: { id: "masthead" }
+    },
+    [
+      _c("div", { staticClass: "penci-container-fluid" }, [
+        _c(
+          "nav",
+          {
+            staticClass:
+              "main-navigation penci_disable_padding_menu pencimn-slide_down",
+            attrs: {
+              id: "site-navigation",
+              itemtype: "http://schema.org/SiteNavigationElement"
+            }
+          },
+          [
+            _c("ul", { staticClass: "menu", attrs: { id: "menu-main-menu" } }, [
+              _c(
+                "li",
+                {
+                  staticClass:
+                    "menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751",
+                  attrs: { id: "menu-item-751" }
+                },
+                [
+                  _c("router-link", { attrs: { to: "{name:'home'}" } }, [
+                    _vm._v("Home")
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass:
+                    "menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726",
+                  attrs: { id: "menu-item-726" }
+                },
+                [
+                  _c(
+                    "a",
+                    { attrs: { href: "category/creative-news/index.html" } },
+                    [_vm._v("Creative News")]
+                  ),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "sub-menu" }, [
+                    _c(
+                      "li",
+                      {
+                        staticClass: "menu-item-0",
+                        attrs: { id: "menu-item-0" }
+                      },
+                      [
+                        _c("div", { staticClass: "penci-megamenu" }, [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "penci-content-megamenu penci-content-megamenu-style-1"
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "penci-mega-latest-posts col-mn-5 mega-row-1 penci-post-border-bottom"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "penci-mega-row penci-mega-8 row-active",
+                                      attrs: {
+                                        "data-current": "1",
+                                        "data-blockUid": "penci_megamenu__47694"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "penci-block_content penci-mega-row_content",
+                                          attrs: {
+                                            id:
+                                              "penci_megamenu__47694block_content"
+                                          }
+                                        },
+                                        [
+                                          _vm._l(_vm.threeDArticles, function(
+                                            article
+                                          ) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+                                              },
+                                              [
+                                                _vm._m(1, true),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-mega-thumbnail"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass:
+                                                          "mega-cat-name",
+                                                        attrs: {
+                                                          href:
+                                                            "category/creative-news/illustrations/index.html"
+                                                        }
+                                                      },
+                                                      [_vm._v("Illustrations")]
+                                                    ),
+                                                    _c("a", {
+                                                      staticClass:
+                                                        "penci-image-holder  penci-lazy",
+                                                      style: article.image
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-mega-meta "
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "h3",
+                                                      {
+                                                        staticClass:
+                                                          "post-mega-title entry-title"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "a",
+                                                          {
+                                                            attrs: {
+                                                              href:
+                                                                "13-tips-making-vr-gaming-world/index.html"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                                    " +
+                                                                _vm._s(
+                                                                  article.title
+                                                                ) +
+                                                                "\n                                                                "
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "p",
+                                                      {
+                                                        staticClass:
+                                                          "penci-mega-date"
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-clock-o"
+                                                        }),
+                                                        _vm._v(
+                                                          "\n                                                                " +
+                                                            _vm._s(
+                                                              _vm._f("moment")(
+                                                                article
+                                                                  .created_at
+                                                                  .date,
+                                                                "MMMM D, YYYY"
+                                                              )
+                                                            ) +
+                                                            "\n                                                            "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          }),
+                                          _vm._v(" "),
+                                          _c("animation")
+                                        ],
+                                        2
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(2)
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(3),
+                                  _vm._v(" "),
+                                  _vm._m(4),
+                                  _vm._v(" "),
+                                  _vm._m(5),
+                                  _vm._v(" "),
+                                  _vm._m(6),
+                                  _vm._v(" "),
+                                  _c("animation")
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass:
+                    "menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu penci-megamenu-container menu-item-748",
+                  attrs: { id: "menu-item-748" }
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "category/creative-news/illustrations/index.html"
+                      }
+                    },
+                    [_vm._v("Illustrations")]
+                  ),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "sub-menu" }, [
+                    _c("li", { staticClass: "menu-item-0" }, [
+                      _c("div", { staticClass: "penci-megamenu" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "penci-content-megamenu penci-content-megamenu-style-1"
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "penci-mega-latest-posts col-mn-6 mega-row-1 "
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "penci-mega-row penci-mega-4 row-active",
+                                    attrs: {
+                                      "data-current": "1",
+                                      "data-blockUid": "penci_megamenu__6823"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block_content penci-mega-row_content",
+                                        attrs: {
+                                          id:
+                                            "penci_megamenu__6823block_content"
+                                        }
+                                      },
+                                      [
+                                        _vm._l(_vm.illustrations, function(
+                                          article
+                                        ) {
+                                          return _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "penci-mega-thumbnail"
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      staticClass:
+                                                        "mega-cat-name",
+                                                      attrs: {
+                                                        href:
+                                                          "category/creative-news/illustrations/index.html"
+                                                      }
+                                                    },
+                                                    [_vm._v("Illustrations")]
+                                                  ),
+                                                  _c("a", {
+                                                    staticClass:
+                                                      "penci-image-holder  penci-lazy",
+                                                    style: article.image
+                                                  })
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "penci-mega-meta "
+                                                },
+                                                [
+                                                  _c(
+                                                    "h3",
+                                                    {
+                                                      staticClass:
+                                                        "post-mega-title entry-title"
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          attrs: {
+                                                            href:
+                                                              "10-incredible-online-art-schools/index.html"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                                    " +
+                                                              _vm._s(
+                                                                article.title
+                                                              ) +
+                                                              "\n                                                                "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "p",
+                                                    {
+                                                      staticClass:
+                                                        "penci-mega-date"
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fa fa-clock-o"
+                                                      }),
+                                                      _vm._v(
+                                                        "\n                                                                " +
+                                                          _vm._s(
+                                                            _vm._f("moment")(
+                                                              article.created_at
+                                                                .date,
+                                                              "MMMM D, YYYY"
+                                                            )
+                                                          ) +
+                                                          "\n                                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }),
+                                        _vm._v(" "),
+                                        _c("animation")
+                                      ],
+                                      2
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._m(7)
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("animation")
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(8)
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "penci-mega-child-categories col-mn-5 mega-row-1 penci-child_cat-style-1"
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child  cat-active mega-cat-child-loaded",
+            attrs: {
+              "data-id": "penci-mega-8",
+              href: "category/creative-news/3d-design/index.html"
+            }
+          },
+          [_c("span", [_vm._v("3D Design")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-4",
+              href: "category/creative-news/illustrations/index.html"
+            }
+          },
+          [_c("span", [_vm._v("Illustrations")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-5",
+              href: "category/creative-news/typography/index.html"
+            }
+          },
+          [_c("span", [_vm._v("Typography")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-6",
+              href: "category/creative-news/uiux/index.html"
+            }
+          },
+          [_c("span", [_vm._v("UI/UX")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mega-cat-child ",
+            attrs: {
+              "data-id": "penci-mega-7",
+              href: "category/creative-news/web-design/index.html"
+            }
+          },
+          [_c("span", [_vm._v("Web Design")])]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
+      _c(
+        "a",
+        {
+          staticClass: "mega-cat-name",
+          attrs: { href: "category/creative-news/3d-design/index.html" }
+        },
+        [
+          _vm._v(
+            "\n                                                                3D Design\n                                                            "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "penci-slider-nav" }, [
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-prev penci-pag-disabled",
+          attrs: {
+            "data-block_id": "penci_megamenu__47694block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-left" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-next ",
+          attrs: {
+            "data-block_id": "penci_megamenu__47694block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-right" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-4",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__59081" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__59081block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
+              attrs: {
+                "data-block_id": "penci_megamenu__59081block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__59081block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-5",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__53493" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__53493block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
+              attrs: {
+                "data-block_id": "penci_megamenu__53493block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__53493block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-6",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__83815" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__83815block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
+              attrs: {
+                "data-block_id": "penci_megamenu__83815block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__83815block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "penci-mega-row penci-mega-7",
+        attrs: { "data-current": "1", "data-blockUid": "penci_megamenu__19103" }
+      },
+      [
+        _c("div", {
+          staticClass: "penci-block_content penci-mega-row_content",
+          attrs: { id: "penci_megamenu__19103block_content" }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "penci-slider-nav" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-mega-pag penci-slider-prev penci-pag-disabled",
+              attrs: {
+                "data-block_id": "penci_megamenu__19103block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-left" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-mega-pag penci-slider-next ",
+              attrs: {
+                "data-block_id": "penci_megamenu__19103block_content",
+                href: "#"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-angle-right" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "penci-slider-nav" }, [
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-prev penci-pag-disabled",
+          attrs: {
+            "data-block_id": "penci_megamenu__6823block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-left" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "penci-mega-pag penci-slider-next ",
+          attrs: {
+            "data-block_id": "penci_megamenu__6823block_content",
+            href: "#"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-angle-right" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "header__social-search" }, [
+      _c(
+        "div",
+        {
+          staticClass: "header__search header__search_dis_bg",
+          attrs: { id: "top-search" }
+        },
+        [
+          _c("a", { staticClass: "search-click" }, [
+            _c("i", { staticClass: "fa fa-search" })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "show-search" }, [
+            _c("div", { staticClass: "show-search__content" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "search-form",
+                  attrs: {
+                    method: "get",
+                    action: "http://pennews.pencidesign.com/pennews-creative/"
+                  }
+                },
+                [
+                  _c("label", [
+                    _c("span", { staticClass: "screen-reader-text" }, [
+                      _vm._v("Search for:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "search-field",
+                      attrs: {
+                        id: "penci-header-search",
+                        type: "search",
+                        placeholder: "Enter keyword...",
+                        value: "",
+                        name: "s",
+                        autocomplete: "off"
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    { staticClass: "search-submit", attrs: { type: "submit" } },
+                    [
+                      _c("i", { staticClass: "fa fa-search" }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "screen-reader-text" }, [
+                        _vm._v("Search")
+                      ])
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "penci-ajax-search-results" }, [
+                _c("div", {
+                  staticClass: "penci-ajax-search-results-wrapper",
+                  attrs: { id: "penci-ajax-search-results-wrapper" }
+                })
+              ])
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "header__social-media" }, [
+        _c("div", { staticClass: "header__content-social-media" }, [
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__facebook",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Facebook",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-facebook" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Facebook")
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__twitter",
+              attrs: { target: "_blank", href: "#" }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-twitter" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Twitter")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__instagram",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Instagram",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-instagram" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Instagram")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__pinterest",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Pinterest",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-pinterest" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Pinterest")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__behance",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Behance",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-behance" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Behance")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__tumblr",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Tumblr",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-tumblr" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Tumblr")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__youtube",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Youtube",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-youtube-play" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Youtube")
+                ])
+              ])
+            ]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "social-media-item socail_media__snapchat",
+              attrs: {
+                target: "_blank",
+                href: "#",
+                title: "Snapchat",
+                rel: "noopener"
+              }
+            },
+            [
+              _c("span", { staticClass: "socail-media-item__content" }, [
+                _c("i", { staticClass: "fa fa-snapchat" }),
+                _c("span", { staticClass: "social_title screen-reader-text" }, [
+                  _vm._v("Snapchat")
+                ])
+              ])
+            ]
+          )
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1f42fb90", module.exports)
+  }
+}
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(66)
+/* template */
+var __vue_template__ = __webpack_require__(67)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Logo.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1c796f16", Component.options)
+  } else {
+    hotAPI.reload("data-v-1c796f16", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "header__top header--s3" }, [
+      _c(
+        "div",
+        { staticClass: "penci-container-fluid header-content__container" },
+        [
+          _c("div", { staticClass: "site-branding" }, [
+            _c("h1", [
+              _c(
+                "a",
+                { staticClass: "custom-logo-link", attrs: { href: "#" } },
+                [
+                  _c("img", {
+                    staticClass: "custom-logo",
+                    attrs: {
+                      width: "357",
+                      height: "120",
+                      src: "/img/logo.png",
+                      alt: "PenNews Creative"
+                    }
+                  })
+                ]
+              )
+            ])
+          ])
+        ]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1c796f16", module.exports)
+  }
+}
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(69)
+/* template */
+var __vue_template__ = __webpack_require__(70)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52231,7 +54966,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -52402,7 +55137,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53062,15 +55797,15 @@ if (false) {
 }
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(68)
+var __vue_script__ = __webpack_require__(72)
 /* template */
-var __vue_template__ = __webpack_require__(69)
+var __vue_template__ = __webpack_require__(73)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -53109,7 +55844,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -53186,7 +55921,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53434,7 +56169,4408 @@ if (false) {
 }
 
 /***/ }),
-/* 70 */
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(75)
+/* template */
+var __vue_template__ = __webpack_require__(76)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/views/Article.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4be6f627", Component.options)
+  } else {
+    hotAPI.reload("data-v-4be6f627", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            article: {}
+        };
+    },
+
+    props: ['articles'],
+    methods: {
+        fetchArticle: function fetchArticle() {
+            var _this = this;
+
+            var article = this.articles.filter(function (article) {
+                return article.id === _this.$route.params.id;
+            });
+            this.article = article[0];
+        }
+    },
+    created: function created() {
+        this.fetchArticle();
+    }
+});
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "two-sidebar" }, [
+    _c("div", { staticClass: "site-content", attrs: { id: "content" } }, [
+      _c("div", { staticClass: "content-area", attrs: { id: "primary" } }, [
+        _c("main", { staticClass: "site-main", attrs: { id: "main" } }, [
+          _c(
+            "div",
+            {
+              staticClass: "entry-media penci-entry-media penci-active-thumb "
+            },
+            [
+              _c("div", { staticClass: "post-format-meta " }, [
+                _c("div", { staticClass: "penci-jarallax" }, [
+                  _c("img", {
+                    staticClass: "jarallax-img",
+                    attrs: { src: _vm.article.img, alt: "Image default" }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "entry-media__content " }, [
+                _c("div", { staticClass: "penci-container" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "entry-header penci-entry-header penci-title-"
+                    },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c(
+                        "h1",
+                        { staticClass: "entry-title penci-entry-title" },
+                        [_vm._v(_vm._s(_vm.article.title))]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(1)
+                    ]
+                  )
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "penci-container" }, [
+            _c("div", { staticClass: "penci-container__content" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "penci-wide-content penci-content-novc penci-sticky-content penci-content-single-inner"
+                },
+                [
+                  _c("div", { staticClass: "theiaStickySidebar" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "penci-content-post noloaddisqus ",
+                        attrs: {
+                          "data-url":
+                            "http://pennews.pencidesign.com/pennews-creative/develop-mythical-creatures/",
+                          "data-id": "686",
+                          "data-title": ""
+                        }
+                      },
+                      [
+                        _c(
+                          "article",
+                          {
+                            staticClass:
+                              "penci-single-artcontent post-686 post type-post status-publish format-standard has-post-thumbnail hentry category-3d-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item",
+                            attrs: { id: "post-686" }
+                          },
+                          [
+                            _vm._m(2),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "penci-entry-content entry-content"
+                              },
+                              [_c("p", [_vm._v(_vm._s(_vm.article.content))])]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(3)
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _vm._m(7)
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(8),
+              _vm._v(" "),
+              _vm._m(9)
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-entry-categories" }, [
+      _c("span", { staticClass: "penci-cat-links" }, [
+        _c(
+          "a",
+          {
+            attrs: {
+              href: "../category/creative-news/3d-design/index.html",
+              rel: "category tag"
+            }
+          },
+          [_vm._v("3D Design")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "entry-meta penci-entry-meta" }, [
+      _c("span", { staticClass: "entry-meta-item penci-byline" }, [
+        _vm._v("by "),
+        _c("span", { staticClass: "author vcard" }, [
+          _c(
+            "a",
+            {
+              staticClass: "url fn n",
+              attrs: { href: "../author/admin/index.html" }
+            },
+            [_vm._v("Penci Design")]
+          )
+        ])
+      ]),
+      _c("span", { staticClass: "entry-meta-item penci-posted-on" }, [
+        _c("i", { staticClass: "fa fa-clock-o" }),
+        _vm._v(" "),
+        _c("time", { staticClass: "entry-date published" }, [
+          _vm._v("November 3, 2017")
+        ]),
+        _vm._v(" "),
+        _c("time", { staticClass: "updated" }, [_vm._v("December 1, 2017")])
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
+        _c(
+          "a",
+          {
+            staticClass: "penci_pmeta-link",
+            attrs: { href: "index.html#respond" }
+          },
+          [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "entry-meta-item penci-post-countview" }, [
+        _c(
+          "span",
+          {
+            staticClass:
+              "entry-meta-item penci-post-countview penci_post-meta_item"
+          },
+          [
+            _c("i", { staticClass: "fa fa-eye" }),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass:
+                  "penci-post-countview-number penci-post-countview-p686"
+              },
+              [_vm._v("471")]
+            )
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      { staticClass: "penci-social-buttons penci-social-share-footer" },
+      [
+        _c("span", { staticClass: "penci-social-share-text" }, [
+          _vm._v("Share")
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass:
+              "penci-post-like penci_post-meta_item  single-like-button penci-social-item like",
+            attrs: {
+              href: "#",
+              "data-post_id": "686",
+              title: "Like",
+              "data-like": "Like",
+              "data-unlike": "Unlike"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-thumbs-o-up" }),
+            _vm._v(" "),
+            _c("span", { staticClass: "penci-share-number" }, [_vm._v("2")])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item facebook",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-facebook" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item twitter",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "https://twitter.com/intent/tweet?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&text=How%20to%20develop%20mythical%20creatures"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-twitter" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item google_plus",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "https://plus.google.com/share?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-google-plus" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item pinterest",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "http://pinterest.com/pin/create/button?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&media=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fwp-content%2Fuploads%2Fsites%2F30%2F2017%2F11%2F3d5.jpg&description=How%20to%20develop%20mythical%20creatures"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-pinterest" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item linkedin",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&title=How%20to%20develop%20mythical%20creatures"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-linkedin" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item tumblr",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "https://www.tumblr.com/share/link?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&name=How%20to%20develop%20mythical%20creatures"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-tumblr" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item reddit",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "https://reddit.com/submit?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&title=How%20to%20develop%20mythical%20creatures"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-reddit" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item telegram",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              title: "",
+              href:
+                "https://telegram.me/share/url?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&text=How%20to%20develop%20mythical%20creatures"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-telegram" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "penci-social-item email",
+            attrs: {
+              target: "_blank",
+              rel: "noopener",
+              href:
+                "mailto:?subject=How%20to%20develop%20mythical%20creatures&#038;BODY=http://pennews.pencidesign.com/pennews-creative/develop-mythical-creatures/"
+            }
+          },
+          [_c("i", { staticClass: "fa fa-envelope" })]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("footer", { staticClass: "penci-entry-footer" }, [
+      _c("span", { staticClass: "tags-links penci-tags-links" }, [
+        _c("a", { attrs: { href: "../tag/creative/index.html", rel: "tag" } }, [
+          _vm._v("creative")
+        ]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "../tag/news/index.html", rel: "tag" } }, [
+          _vm._v("news")
+        ]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "../tag/pennews/index.html", rel: "tag" } }, [
+          _vm._v("pennews")
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          { attrs: { href: "../tag/wordpress/index.html", rel: "tag" } },
+          [_vm._v("wordpress")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "span",
+        { staticClass: "penci-social-buttons penci-social-share-footer" },
+        [
+          _c("span", { staticClass: "penci-social-share-text" }, [
+            _vm._v("Share")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass:
+                "penci-post-like penci_post-meta_item  single-like-button penci-social-item like",
+              attrs: {
+                href: "#",
+                "data-post_id": "686",
+                title: "Like",
+                "data-like": "Like",
+                "data-unlike": "Unlike"
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-thumbs-o-up" }),
+              _vm._v(" "),
+              _c("span", { staticClass: "penci-share-number" }, [_vm._v("2")])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item facebook",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-facebook" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item twitter",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://twitter.com/intent/tweet?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&text=How%20to%20develop%20mythical%20creatures"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-twitter" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item google_plus",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://plus.google.com/share?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-google-plus" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item pinterest",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "http://pinterest.com/pin/create/button?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&media=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fwp-content%2Fuploads%2Fsites%2F30%2F2017%2F11%2F3d5.jpg&description=How%20to%20develop%20mythical%20creatures"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-pinterest" })]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item linkedin",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&title=How%20to%20develop%20mythical%20creatures"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-linkedin" })]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item tumblr",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://www.tumblr.com/share/link?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&name=How%20to%20develop%20mythical%20creatures"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-tumblr" })]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item reddit",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://reddit.com/submit?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&title=How%20to%20develop%20mythical%20creatures"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-reddit" })]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item telegram",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                title: "",
+                href:
+                  "https://telegram.me/share/url?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fdevelop-mythical-creatures%2F&text=How%20to%20develop%20mythical%20creatures"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-telegram" })]
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "penci-social-item email",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href:
+                  "mailto:?subject=How%20to%20develop%20mythical%20creatures&#038;BODY=http://pennews.pencidesign.com/pennews-creative/develop-mythical-creatures/"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-envelope" })]
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-post-pagination" }, [
+      _c("div", { staticClass: "prev-post" }, [
+        _c("div", { staticClass: "prev-post-inner penci_mobj__body" }, [
+          _c("div", { staticClass: "prev-post-title" }, [
+            _c("span", [
+              _c("i", { staticClass: "fa fa-angle-left" }),
+              _vm._v("previous post")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "pagi-text" }, [
+            _c("h5", { staticClass: "prev-title" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href:
+                      "../movie-fans-will-love-illustrated-movie-maps/index.html"
+                  }
+                },
+                [
+                  _vm._v(
+                    "Movie\n                                                            fans will love these illustrated movie maps"
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "next-post " }, [
+        _c("div", { staticClass: "next-post-inner" }, [
+          _c("div", { staticClass: "prev-post-title next-post-title" }, [
+            _c("span", [
+              _vm._v("next post"),
+              _c("i", { staticClass: "fa fa-angle-right" })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "pagi-text" }, [
+            _c("h5", { staticClass: "next-title" }, [
+              _c(
+                "a",
+                {
+                  attrs: { href: "../tackle-user-research-testing/index.html" }
+                },
+                [
+                  _vm._v(
+                    "How do you\n                                                            tackle user research and testing?"
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-post-author penci_media_object" }, [
+      _c("div", { staticClass: "author-img penci_mobj__img" }, [
+        _c("img", {
+          staticClass: "avatar avatar-100 photo",
+          attrs: {
+            alt: "",
+            src:
+              "http://2.gravatar.com/avatar/8612232278edda9fe1d495399d2a552d?s=100&d=mm&r=g",
+            height: "100",
+            width: "100"
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "penci-author-content penci_mobj__body" }, [
+        _c("h5", [
+          _c(
+            "a",
+            {
+              attrs: {
+                href: "../author/admin/index.html",
+                title: "Posts by Penci Design",
+                rel: "author"
+              }
+            },
+            [_vm._v("Penci Design")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "author-description" }, [
+          _vm._v(
+            "\n                                                Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis\n                                                suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur, vero eos\n                                                et accusamus et iusto odio.\n                                            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "author-socials" }, [
+          _c(
+            "a",
+            {
+              staticClass: "author-social",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href: "http://pencidesign.com/"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-globe" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "author-social",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href: "http://facebook.com/pencidesign"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-facebook" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "author-social",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href: "http://twitter.com/pencidesign"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-twitter" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "author-social",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href: "http://plus.google.com/pencidesign?rel=author"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-google-plus" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "author-social",
+              attrs: {
+                target: "_blank",
+                rel: "noopener",
+                href: "http://instagram.com/pencidesign"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-instagram" })]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-post-related" }, [
+      _c("div", { staticClass: "post-title-box" }, [
+        _c("h4", { staticClass: "post-box-title" }, [_vm._v("Related posts")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "post-related_content" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "item-related penci-imgtype-landscape post-635 post type-post status-publish format-standard has-post-thumbnail hentry category-3d-design category-editors-picks tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+          },
+          [
+            _c("a", {
+              staticClass:
+                "related-thumb penci-image-holder penci-image_has_icon penci-lazy",
+              attrs: {
+                "data-src":
+                  "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d1-480x320.jpg",
+                href: "../learn-model-3d-portrait-zbrush-maya/index.html"
+              }
+            }),
+            _vm._v(" "),
+            _c("h4", { staticClass: "entry-title" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href: "../learn-model-3d-portrait-zbrush-maya/index.html"
+                  }
+                },
+                [
+                  _vm._v(
+                    "Learn\n                                                        how to model a 3D portrait in ZBrush and Maya"
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "penci-schema-markup" }, [
+              _c("span", { staticClass: "author vcard" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "url fn n",
+                    attrs: { href: "../author/admin/index.html" }
+                  },
+                  [_vm._v("Penci Design")]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "time",
+                {
+                  staticClass: "entry-date published",
+                  attrs: { datetime: "2017-11-03T03:04:36+00:00" }
+                },
+                [
+                  _vm._v(
+                    "November 3, 2017\n                                                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "time",
+                {
+                  staticClass: "updated",
+                  attrs: { datetime: "2017-12-01T07:39:14+00:00" }
+                },
+                [
+                  _vm._v(
+                    "December 1, 2017\n                                                    "
+                  )
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "item-related penci-imgtype-landscape post-682 post type-post status-publish format-standard has-post-thumbnail hentry category-3d-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+          },
+          [
+            _c("a", {
+              staticClass:
+                "related-thumb penci-image-holder penci-image_has_icon penci-lazy",
+              attrs: {
+                "data-src":
+                  "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d6-480x320.jpg",
+                href: "../see-maya-2018s-amazing-new-3d-tools-action/index.html"
+              }
+            }),
+            _vm._v(" "),
+            _c("h4", { staticClass: "entry-title" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href:
+                      "../see-maya-2018s-amazing-new-3d-tools-action/index.html"
+                  }
+                },
+                [
+                  _vm._v(
+                    "See\n                                                        Maya 2018’s amazing new 3D tools in action"
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "penci-schema-markup" }, [
+              _c("span", { staticClass: "author vcard" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "url fn n",
+                    attrs: { href: "../author/admin/index.html" }
+                  },
+                  [_vm._v("Penci Design")]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "time",
+                {
+                  staticClass: "entry-date published",
+                  attrs: { datetime: "2017-11-03T03:11:12+00:00" }
+                },
+                [
+                  _vm._v(
+                    "November 3, 2017\n                                                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "time",
+                {
+                  staticClass: "updated",
+                  attrs: { datetime: "2017-12-01T07:36:38+00:00" }
+                },
+                [
+                  _vm._v(
+                    "December 1, 2017\n                                                    "
+                  )
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "item-related penci-imgtype-landscape post-679 post type-post status-publish format-standard has-post-thumbnail hentry category-3d-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+          },
+          [
+            _c("a", {
+              staticClass:
+                "related-thumb penci-image-holder penci-image_has_icon penci-lazy",
+              attrs: {
+                "data-src":
+                  "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d7-480x320.jpg",
+                href:
+                  "../experimental-vfx-videos-push-limits-3d-animation/index.html"
+              }
+            }),
+            _vm._v(" "),
+            _c("h4", { staticClass: "entry-title" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href:
+                      "../experimental-vfx-videos-push-limits-3d-animation/index.html"
+                  }
+                },
+                [
+                  _vm._v(
+                    "Experimental\n                                                        VFX videos push limits of 3D animation"
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "penci-schema-markup" }, [
+              _c("span", { staticClass: "author vcard" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "url fn n",
+                    attrs: { href: "../author/admin/index.html" }
+                  },
+                  [_vm._v("Penci Design")]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "time",
+                {
+                  staticClass: "entry-date published",
+                  attrs: { datetime: "2017-11-03T03:10:52+00:00" }
+                },
+                [
+                  _vm._v(
+                    "November 3, 2017\n                                                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "time",
+                {
+                  staticClass: "updated",
+                  attrs: { datetime: "2017-12-01T07:38:18+00:00" }
+                },
+                [
+                  _vm._v(
+                    "December 1, 2017\n                                                    "
+                  )
+                ]
+              )
+            ])
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "active multi-wordpress-comment penci-tab-pane",
+        attrs: { id: "wordpress-686-comment" }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "post-comments  post-comments-686  no-comment-yet",
+            attrs: { id: "comments" }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "comment-respond", attrs: { id: "respond" } },
+              [
+                _c(
+                  "h3",
+                  {
+                    staticClass: "comment-reply-title",
+                    attrs: { id: "reply-title" }
+                  },
+                  [
+                    _c("span", [_vm._v("Leave a Comment")]),
+                    _vm._v(" "),
+                    _c("small", [
+                      _c(
+                        "a",
+                        {
+                          staticStyle: { display: "none" },
+                          attrs: {
+                            rel: "nofollow",
+                            id: "cancel-comment-reply-link",
+                            href: "index.html#respond"
+                          }
+                        },
+                        [_vm._v("Cancel Reply")]
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    staticClass: "comment-form",
+                    attrs: {
+                      action:
+                        "http://pennews.pencidesign.com/pennews-creative/wp-comments-post.php",
+                      method: "post",
+                      id: "commentform",
+                      novalidate: ""
+                    }
+                  },
+                  [
+                    _c("p", { staticClass: "comment-form-comment" }, [
+                      _c("textarea", {
+                        attrs: {
+                          id: "comment",
+                          name: "comment",
+                          cols: "45",
+                          rows: "8",
+                          placeholder: "Your Comment",
+                          "aria-required": "true"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "comment-form-author" }, [
+                      _c("input", {
+                        attrs: {
+                          id: "author",
+                          name: "author",
+                          type: "text",
+                          value: "",
+                          placeholder: "Name*",
+                          size: "30",
+                          "aria-required": "true"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "comment-form-email" }, [
+                      _c("input", {
+                        attrs: {
+                          id: "email",
+                          name: "email",
+                          type: "text",
+                          value: "",
+                          placeholder: "Email*",
+                          size: "30",
+                          "aria-required": "true"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "comment-form-url" }, [
+                      _c("input", {
+                        attrs: {
+                          id: "url",
+                          name: "url",
+                          type: "text",
+                          value: "",
+                          placeholder: "Website",
+                          size: "30"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "comment-form-cookies-consent" }, [
+                      _c("input", {
+                        attrs: {
+                          id: "wp-comment-cookies-consent",
+                          name: "wp-comment-cookies-consent",
+                          type: "checkbox",
+                          value: "yes"
+                        }
+                      }),
+                      _c(
+                        "span",
+                        { attrs: { for: "wp-comment-cookies-consent" } },
+                        [
+                          _vm._v(
+                            "Save my name, email, and website in this browser for the next time I comment."
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "form-submit" }, [
+                      _c("input", {
+                        staticClass: "submit",
+                        attrs: {
+                          name: "submit",
+                          type: "submit",
+                          id: "submit",
+                          value: "Submit"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          name: "comment_post_ID",
+                          value: "686",
+                          id: "comment_post_ID"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          name: "comment_parent",
+                          id: "comment_parent",
+                          value: "0"
+                        }
+                      })
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "aside",
+      {
+        staticClass:
+          "widget-area widget-area-2 penci-sticky-sidebar penci-sidebar-widgets"
+      },
+      [
+        _c("div", { staticClass: "theiaStickySidebar" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "penci-block-vc penci-ad-box penci-list-banner widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-ad_box penci-widget__ad_box penci-link-filter-hidden penci-empty-block-title penci-vc-column-1",
+              attrs: { id: "penci-ad_box--76754" }
+            },
+            [
+              _c("div", { staticClass: "penci-block-heading" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "penci-block_content" }, [
+                _c(
+                  "div",
+                  { staticClass: "penci-promo-item penci-banner-has-text" },
+                  [
+                    _c("a", {
+                      staticClass: "penci-promo-link",
+                      attrs: { href: "#", target: "_self" }
+                    }),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass:
+                        "penci-image-holder penci-ad-image  penci-lazy attachment-full",
+                      attrs: {
+                        width: "600",
+                        height: "500",
+                        src: "/img/banner.jpg",
+                        alt: ""
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_mc4wp_form_widget",
+              attrs: { id: "mc4wp_form_widget-2" }
+            },
+            [
+              _c("div", { staticClass: "penci-block-heading" }, [
+                _c("h4", { staticClass: "widget-title penci-block__title" }, [
+                  _c("span", [_vm._v("Newsletter")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  staticClass: "mc4wp-form mc4wp-form-796",
+                  attrs: {
+                    id: "mc4wp-form-1",
+                    method: "post",
+                    "data-id": "796",
+                    "data-name": "Subscrible"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "mc4wp-form-fields" }, [
+                    _c("p", { staticClass: "mdes" }, [
+                      _vm._v(
+                        "Subscribe my Newsletter for new\n                                            blog posts, tips & new photos. Let's stay updated!"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "mname" }, [
+                      _c("input", {
+                        attrs: {
+                          type: "text",
+                          name: "NAME",
+                          placeholder: "Name..."
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "memail" }, [
+                      _c("input", {
+                        attrs: {
+                          type: "email",
+                          id: "mc4wp_email",
+                          name: "EMAIL",
+                          placeholder: "Email...",
+                          required: ""
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "msubmit" }, [
+                      _c("input", {
+                        attrs: { type: "submit", value: "Subscribe" }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("label", { staticStyle: { display: "none !important" } }, [
+                    _vm._v(
+                      "Leave this field empty if you're human:\n                                            "
+                    ),
+                    _c("input", {
+                      attrs: {
+                        type: "text",
+                        name: "_mc4wp_honeypot",
+                        value: "",
+                        tabindex: "-1",
+                        autocomplete: "off"
+                      }
+                    })
+                  ]),
+                  _c("input", {
+                    attrs: {
+                      type: "hidden",
+                      name: "_mc4wp_timestamp",
+                      value: "1537945515"
+                    }
+                  }),
+                  _c("input", {
+                    attrs: {
+                      type: "hidden",
+                      name: "_mc4wp_form_id",
+                      value: "796"
+                    }
+                  }),
+                  _c("input", {
+                    attrs: {
+                      type: "hidden",
+                      name: "_mc4wp_form_element_id",
+                      value: "mc4wp-form-1"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mc4wp-response" })
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "penci-block-vc penci-block_6 penci__general-meta widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-block_6 penci-widget__block_6 penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-1",
+              attrs: {
+                id: "penci_block_6__49085630",
+                "data-current": "1",
+                "data-blockUid": "penci_block_6__49085630"
+              }
+            },
+            [
+              _c("div", { staticClass: "penci-block-heading" }, [
+                _c("h3", { staticClass: "penci-block__title" }, [
+                  _c("span", [_vm._v("Editor's Picks")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "penci-block_content",
+                  attrs: { id: "penci_block_6__49085630block_content" }
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "penci-block_content__items penci-block-items__1"
+                    },
+                    [
+                      _c("article", { staticClass: "hentry penci-post-item" }, [
+                        _c("div", { staticClass: "penci_media_object " }, [
+                          _c("a", {
+                            staticClass:
+                              "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                            attrs: {
+                              "data-src":
+                                "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d1-280x186.jpg",
+                              "data-delay": "",
+                              href:
+                                "../learn-model-3d-portrait-zbrush-maya/index.html",
+                              title:
+                                "Learn how to model a 3D portrait in ZBrush and Maya"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "penci_post_content penci_mobj__body"
+                            },
+                            [
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "penci__post-title entry-title"
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "../learn-model-3d-portrait-zbrush-maya/index.html",
+                                        title:
+                                          " Learn how to model a 3D portrait in ZBrush and Maya "
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Learn\n                                                                how to model a 3D portrait in ZBrush and Maya"
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "penci-schema-markup" },
+                                [
+                                  _c("span", { staticClass: "author vcard" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "url fn n",
+                                        attrs: {
+                                          href: "../author/admin/index.html"
+                                        }
+                                      },
+                                      [_vm._v("Penci Design")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "entry-date published",
+                                      attrs: {
+                                        datetime: "2017-11-03T03:04:36+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "November 3, 2017\n                                                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "updated",
+                                      attrs: {
+                                        datetime: "2017-12-01T07:39:14+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "December 1, 2017\n                                                            "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post-meta" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-posted-on"
+                                  },
+                                  [
+                                    _c("i", { staticClass: "fa fa-clock-o" }),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:36+00:00"
+                                        }
+                                      },
+                                      [_vm._v("November 3, 2017")]
+                                    ),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:39:14+00:00"
+                                        }
+                                      },
+                                      [_vm._v("December 1, 2017")]
+                                    )
+                                  ]
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-comment-count"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "penci_pmeta-link",
+                                        attrs: {
+                                          href:
+                                            "../learn-model-3d-portrait-zbrush-maya/index.html#comments"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "la la-comments"
+                                        }),
+                                        _vm._v("26 ")
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("article", { staticClass: "hentry penci-post-item" }, [
+                        _c("div", { staticClass: "penci_media_object " }, [
+                          _c("a", {
+                            staticClass:
+                              "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                            attrs: {
+                              "data-src":
+                                "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/typo1-280x186.jpg",
+                              "data-delay": "",
+                              href:
+                                "../get-grips-accessible-web-typography/index.html",
+                              title:
+                                "Get to grips with accessible web typography"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "penci_post_content penci_mobj__body"
+                            },
+                            [
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "penci__post-title entry-title"
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "../get-grips-accessible-web-typography/index.html",
+                                        title:
+                                          " Get to grips with accessible web typography "
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Get\n                                                                to grips with accessible web typography"
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "penci-schema-markup" },
+                                [
+                                  _c("span", { staticClass: "author vcard" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "url fn n",
+                                        attrs: {
+                                          href: "../author/admin/index.html"
+                                        }
+                                      },
+                                      [_vm._v("Penci Design")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "entry-date published",
+                                      attrs: {
+                                        datetime: "2017-11-03T03:04:33+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "November 3, 2017\n                                                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "updated",
+                                      attrs: {
+                                        datetime: "2017-12-01T07:39:21+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "December 1, 2017\n                                                            "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post-meta" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-posted-on"
+                                  },
+                                  [
+                                    _c("i", { staticClass: "fa fa-clock-o" }),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:33+00:00"
+                                        }
+                                      },
+                                      [_vm._v("November 3, 2017")]
+                                    ),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:39:21+00:00"
+                                        }
+                                      },
+                                      [_vm._v("December 1, 2017")]
+                                    )
+                                  ]
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-comment-count"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "penci_pmeta-link",
+                                        attrs: {
+                                          href:
+                                            "../get-grips-accessible-web-typography/index.html#respond"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "la la-comments"
+                                        }),
+                                        _vm._v("0")
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("article", { staticClass: "hentry penci-post-item" }, [
+                        _c("div", { staticClass: "penci_media_object " }, [
+                          _c("a", {
+                            staticClass:
+                              "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                            attrs: {
+                              "data-src":
+                                "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu1-280x186.jpg",
+                              "data-delay": "",
+                              href:
+                                "../meet-artist-brought-pratchetts-discworld-life/index.html",
+                              title:
+                                "Meet the artist who brought Pratchett&#8217;s Discworld to life"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "penci_post_content penci_mobj__body"
+                            },
+                            [
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "penci__post-title entry-title"
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "../meet-artist-brought-pratchetts-discworld-life/index.html",
+                                        title:
+                                          " Meet the artist who brought Pratchett&#8217;s Discworld to life "
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Meet\n                                                                the artist who brought Pratchett’s Discworld to\n                                                                life"
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "penci-schema-markup" },
+                                [
+                                  _c("span", { staticClass: "author vcard" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "url fn n",
+                                        attrs: {
+                                          href: "../author/admin/index.html"
+                                        }
+                                      },
+                                      [_vm._v("Penci Design")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "entry-date published",
+                                      attrs: {
+                                        datetime: "2017-11-03T03:04:28+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "November 3, 2017\n                                                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "updated",
+                                      attrs: {
+                                        datetime: "2017-12-01T07:39:29+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "December 1, 2017\n                                                            "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post-meta" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-posted-on"
+                                  },
+                                  [
+                                    _c("i", { staticClass: "fa fa-clock-o" }),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:28+00:00"
+                                        }
+                                      },
+                                      [_vm._v("November 3, 2017")]
+                                    ),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:39:29+00:00"
+                                        }
+                                      },
+                                      [_vm._v("December 1, 2017")]
+                                    )
+                                  ]
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-comment-count"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "penci_pmeta-link",
+                                        attrs: {
+                                          href:
+                                            "../meet-artist-brought-pratchetts-discworld-life/index.html#respond"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "la la-comments"
+                                        }),
+                                        _vm._v("0")
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("article", { staticClass: "hentry penci-post-item" }, [
+                        _c("div", { staticClass: "penci_media_object " }, [
+                          _c("a", {
+                            staticClass:
+                              "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                            attrs: {
+                              "data-src":
+                                "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web1-280x186.jpg",
+                              "data-delay": "",
+                              href:
+                                "../build-web-animations-without-writing-line-code/index.html",
+                              title:
+                                "Build web animations without writing a line of code"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "penci_post_content penci_mobj__body"
+                            },
+                            [
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "penci__post-title entry-title"
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "../build-web-animations-without-writing-line-code/index.html",
+                                        title:
+                                          " Build web animations without writing a line of code "
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Build\n                                                                web animations without writing a line of code"
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "penci-schema-markup" },
+                                [
+                                  _c("span", { staticClass: "author vcard" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "url fn n",
+                                        attrs: {
+                                          href: "../author/admin/index.html"
+                                        }
+                                      },
+                                      [_vm._v("Penci Design")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "entry-date published",
+                                      attrs: {
+                                        datetime: "2017-11-03T03:04:23+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "November 3, 2017\n                                                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "updated",
+                                      attrs: {
+                                        datetime: "2017-12-01T07:39:38+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "December 1, 2017\n                                                            "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post-meta" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-posted-on"
+                                  },
+                                  [
+                                    _c("i", { staticClass: "fa fa-clock-o" }),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:23+00:00"
+                                        }
+                                      },
+                                      [_vm._v("November 3, 2017")]
+                                    ),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:39:38+00:00"
+                                        }
+                                      },
+                                      [_vm._v("December 1, 2017")]
+                                    )
+                                  ]
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-comment-count"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "penci_pmeta-link",
+                                        attrs: {
+                                          href:
+                                            "../build-web-animations-without-writing-line-code/index.html#respond"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "la la-comments"
+                                        }),
+                                        _vm._v("0")
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("article", { staticClass: "hentry penci-post-item" }, [
+                        _c("div", { staticClass: "penci_media_object " }, [
+                          _c("a", {
+                            staticClass:
+                              "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                            attrs: {
+                              "data-src":
+                                "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d2-280x186.jpg",
+                              "data-delay": "",
+                              href: "../move-daz-studio-zbrush/index.html",
+                              title: "How to move between DAZ Studio and ZBrush"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "penci_post_content penci_mobj__body"
+                            },
+                            [
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "penci__post-title entry-title"
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "../move-daz-studio-zbrush/index.html",
+                                        title:
+                                          " How to move between DAZ Studio and ZBrush "
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "How\n                                                                to move between DAZ Studio and ZBrush"
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "penci-schema-markup" },
+                                [
+                                  _c("span", { staticClass: "author vcard" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "url fn n",
+                                        attrs: {
+                                          href: "../author/admin/index.html"
+                                        }
+                                      },
+                                      [_vm._v("Penci Design")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "entry-date published",
+                                      attrs: {
+                                        datetime: "2017-11-03T03:04:18+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "November 3, 2017\n                                                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "updated",
+                                      attrs: {
+                                        datetime: "2017-12-01T07:39:50+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "December 1, 2017\n                                                            "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post-meta" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-posted-on"
+                                  },
+                                  [
+                                    _c("i", { staticClass: "fa fa-clock-o" }),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:18+00:00"
+                                        }
+                                      },
+                                      [_vm._v("November 3, 2017")]
+                                    ),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:39:50+00:00"
+                                        }
+                                      },
+                                      [_vm._v("December 1, 2017")]
+                                    )
+                                  ]
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-comment-count"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "penci_pmeta-link",
+                                        attrs: {
+                                          href:
+                                            "../move-daz-studio-zbrush/index.html#respond"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "la la-comments"
+                                        }),
+                                        _vm._v("0")
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "penci-loader-effect penci-loading-animation-9"
+                    },
+                    [
+                      _c("div", { staticClass: "penci-loading-circle" }, [
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle1 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle2 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle3 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle4 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle5 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle6 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle7 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle8 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle9 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle10 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle11 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle12 penci-loading-circle-inner"
+                        })
+                      ])
+                    ]
+                  )
+                ]
+              )
+            ]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "aside",
+      {
+        staticClass:
+          "widget-area widget-area-1 penci-sticky-sidebar penci-sidebar-widgets"
+      },
+      [
+        _c("div", { staticClass: "theiaStickySidebar" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_search",
+              attrs: { id: "search-2" }
+            },
+            [
+              _c(
+                "form",
+                {
+                  staticClass: "search-form",
+                  attrs: {
+                    method: "get",
+                    action: "http://pennews.pencidesign.com/pennews-creative/"
+                  }
+                },
+                [
+                  _c("label", [
+                    _c("span", { staticClass: "screen-reader-text" }, [
+                      _vm._v("Search for:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "search-field",
+                      attrs: {
+                        type: "search",
+                        placeholder: "Enter keyword...",
+                        value: "",
+                        name: "s"
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    { staticClass: "search-submit", attrs: { type: "submit" } },
+                    [
+                      _c("i", { staticClass: "fa fa-search" }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "screen-reader-text" }, [
+                        _vm._v("Search")
+                      ])
+                    ]
+                  )
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "penci-block-vc penci-social-counter penci-social-counter--style-1 widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-social_counter penci-widget__social_counter penci-link-filter-hidden penci-vc-column-1",
+              attrs: { id: "penci-social-counter--29121" }
+            },
+            [
+              _c("div", { staticClass: "penci-block-heading" }, [
+                _c("h3", { staticClass: "penci-block__title" }, [
+                  _c("span", [_vm._v("Our Networks")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "penci-block_content" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "penci-social__item penci-social__facebook penci-social__empty"
+                  },
+                  [
+                    _c("div", { staticClass: "penci-social__content" }, [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "https://www.facebook.com/PenciDesign"
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-facebook" }),
+                          _c("span", { staticClass: "penci-social__name" }, [
+                            _vm._v("Facebook")
+                          ]),
+                          _c("span", { staticClass: "penci-social__button" }, [
+                            _c("i", { staticClass: "fa fa-thumbs-o-up" }),
+                            _vm._v("Like")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "penci-social__item penci-social__twitter penci-social__empty"
+                  },
+                  [
+                    _c("div", { staticClass: "penci-social__content" }, [
+                      _c(
+                        "a",
+                        { attrs: { href: "https://twitter.com/envato" } },
+                        [
+                          _c("i", { staticClass: "fa fa-twitter" }),
+                          _c("span", { staticClass: "penci-social__name" }, [
+                            _vm._v("Twitter")
+                          ]),
+                          _c("span", { staticClass: "penci-social__button" }, [
+                            _c("i", { staticClass: "fa fa-user-plus" }),
+                            _vm._v("Follow")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "penci-social__item penci-social__youtube penci-social__empty"
+                  },
+                  [
+                    _c("div", { staticClass: "penci-social__content" }, [
+                      _c(
+                        "a",
+                        { attrs: { href: "http://www.youtube.com/envato" } },
+                        [
+                          _c("i", { staticClass: "fa fa-youtube-play" }),
+                          _c("span", { staticClass: "penci-social__name" }, [
+                            _vm._v("Youtube")
+                          ]),
+                          _c("span", { staticClass: "penci-social__button" }, [
+                            _c("i", { staticClass: "fa fa-user-plus" }),
+                            _vm._v("Subscribe")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "penci-block-vc penci-block_23 penci__general-meta widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-block_23 penci-widget__block_23 left penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-1",
+              attrs: {
+                id: "penci_block_23__28605285",
+                "data-current": "1",
+                "data-blockUid": "penci_block_23__28605285"
+              }
+            },
+            [
+              _c("div", { staticClass: "penci-block-heading" }, [
+                _c("h3", { staticClass: "penci-block__title" }, [
+                  _c("span", [_vm._v("Popular Posts")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "penci-block_content",
+                  attrs: { id: "penci_block_23__28605285block_content" }
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "penci-block_content__items penci-block-items__1"
+                    },
+                    [
+                      _c("div", { staticClass: "penci-block-wrapper-item" }, [
+                        _c(
+                          "article",
+                          {
+                            staticClass:
+                              "block23_first_item hentry penci-post-item"
+                          },
+                          [
+                            _c("div", { staticClass: "penci_post_thumb" }, [
+                              _c("a", {
+                                staticClass: "penci-image-holder  penci-lazy",
+                                attrs: {
+                                  "data-src":
+                                    "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web2-480x320.jpg",
+                                  "data-delay": "",
+                                  href:
+                                    "../use-markdown-web-development/index.html",
+                                  title:
+                                    "How to use Markdown in web development"
+                                }
+                              }),
+                              _c("span", { staticClass: "social-buttons" }, [
+                                _c(
+                                  "span",
+                                  { staticClass: "social-buttons__content" },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "penci-social-item facebook",
+                                        attrs: {
+                                          target: "_blank",
+                                          rel: "noopener",
+                                          title: "",
+                                          href:
+                                            "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-facebook"
+                                        })
+                                      ]
+                                    ),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "penci-social-item twitter",
+                                        attrs: {
+                                          target: "_blank",
+                                          rel: "noopener",
+                                          title: "",
+                                          href:
+                                            "https://twitter.com/intent/tweet?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F&text=How%20to%20use%20Markdown%20in%20web%20development"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-twitter"
+                                        })
+                                      ]
+                                    ),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "penci-social-item google_plus",
+                                        attrs: {
+                                          target: "_blank",
+                                          rel: "noopener",
+                                          title: "",
+                                          href:
+                                            "https://plus.google.com/share?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-google-plus"
+                                        })
+                                      ]
+                                    ),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "penci-social-item pinterest",
+                                        attrs: {
+                                          target: "_blank",
+                                          rel: "noopener",
+                                          title: "",
+                                          href:
+                                            "http://pinterest.com/pin/create/button?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F&media=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fwp-content%2Fuploads%2Fsites%2F30%2F2017%2F11%2Fweb2.jpg&description=How%20to%20use%20Markdown%20in%20web%20development"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-pinterest"
+                                        })
+                                      ]
+                                    ),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "penci-social-item email",
+                                        attrs: {
+                                          target: "_blank",
+                                          rel: "noopener",
+                                          href:
+                                            "mailto:?subject=How%20to%20use%20Markdown%20in%20web%20development&#038;BODY=http://pennews.pencidesign.com/pennews-creative/use-markdown-web-development/"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-envelope"
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "social-buttons__toggle",
+                                    attrs: { href: "#" }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-share" })]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "penci_post_content" }, [
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "penci__post-title entry-title"
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href:
+                                          "../use-markdown-web-development/index.html",
+                                        title:
+                                          " How to use Markdown in web development "
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "How to\n                                                                use Markdown in web development"
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "penci-schema-markup" },
+                                [
+                                  _c("span", { staticClass: "author vcard" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "url fn n",
+                                        attrs: {
+                                          href: "../author/admin/index.html"
+                                        }
+                                      },
+                                      [_vm._v("Penci Design")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "entry-date published",
+                                      attrs: {
+                                        datetime: "2017-11-03T03:03:43+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "November 3, 2017\n                                                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "time",
+                                    {
+                                      staticClass: "updated",
+                                      attrs: {
+                                        datetime: "2017-12-01T07:40:15+00:00"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "December 1, 2017\n                                                            "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post-meta" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-posted-on"
+                                  },
+                                  [
+                                    _c("i", { staticClass: "fa fa-clock-o" }),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:03:43+00:00"
+                                        }
+                                      },
+                                      [_vm._v("November 3, 2017")]
+                                    ),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:40:15+00:00"
+                                        }
+                                      },
+                                      [_vm._v("December 1, 2017")]
+                                    )
+                                  ]
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "entry-meta-item penci-comment-count"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "penci_pmeta-link",
+                                        attrs: {
+                                          href:
+                                            "../use-markdown-web-development/index.html#respond"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "la la-comments"
+                                        }),
+                                        _vm._v("0")
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci-post-excerpt" }, [
+                                _vm._v(
+                                  "Far far away, behind the word\n                                                            mountains, far from the countries Vokalia...\n                                                        "
+                                )
+                              ])
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "block23_items" }, [
+                          _c(
+                            "article",
+                            { staticClass: "hentry penci-post-item" },
+                            [
+                              _c("div", { staticClass: "penci_post_thumb" }, [
+                                _c("a", {
+                                  staticClass: "penci-image-holder  penci-lazy",
+                                  attrs: {
+                                    "data-src":
+                                      "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d1-280x186.jpg",
+                                    "data-delay": "",
+                                    href:
+                                      "../learn-model-3d-portrait-zbrush-maya/index.html",
+                                    title:
+                                      "Learn how to model a 3D portrait in ZBrush and Maya"
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post_content" }, [
+                                _c(
+                                  "h3",
+                                  {
+                                    staticClass: "penci__post-title entry-title"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: {
+                                          href:
+                                            "../learn-model-3d-portrait-zbrush-maya/index.html",
+                                          title:
+                                            " Learn how to model a 3D portrait in ZBrush and Maya "
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Learn\n                                                                    how to model a 3D portrait in..."
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "penci-schema-markup" },
+                                  [
+                                    _c(
+                                      "span",
+                                      { staticClass: "author vcard" },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "url fn n",
+                                            attrs: {
+                                              href: "../author/admin/index.html"
+                                            }
+                                          },
+                                          [_vm._v("Penci Design")]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:36+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "November 3,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:39:14+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "December 1,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "article",
+                            { staticClass: "hentry penci-post-item" },
+                            [
+                              _c("div", { staticClass: "penci_post_thumb" }, [
+                                _c("a", {
+                                  staticClass: "penci-image-holder  penci-lazy",
+                                  attrs: {
+                                    "data-src":
+                                      "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu1-280x186.jpg",
+                                    "data-delay": "",
+                                    href:
+                                      "../meet-artist-brought-pratchetts-discworld-life/index.html",
+                                    title:
+                                      "Meet the artist who brought Pratchett&#8217;s Discworld to life"
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post_content" }, [
+                                _c(
+                                  "h3",
+                                  {
+                                    staticClass: "penci__post-title entry-title"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: {
+                                          href:
+                                            "../meet-artist-brought-pratchetts-discworld-life/index.html",
+                                          title:
+                                            " Meet the artist who brought Pratchett&#8217;s Discworld to life "
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Meet\n                                                                    the artist who brought Pratchett’s Discworld\n                                                                    to..."
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "penci-schema-markup" },
+                                  [
+                                    _c(
+                                      "span",
+                                      { staticClass: "author vcard" },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "url fn n",
+                                            attrs: {
+                                              href: "../author/admin/index.html"
+                                            }
+                                          },
+                                          [_vm._v("Penci Design")]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:28+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "November 3,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:39:29+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "December 1,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "article",
+                            { staticClass: "hentry penci-post-item" },
+                            [
+                              _c("div", { staticClass: "penci_post_thumb" }, [
+                                _c("a", {
+                                  staticClass: "penci-image-holder  penci-lazy",
+                                  attrs: {
+                                    "data-src":
+                                      "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu4-280x186.jpg",
+                                    "data-delay": "",
+                                    href:
+                                      "../10-incredible-online-art-schools/index.html",
+                                    title: "10 incredible online art schools"
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post_content" }, [
+                                _c(
+                                  "h3",
+                                  {
+                                    staticClass: "penci__post-title entry-title"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: {
+                                          href:
+                                            "../10-incredible-online-art-schools/index.html",
+                                          title:
+                                            " 10 incredible online art schools "
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "10\n                                                                    incredible online art schools"
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "penci-schema-markup" },
+                                  [
+                                    _c(
+                                      "span",
+                                      { staticClass: "author vcard" },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "url fn n",
+                                            attrs: {
+                                              href: "../author/admin/index.html"
+                                            }
+                                          },
+                                          [_vm._v("Penci Design")]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:12:23+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "November 3,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:45:01+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "December 1,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "article",
+                            { staticClass: "hentry penci-post-item" },
+                            [
+                              _c("div", { staticClass: "penci_post_thumb" }, [
+                                _c("a", {
+                                  staticClass: "penci-image-holder  penci-lazy",
+                                  attrs: {
+                                    "data-src":
+                                      "http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux1-280x186.jpg",
+                                    "data-delay": "",
+                                    href:
+                                      "../10-essential-tools-freelance-ux-designers/index.html",
+                                    title:
+                                      "10 essential tools for freelance UX designers"
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "penci_post_content" }, [
+                                _c(
+                                  "h3",
+                                  {
+                                    staticClass: "penci__post-title entry-title"
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: {
+                                          href:
+                                            "../10-essential-tools-freelance-ux-designers/index.html",
+                                          title:
+                                            " 10 essential tools for freelance UX designers "
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "10\n                                                                    essential tools for freelance UX designers"
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "penci-schema-markup" },
+                                  [
+                                    _c(
+                                      "span",
+                                      { staticClass: "author vcard" },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "url fn n",
+                                            attrs: {
+                                              href: "../author/admin/index.html"
+                                            }
+                                          },
+                                          [_vm._v("Penci Design")]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "entry-date published",
+                                        attrs: {
+                                          datetime: "2017-11-03T03:04:03+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "November 3,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "time",
+                                      {
+                                        staticClass: "updated",
+                                        attrs: {
+                                          datetime: "2017-12-01T07:40:07+00:00"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "December 1,\n                                                                    2017\n                                                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "penci-loader-effect penci-loading-animation-9"
+                    },
+                    [
+                      _c("div", { staticClass: "penci-loading-circle" }, [
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle1 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle2 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle3 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle4 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle5 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle6 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle7 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle8 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle9 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle10 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle11 penci-loading-circle-inner"
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass:
+                            "penci-loading-circle12 penci-loading-circle-inner"
+                        })
+                      ])
+                    ]
+                  )
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_categories",
+              attrs: { id: "categories-2" }
+            },
+            [
+              _c("div", { staticClass: "penci-block-heading" }, [
+                _c("h4", { staticClass: "widget-title penci-block__title" }, [
+                  _c("span", [_vm._v("Categories")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("ul", [
+                _c("li", { staticClass: "cat-item cat-item-8" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "../category/creative-news/3d-design/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "3D Design\n                                                "
+                      ),
+                      _c("span", { staticClass: "category-item-count" }, [
+                        _vm._v("(8)")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "cat-item cat-item-3" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: "../category/editors-picks/index.html" } },
+                    [
+                      _vm._v(
+                        "Editor's\n                                            Picks "
+                      ),
+                      _c("span", { staticClass: "category-item-count" }, [
+                        _vm._v("(14)")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "cat-item cat-item-4" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href:
+                          "../category/creative-news/illustrations/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "Illustrations\n                                                "
+                      ),
+                      _c("span", { staticClass: "category-item-count" }, [
+                        _vm._v("(7)")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "cat-item cat-item-5" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "../category/creative-news/typography/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "Typography\n                                                "
+                      ),
+                      _c("span", { staticClass: "category-item-count" }, [
+                        _vm._v("(6)")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "cat-item cat-item-6" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "../category/creative-news/uiux/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "UI/UX\n                                                "
+                      ),
+                      _c("span", { staticClass: "category-item-count" }, [
+                        _vm._v("(6)")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "cat-item cat-item-7" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "../category/creative-news/web-design/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "Web Design\n                                                "
+                      ),
+                      _c("span", { staticClass: "category-item-count" }, [
+                        _vm._v("(6)")
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            ]
+          )
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4be6f627", module.exports)
+  }
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(78)
+/* template */
+var __vue_template__ = __webpack_require__(79)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/views/Category.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6480121d", Component.options)
+  } else {
+    hotAPI.reload("data-v-6480121d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports) {
+
+//
+//
+//
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6480121d", module.exports)
+  }
+}
+
+/***/ }),
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function (global, factory) {
@@ -58145,2911 +65281,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 71 */
+/* 81 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
-  * vue-router v3.0.1
-  * (c) 2017 Evan You
-  * @license MIT
-  */
-/*  */
-
-function assert (condition, message) {
-  if (!condition) {
-    throw new Error(("[vue-router] " + message))
-  }
-}
-
-function warn (condition, message) {
-  if ("development" !== 'production' && !condition) {
-    typeof console !== 'undefined' && console.warn(("[vue-router] " + message));
-  }
-}
-
-function isError (err) {
-  return Object.prototype.toString.call(err).indexOf('Error') > -1
-}
-
-var View = {
-  name: 'router-view',
-  functional: true,
-  props: {
-    name: {
-      type: String,
-      default: 'default'
-    }
-  },
-  render: function render (_, ref) {
-    var props = ref.props;
-    var children = ref.children;
-    var parent = ref.parent;
-    var data = ref.data;
-
-    data.routerView = true;
-
-    // directly use parent context's createElement() function
-    // so that components rendered by router-view can resolve named slots
-    var h = parent.$createElement;
-    var name = props.name;
-    var route = parent.$route;
-    var cache = parent._routerViewCache || (parent._routerViewCache = {});
-
-    // determine current view depth, also check to see if the tree
-    // has been toggled inactive but kept-alive.
-    var depth = 0;
-    var inactive = false;
-    while (parent && parent._routerRoot !== parent) {
-      if (parent.$vnode && parent.$vnode.data.routerView) {
-        depth++;
-      }
-      if (parent._inactive) {
-        inactive = true;
-      }
-      parent = parent.$parent;
-    }
-    data.routerViewDepth = depth;
-
-    // render previous view if the tree is inactive and kept-alive
-    if (inactive) {
-      return h(cache[name], data, children)
-    }
-
-    var matched = route.matched[depth];
-    // render empty node if no matched route
-    if (!matched) {
-      cache[name] = null;
-      return h()
-    }
-
-    var component = cache[name] = matched.components[name];
-
-    // attach instance registration hook
-    // this will be called in the instance's injected lifecycle hooks
-    data.registerRouteInstance = function (vm, val) {
-      // val could be undefined for unregistration
-      var current = matched.instances[name];
-      if (
-        (val && current !== vm) ||
-        (!val && current === vm)
-      ) {
-        matched.instances[name] = val;
-      }
-    }
-
-    // also register instance in prepatch hook
-    // in case the same component instance is reused across different routes
-    ;(data.hook || (data.hook = {})).prepatch = function (_, vnode) {
-      matched.instances[name] = vnode.componentInstance;
-    };
-
-    // resolve props
-    var propsToPass = data.props = resolveProps(route, matched.props && matched.props[name]);
-    if (propsToPass) {
-      // clone to prevent mutation
-      propsToPass = data.props = extend({}, propsToPass);
-      // pass non-declared props as attrs
-      var attrs = data.attrs = data.attrs || {};
-      for (var key in propsToPass) {
-        if (!component.props || !(key in component.props)) {
-          attrs[key] = propsToPass[key];
-          delete propsToPass[key];
-        }
-      }
-    }
-
-    return h(component, data, children)
-  }
-};
-
-function resolveProps (route, config) {
-  switch (typeof config) {
-    case 'undefined':
-      return
-    case 'object':
-      return config
-    case 'function':
-      return config(route)
-    case 'boolean':
-      return config ? route.params : undefined
-    default:
-      if (true) {
-        warn(
-          false,
-          "props in \"" + (route.path) + "\" is a " + (typeof config) + ", " +
-          "expecting an object, function or boolean."
-        );
-      }
-  }
-}
-
-function extend (to, from) {
-  for (var key in from) {
-    to[key] = from[key];
-  }
-  return to
-}
-
-/*  */
-
-var encodeReserveRE = /[!'()*]/g;
-var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
-var commaRE = /%2C/g;
-
-// fixed encodeURIComponent which is more conformant to RFC3986:
-// - escapes [!'()*]
-// - preserve commas
-var encode = function (str) { return encodeURIComponent(str)
-  .replace(encodeReserveRE, encodeReserveReplacer)
-  .replace(commaRE, ','); };
-
-var decode = decodeURIComponent;
-
-function resolveQuery (
-  query,
-  extraQuery,
-  _parseQuery
-) {
-  if ( extraQuery === void 0 ) extraQuery = {};
-
-  var parse = _parseQuery || parseQuery;
-  var parsedQuery;
-  try {
-    parsedQuery = parse(query || '');
-  } catch (e) {
-    "development" !== 'production' && warn(false, e.message);
-    parsedQuery = {};
-  }
-  for (var key in extraQuery) {
-    parsedQuery[key] = extraQuery[key];
-  }
-  return parsedQuery
-}
-
-function parseQuery (query) {
-  var res = {};
-
-  query = query.trim().replace(/^(\?|#|&)/, '');
-
-  if (!query) {
-    return res
-  }
-
-  query.split('&').forEach(function (param) {
-    var parts = param.replace(/\+/g, ' ').split('=');
-    var key = decode(parts.shift());
-    var val = parts.length > 0
-      ? decode(parts.join('='))
-      : null;
-
-    if (res[key] === undefined) {
-      res[key] = val;
-    } else if (Array.isArray(res[key])) {
-      res[key].push(val);
-    } else {
-      res[key] = [res[key], val];
-    }
-  });
-
-  return res
-}
-
-function stringifyQuery (obj) {
-  var res = obj ? Object.keys(obj).map(function (key) {
-    var val = obj[key];
-
-    if (val === undefined) {
-      return ''
-    }
-
-    if (val === null) {
-      return encode(key)
-    }
-
-    if (Array.isArray(val)) {
-      var result = [];
-      val.forEach(function (val2) {
-        if (val2 === undefined) {
-          return
-        }
-        if (val2 === null) {
-          result.push(encode(key));
-        } else {
-          result.push(encode(key) + '=' + encode(val2));
-        }
-      });
-      return result.join('&')
-    }
-
-    return encode(key) + '=' + encode(val)
-  }).filter(function (x) { return x.length > 0; }).join('&') : null;
-  return res ? ("?" + res) : ''
-}
-
-/*  */
-
-
-var trailingSlashRE = /\/?$/;
-
-function createRoute (
-  record,
-  location,
-  redirectedFrom,
-  router
-) {
-  var stringifyQuery$$1 = router && router.options.stringifyQuery;
-
-  var query = location.query || {};
-  try {
-    query = clone(query);
-  } catch (e) {}
-
-  var route = {
-    name: location.name || (record && record.name),
-    meta: (record && record.meta) || {},
-    path: location.path || '/',
-    hash: location.hash || '',
-    query: query,
-    params: location.params || {},
-    fullPath: getFullPath(location, stringifyQuery$$1),
-    matched: record ? formatMatch(record) : []
-  };
-  if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery$$1);
-  }
-  return Object.freeze(route)
-}
-
-function clone (value) {
-  if (Array.isArray(value)) {
-    return value.map(clone)
-  } else if (value && typeof value === 'object') {
-    var res = {};
-    for (var key in value) {
-      res[key] = clone(value[key]);
-    }
-    return res
-  } else {
-    return value
-  }
-}
-
-// the starting route that represents the initial state
-var START = createRoute(null, {
-  path: '/'
-});
-
-function formatMatch (record) {
-  var res = [];
-  while (record) {
-    res.unshift(record);
-    record = record.parent;
-  }
-  return res
-}
-
-function getFullPath (
-  ref,
-  _stringifyQuery
-) {
-  var path = ref.path;
-  var query = ref.query; if ( query === void 0 ) query = {};
-  var hash = ref.hash; if ( hash === void 0 ) hash = '';
-
-  var stringify = _stringifyQuery || stringifyQuery;
-  return (path || '/') + stringify(query) + hash
-}
-
-function isSameRoute (a, b) {
-  if (b === START) {
-    return a === b
-  } else if (!b) {
-    return false
-  } else if (a.path && b.path) {
-    return (
-      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query)
-    )
-  } else if (a.name && b.name) {
-    return (
-      a.name === b.name &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query) &&
-      isObjectEqual(a.params, b.params)
-    )
-  } else {
-    return false
-  }
-}
-
-function isObjectEqual (a, b) {
-  if ( a === void 0 ) a = {};
-  if ( b === void 0 ) b = {};
-
-  // handle null value #1566
-  if (!a || !b) { return a === b }
-  var aKeys = Object.keys(a);
-  var bKeys = Object.keys(b);
-  if (aKeys.length !== bKeys.length) {
-    return false
-  }
-  return aKeys.every(function (key) {
-    var aVal = a[key];
-    var bVal = b[key];
-    // check nested equality
-    if (typeof aVal === 'object' && typeof bVal === 'object') {
-      return isObjectEqual(aVal, bVal)
-    }
-    return String(aVal) === String(bVal)
-  })
-}
-
-function isIncludedRoute (current, target) {
-  return (
-    current.path.replace(trailingSlashRE, '/').indexOf(
-      target.path.replace(trailingSlashRE, '/')
-    ) === 0 &&
-    (!target.hash || current.hash === target.hash) &&
-    queryIncludes(current.query, target.query)
-  )
-}
-
-function queryIncludes (current, target) {
-  for (var key in target) {
-    if (!(key in current)) {
-      return false
-    }
-  }
-  return true
-}
-
-/*  */
-
-// work around weird flow bug
-var toTypes = [String, Object];
-var eventTypes = [String, Array];
-
-var Link = {
-  name: 'router-link',
-  props: {
-    to: {
-      type: toTypes,
-      required: true
-    },
-    tag: {
-      type: String,
-      default: 'a'
-    },
-    exact: Boolean,
-    append: Boolean,
-    replace: Boolean,
-    activeClass: String,
-    exactActiveClass: String,
-    event: {
-      type: eventTypes,
-      default: 'click'
-    }
-  },
-  render: function render (h) {
-    var this$1 = this;
-
-    var router = this.$router;
-    var current = this.$route;
-    var ref = router.resolve(this.to, current, this.append);
-    var location = ref.location;
-    var route = ref.route;
-    var href = ref.href;
-
-    var classes = {};
-    var globalActiveClass = router.options.linkActiveClass;
-    var globalExactActiveClass = router.options.linkExactActiveClass;
-    // Support global empty active class
-    var activeClassFallback = globalActiveClass == null
-            ? 'router-link-active'
-            : globalActiveClass;
-    var exactActiveClassFallback = globalExactActiveClass == null
-            ? 'router-link-exact-active'
-            : globalExactActiveClass;
-    var activeClass = this.activeClass == null
-            ? activeClassFallback
-            : this.activeClass;
-    var exactActiveClass = this.exactActiveClass == null
-            ? exactActiveClassFallback
-            : this.exactActiveClass;
-    var compareTarget = location.path
-      ? createRoute(null, location, null, router)
-      : route;
-
-    classes[exactActiveClass] = isSameRoute(current, compareTarget);
-    classes[activeClass] = this.exact
-      ? classes[exactActiveClass]
-      : isIncludedRoute(current, compareTarget);
-
-    var handler = function (e) {
-      if (guardEvent(e)) {
-        if (this$1.replace) {
-          router.replace(location);
-        } else {
-          router.push(location);
-        }
-      }
-    };
-
-    var on = { click: guardEvent };
-    if (Array.isArray(this.event)) {
-      this.event.forEach(function (e) { on[e] = handler; });
-    } else {
-      on[this.event] = handler;
-    }
-
-    var data = {
-      class: classes
-    };
-
-    if (this.tag === 'a') {
-      data.on = on;
-      data.attrs = { href: href };
-    } else {
-      // find the first <a> child and apply listener and href
-      var a = findAnchor(this.$slots.default);
-      if (a) {
-        // in case the <a> is a static node
-        a.isStatic = false;
-        var extend = _Vue.util.extend;
-        var aData = a.data = extend({}, a.data);
-        aData.on = on;
-        var aAttrs = a.data.attrs = extend({}, a.data.attrs);
-        aAttrs.href = href;
-      } else {
-        // doesn't have <a> child, apply listener to self
-        data.on = on;
-      }
-    }
-
-    return h(this.tag, data, this.$slots.default)
-  }
-};
-
-function guardEvent (e) {
-  // don't redirect with control keys
-  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) { return }
-  // don't redirect when preventDefault called
-  if (e.defaultPrevented) { return }
-  // don't redirect on right click
-  if (e.button !== undefined && e.button !== 0) { return }
-  // don't redirect if `target="_blank"`
-  if (e.currentTarget && e.currentTarget.getAttribute) {
-    var target = e.currentTarget.getAttribute('target');
-    if (/\b_blank\b/i.test(target)) { return }
-  }
-  // this may be a Weex event which doesn't have this method
-  if (e.preventDefault) {
-    e.preventDefault();
-  }
-  return true
-}
-
-function findAnchor (children) {
-  if (children) {
-    var child;
-    for (var i = 0; i < children.length; i++) {
-      child = children[i];
-      if (child.tag === 'a') {
-        return child
-      }
-      if (child.children && (child = findAnchor(child.children))) {
-        return child
-      }
-    }
-  }
-}
-
-var _Vue;
-
-function install (Vue) {
-  if (install.installed && _Vue === Vue) { return }
-  install.installed = true;
-
-  _Vue = Vue;
-
-  var isDef = function (v) { return v !== undefined; };
-
-  var registerInstance = function (vm, callVal) {
-    var i = vm.$options._parentVnode;
-    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
-      i(vm, callVal);
-    }
-  };
-
-  Vue.mixin({
-    beforeCreate: function beforeCreate () {
-      if (isDef(this.$options.router)) {
-        this._routerRoot = this;
-        this._router = this.$options.router;
-        this._router.init(this);
-        Vue.util.defineReactive(this, '_route', this._router.history.current);
-      } else {
-        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
-      }
-      registerInstance(this, this);
-    },
-    destroyed: function destroyed () {
-      registerInstance(this);
-    }
-  });
-
-  Object.defineProperty(Vue.prototype, '$router', {
-    get: function get () { return this._routerRoot._router }
-  });
-
-  Object.defineProperty(Vue.prototype, '$route', {
-    get: function get () { return this._routerRoot._route }
-  });
-
-  Vue.component('router-view', View);
-  Vue.component('router-link', Link);
-
-  var strats = Vue.config.optionMergeStrategies;
-  // use the same hook merging strategy for route hooks
-  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created;
-}
-
-/*  */
-
-var inBrowser = typeof window !== 'undefined';
-
-/*  */
-
-function resolvePath (
-  relative,
-  base,
-  append
-) {
-  var firstChar = relative.charAt(0);
-  if (firstChar === '/') {
-    return relative
-  }
-
-  if (firstChar === '?' || firstChar === '#') {
-    return base + relative
-  }
-
-  var stack = base.split('/');
-
-  // remove trailing segment if:
-  // - not appending
-  // - appending to trailing slash (last segment is empty)
-  if (!append || !stack[stack.length - 1]) {
-    stack.pop();
-  }
-
-  // resolve relative path
-  var segments = relative.replace(/^\//, '').split('/');
-  for (var i = 0; i < segments.length; i++) {
-    var segment = segments[i];
-    if (segment === '..') {
-      stack.pop();
-    } else if (segment !== '.') {
-      stack.push(segment);
-    }
-  }
-
-  // ensure leading slash
-  if (stack[0] !== '') {
-    stack.unshift('');
-  }
-
-  return stack.join('/')
-}
-
-function parsePath (path) {
-  var hash = '';
-  var query = '';
-
-  var hashIndex = path.indexOf('#');
-  if (hashIndex >= 0) {
-    hash = path.slice(hashIndex);
-    path = path.slice(0, hashIndex);
-  }
-
-  var queryIndex = path.indexOf('?');
-  if (queryIndex >= 0) {
-    query = path.slice(queryIndex + 1);
-    path = path.slice(0, queryIndex);
-  }
-
-  return {
-    path: path,
-    query: query,
-    hash: hash
-  }
-}
-
-function cleanPath (path) {
-  return path.replace(/\/\//g, '/')
-}
-
-var isarray = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-/**
- * Expose `pathToRegexp`.
- */
-var pathToRegexp_1 = pathToRegexp;
-var parse_1 = parse;
-var compile_1 = compile;
-var tokensToFunction_1 = tokensToFunction;
-var tokensToRegExp_1 = tokensToRegExp;
-
-/**
- * The main path matching regexp utility.
- *
- * @type {RegExp}
- */
-var PATH_REGEXP = new RegExp([
-  // Match escaped characters that would otherwise appear in future matches.
-  // This allows the user to escape special characters that won't transform.
-  '(\\\\.)',
-  // Match Express-style parameters and un-named parameters with a prefix
-  // and optional suffixes. Matches appear as:
-  //
-  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
-  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
-  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
-  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
-].join('|'), 'g');
-
-/**
- * Parse a string for the raw tokens.
- *
- * @param  {string}  str
- * @param  {Object=} options
- * @return {!Array}
- */
-function parse (str, options) {
-  var tokens = [];
-  var key = 0;
-  var index = 0;
-  var path = '';
-  var defaultDelimiter = options && options.delimiter || '/';
-  var res;
-
-  while ((res = PATH_REGEXP.exec(str)) != null) {
-    var m = res[0];
-    var escaped = res[1];
-    var offset = res.index;
-    path += str.slice(index, offset);
-    index = offset + m.length;
-
-    // Ignore already escaped sequences.
-    if (escaped) {
-      path += escaped[1];
-      continue
-    }
-
-    var next = str[index];
-    var prefix = res[2];
-    var name = res[3];
-    var capture = res[4];
-    var group = res[5];
-    var modifier = res[6];
-    var asterisk = res[7];
-
-    // Push the current path onto the tokens.
-    if (path) {
-      tokens.push(path);
-      path = '';
-    }
-
-    var partial = prefix != null && next != null && next !== prefix;
-    var repeat = modifier === '+' || modifier === '*';
-    var optional = modifier === '?' || modifier === '*';
-    var delimiter = res[2] || defaultDelimiter;
-    var pattern = capture || group;
-
-    tokens.push({
-      name: name || key++,
-      prefix: prefix || '',
-      delimiter: delimiter,
-      optional: optional,
-      repeat: repeat,
-      partial: partial,
-      asterisk: !!asterisk,
-      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
-    });
-  }
-
-  // Match any characters still remaining.
-  if (index < str.length) {
-    path += str.substr(index);
-  }
-
-  // If the path exists, push it onto the end.
-  if (path) {
-    tokens.push(path);
-  }
-
-  return tokens
-}
-
-/**
- * Compile a string to a template function for the path.
- *
- * @param  {string}             str
- * @param  {Object=}            options
- * @return {!function(Object=, Object=)}
- */
-function compile (str, options) {
-  return tokensToFunction(parse(str, options))
-}
-
-/**
- * Prettier encoding of URI path segments.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeURIComponentPretty (str) {
-  return encodeURI(str).replace(/[\/?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeAsterisk (str) {
-  return encodeURI(str).replace(/[?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Expose a method for transforming tokens into the path function.
- */
-function tokensToFunction (tokens) {
-  // Compile all the tokens into regexps.
-  var matches = new Array(tokens.length);
-
-  // Compile all the patterns before compilation.
-  for (var i = 0; i < tokens.length; i++) {
-    if (typeof tokens[i] === 'object') {
-      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$');
-    }
-  }
-
-  return function (obj, opts) {
-    var path = '';
-    var data = obj || {};
-    var options = opts || {};
-    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent;
-
-    for (var i = 0; i < tokens.length; i++) {
-      var token = tokens[i];
-
-      if (typeof token === 'string') {
-        path += token;
-
-        continue
-      }
-
-      var value = data[token.name];
-      var segment;
-
-      if (value == null) {
-        if (token.optional) {
-          // Prepend partial segment prefixes.
-          if (token.partial) {
-            path += token.prefix;
-          }
-
-          continue
-        } else {
-          throw new TypeError('Expected "' + token.name + '" to be defined')
-        }
-      }
-
-      if (isarray(value)) {
-        if (!token.repeat) {
-          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
-        }
-
-        if (value.length === 0) {
-          if (token.optional) {
-            continue
-          } else {
-            throw new TypeError('Expected "' + token.name + '" to not be empty')
-          }
-        }
-
-        for (var j = 0; j < value.length; j++) {
-          segment = encode(value[j]);
-
-          if (!matches[i].test(segment)) {
-            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
-          }
-
-          path += (j === 0 ? token.prefix : token.delimiter) + segment;
-        }
-
-        continue
-      }
-
-      segment = token.asterisk ? encodeAsterisk(value) : encode(value);
-
-      if (!matches[i].test(segment)) {
-        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
-      }
-
-      path += token.prefix + segment;
-    }
-
-    return path
-  }
-}
-
-/**
- * Escape a regular expression string.
- *
- * @param  {string} str
- * @return {string}
- */
-function escapeString (str) {
-  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
-}
-
-/**
- * Escape the capturing group by escaping special characters and meaning.
- *
- * @param  {string} group
- * @return {string}
- */
-function escapeGroup (group) {
-  return group.replace(/([=!:$\/()])/g, '\\$1')
-}
-
-/**
- * Attach the keys as a property of the regexp.
- *
- * @param  {!RegExp} re
- * @param  {Array}   keys
- * @return {!RegExp}
- */
-function attachKeys (re, keys) {
-  re.keys = keys;
-  return re
-}
-
-/**
- * Get the flags for a regexp from the options.
- *
- * @param  {Object} options
- * @return {string}
- */
-function flags (options) {
-  return options.sensitive ? '' : 'i'
-}
-
-/**
- * Pull out keys from a regexp.
- *
- * @param  {!RegExp} path
- * @param  {!Array}  keys
- * @return {!RegExp}
- */
-function regexpToRegexp (path, keys) {
-  // Use a negative lookahead to match only capturing groups.
-  var groups = path.source.match(/\((?!\?)/g);
-
-  if (groups) {
-    for (var i = 0; i < groups.length; i++) {
-      keys.push({
-        name: i,
-        prefix: null,
-        delimiter: null,
-        optional: false,
-        repeat: false,
-        partial: false,
-        asterisk: false,
-        pattern: null
-      });
-    }
-  }
-
-  return attachKeys(path, keys)
-}
-
-/**
- * Transform an array into a regexp.
- *
- * @param  {!Array}  path
- * @param  {Array}   keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function arrayToRegexp (path, keys, options) {
-  var parts = [];
-
-  for (var i = 0; i < path.length; i++) {
-    parts.push(pathToRegexp(path[i], keys, options).source);
-  }
-
-  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options));
-
-  return attachKeys(regexp, keys)
-}
-
-/**
- * Create a path regexp from string input.
- *
- * @param  {string}  path
- * @param  {!Array}  keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function stringToRegexp (path, keys, options) {
-  return tokensToRegExp(parse(path, options), keys, options)
-}
-
-/**
- * Expose a function for taking tokens and returning a RegExp.
- *
- * @param  {!Array}          tokens
- * @param  {(Array|Object)=} keys
- * @param  {Object=}         options
- * @return {!RegExp}
- */
-function tokensToRegExp (tokens, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options);
-    keys = [];
-  }
-
-  options = options || {};
-
-  var strict = options.strict;
-  var end = options.end !== false;
-  var route = '';
-
-  // Iterate over the tokens and create our regexp string.
-  for (var i = 0; i < tokens.length; i++) {
-    var token = tokens[i];
-
-    if (typeof token === 'string') {
-      route += escapeString(token);
-    } else {
-      var prefix = escapeString(token.prefix);
-      var capture = '(?:' + token.pattern + ')';
-
-      keys.push(token);
-
-      if (token.repeat) {
-        capture += '(?:' + prefix + capture + ')*';
-      }
-
-      if (token.optional) {
-        if (!token.partial) {
-          capture = '(?:' + prefix + '(' + capture + '))?';
-        } else {
-          capture = prefix + '(' + capture + ')?';
-        }
-      } else {
-        capture = prefix + '(' + capture + ')';
-      }
-
-      route += capture;
-    }
-  }
-
-  var delimiter = escapeString(options.delimiter || '/');
-  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
-
-  // In non-strict mode we allow a slash at the end of match. If the path to
-  // match already ends with a slash, we remove it for consistency. The slash
-  // is valid at the end of a path match, not in the middle. This is important
-  // in non-ending mode, where "/test/" shouldn't match "/test//route".
-  if (!strict) {
-    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?';
-  }
-
-  if (end) {
-    route += '$';
-  } else {
-    // In non-ending mode, we need the capturing groups to match as much as
-    // possible by using a positive lookahead to the end or next path segment.
-    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)';
-  }
-
-  return attachKeys(new RegExp('^' + route, flags(options)), keys)
-}
-
-/**
- * Normalize the given path string, returning a regular expression.
- *
- * An empty array can be passed in for the keys, which will hold the
- * placeholder key descriptions. For example, using `/user/:id`, `keys` will
- * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
- *
- * @param  {(string|RegExp|Array)} path
- * @param  {(Array|Object)=}       keys
- * @param  {Object=}               options
- * @return {!RegExp}
- */
-function pathToRegexp (path, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options);
-    keys = [];
-  }
-
-  options = options || {};
-
-  if (path instanceof RegExp) {
-    return regexpToRegexp(path, /** @type {!Array} */ (keys))
-  }
-
-  if (isarray(path)) {
-    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
-  }
-
-  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
-}
-
-pathToRegexp_1.parse = parse_1;
-pathToRegexp_1.compile = compile_1;
-pathToRegexp_1.tokensToFunction = tokensToFunction_1;
-pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
-
-/*  */
-
-// $flow-disable-line
-var regexpCompileCache = Object.create(null);
-
-function fillParams (
-  path,
-  params,
-  routeMsg
-) {
-  try {
-    var filler =
-      regexpCompileCache[path] ||
-      (regexpCompileCache[path] = pathToRegexp_1.compile(path));
-    return filler(params || {}, { pretty: true })
-  } catch (e) {
-    if (true) {
-      warn(false, ("missing param for " + routeMsg + ": " + (e.message)));
-    }
-    return ''
-  }
-}
-
-/*  */
-
-function createRouteMap (
-  routes,
-  oldPathList,
-  oldPathMap,
-  oldNameMap
-) {
-  // the path list is used to control path matching priority
-  var pathList = oldPathList || [];
-  // $flow-disable-line
-  var pathMap = oldPathMap || Object.create(null);
-  // $flow-disable-line
-  var nameMap = oldNameMap || Object.create(null);
-
-  routes.forEach(function (route) {
-    addRouteRecord(pathList, pathMap, nameMap, route);
-  });
-
-  // ensure wildcard routes are always at the end
-  for (var i = 0, l = pathList.length; i < l; i++) {
-    if (pathList[i] === '*') {
-      pathList.push(pathList.splice(i, 1)[0]);
-      l--;
-      i--;
-    }
-  }
-
-  return {
-    pathList: pathList,
-    pathMap: pathMap,
-    nameMap: nameMap
-  }
-}
-
-function addRouteRecord (
-  pathList,
-  pathMap,
-  nameMap,
-  route,
-  parent,
-  matchAs
-) {
-  var path = route.path;
-  var name = route.name;
-  if (true) {
-    assert(path != null, "\"path\" is required in a route configuration.");
-    assert(
-      typeof route.component !== 'string',
-      "route config \"component\" for path: " + (String(path || name)) + " cannot be a " +
-      "string id. Use an actual component instead."
-    );
-  }
-
-  var pathToRegexpOptions = route.pathToRegexpOptions || {};
-  var normalizedPath = normalizePath(
-    path,
-    parent,
-    pathToRegexpOptions.strict
-  );
-
-  if (typeof route.caseSensitive === 'boolean') {
-    pathToRegexpOptions.sensitive = route.caseSensitive;
-  }
-
-  var record = {
-    path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
-    components: route.components || { default: route.component },
-    instances: {},
-    name: name,
-    parent: parent,
-    matchAs: matchAs,
-    redirect: route.redirect,
-    beforeEnter: route.beforeEnter,
-    meta: route.meta || {},
-    props: route.props == null
-      ? {}
-      : route.components
-        ? route.props
-        : { default: route.props }
-  };
-
-  if (route.children) {
-    // Warn if route is named, does not redirect and has a default child route.
-    // If users navigate to this route by name, the default child will
-    // not be rendered (GH Issue #629)
-    if (true) {
-      if (route.name && !route.redirect && route.children.some(function (child) { return /^\/?$/.test(child.path); })) {
-        warn(
-          false,
-          "Named Route '" + (route.name) + "' has a default child route. " +
-          "When navigating to this named route (:to=\"{name: '" + (route.name) + "'\"), " +
-          "the default child route will not be rendered. Remove the name from " +
-          "this route and use the name of the default child route for named " +
-          "links instead."
-        );
-      }
-    }
-    route.children.forEach(function (child) {
-      var childMatchAs = matchAs
-        ? cleanPath((matchAs + "/" + (child.path)))
-        : undefined;
-      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
-    });
-  }
-
-  if (route.alias !== undefined) {
-    var aliases = Array.isArray(route.alias)
-      ? route.alias
-      : [route.alias];
-
-    aliases.forEach(function (alias) {
-      var aliasRoute = {
-        path: alias,
-        children: route.children
-      };
-      addRouteRecord(
-        pathList,
-        pathMap,
-        nameMap,
-        aliasRoute,
-        parent,
-        record.path || '/' // matchAs
-      );
-    });
-  }
-
-  if (!pathMap[record.path]) {
-    pathList.push(record.path);
-    pathMap[record.path] = record;
-  }
-
-  if (name) {
-    if (!nameMap[name]) {
-      nameMap[name] = record;
-    } else if ("development" !== 'production' && !matchAs) {
-      warn(
-        false,
-        "Duplicate named routes definition: " +
-        "{ name: \"" + name + "\", path: \"" + (record.path) + "\" }"
-      );
-    }
-  }
-}
-
-function compileRouteRegex (path, pathToRegexpOptions) {
-  var regex = pathToRegexp_1(path, [], pathToRegexpOptions);
-  if (true) {
-    var keys = Object.create(null);
-    regex.keys.forEach(function (key) {
-      warn(!keys[key.name], ("Duplicate param keys in route with path: \"" + path + "\""));
-      keys[key.name] = true;
-    });
-  }
-  return regex
-}
-
-function normalizePath (path, parent, strict) {
-  if (!strict) { path = path.replace(/\/$/, ''); }
-  if (path[0] === '/') { return path }
-  if (parent == null) { return path }
-  return cleanPath(((parent.path) + "/" + path))
-}
-
-/*  */
-
-
-function normalizeLocation (
-  raw,
-  current,
-  append,
-  router
-) {
-  var next = typeof raw === 'string' ? { path: raw } : raw;
-  // named target
-  if (next.name || next._normalized) {
-    return next
-  }
-
-  // relative params
-  if (!next.path && next.params && current) {
-    next = assign({}, next);
-    next._normalized = true;
-    var params = assign(assign({}, current.params), next.params);
-    if (current.name) {
-      next.name = current.name;
-      next.params = params;
-    } else if (current.matched.length) {
-      var rawPath = current.matched[current.matched.length - 1].path;
-      next.path = fillParams(rawPath, params, ("path " + (current.path)));
-    } else if (true) {
-      warn(false, "relative params navigation requires a current route.");
-    }
-    return next
-  }
-
-  var parsedPath = parsePath(next.path || '');
-  var basePath = (current && current.path) || '/';
-  var path = parsedPath.path
-    ? resolvePath(parsedPath.path, basePath, append || next.append)
-    : basePath;
-
-  var query = resolveQuery(
-    parsedPath.query,
-    next.query,
-    router && router.options.parseQuery
-  );
-
-  var hash = next.hash || parsedPath.hash;
-  if (hash && hash.charAt(0) !== '#') {
-    hash = "#" + hash;
-  }
-
-  return {
-    _normalized: true,
-    path: path,
-    query: query,
-    hash: hash
-  }
-}
-
-function assign (a, b) {
-  for (var key in b) {
-    a[key] = b[key];
-  }
-  return a
-}
-
-/*  */
-
-
-function createMatcher (
-  routes,
-  router
-) {
-  var ref = createRouteMap(routes);
-  var pathList = ref.pathList;
-  var pathMap = ref.pathMap;
-  var nameMap = ref.nameMap;
-
-  function addRoutes (routes) {
-    createRouteMap(routes, pathList, pathMap, nameMap);
-  }
-
-  function match (
-    raw,
-    currentRoute,
-    redirectedFrom
-  ) {
-    var location = normalizeLocation(raw, currentRoute, false, router);
-    var name = location.name;
-
-    if (name) {
-      var record = nameMap[name];
-      if (true) {
-        warn(record, ("Route with name '" + name + "' does not exist"));
-      }
-      if (!record) { return _createRoute(null, location) }
-      var paramNames = record.regex.keys
-        .filter(function (key) { return !key.optional; })
-        .map(function (key) { return key.name; });
-
-      if (typeof location.params !== 'object') {
-        location.params = {};
-      }
-
-      if (currentRoute && typeof currentRoute.params === 'object') {
-        for (var key in currentRoute.params) {
-          if (!(key in location.params) && paramNames.indexOf(key) > -1) {
-            location.params[key] = currentRoute.params[key];
-          }
-        }
-      }
-
-      if (record) {
-        location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""));
-        return _createRoute(record, location, redirectedFrom)
-      }
-    } else if (location.path) {
-      location.params = {};
-      for (var i = 0; i < pathList.length; i++) {
-        var path = pathList[i];
-        var record$1 = pathMap[path];
-        if (matchRoute(record$1.regex, location.path, location.params)) {
-          return _createRoute(record$1, location, redirectedFrom)
-        }
-      }
-    }
-    // no match
-    return _createRoute(null, location)
-  }
-
-  function redirect (
-    record,
-    location
-  ) {
-    var originalRedirect = record.redirect;
-    var redirect = typeof originalRedirect === 'function'
-        ? originalRedirect(createRoute(record, location, null, router))
-        : originalRedirect;
-
-    if (typeof redirect === 'string') {
-      redirect = { path: redirect };
-    }
-
-    if (!redirect || typeof redirect !== 'object') {
-      if (true) {
-        warn(
-          false, ("invalid redirect option: " + (JSON.stringify(redirect)))
-        );
-      }
-      return _createRoute(null, location)
-    }
-
-    var re = redirect;
-    var name = re.name;
-    var path = re.path;
-    var query = location.query;
-    var hash = location.hash;
-    var params = location.params;
-    query = re.hasOwnProperty('query') ? re.query : query;
-    hash = re.hasOwnProperty('hash') ? re.hash : hash;
-    params = re.hasOwnProperty('params') ? re.params : params;
-
-    if (name) {
-      // resolved named direct
-      var targetRecord = nameMap[name];
-      if (true) {
-        assert(targetRecord, ("redirect failed: named route \"" + name + "\" not found."));
-      }
-      return match({
-        _normalized: true,
-        name: name,
-        query: query,
-        hash: hash,
-        params: params
-      }, undefined, location)
-    } else if (path) {
-      // 1. resolve relative redirect
-      var rawPath = resolveRecordPath(path, record);
-      // 2. resolve params
-      var resolvedPath = fillParams(rawPath, params, ("redirect route with path \"" + rawPath + "\""));
-      // 3. rematch with existing query and hash
-      return match({
-        _normalized: true,
-        path: resolvedPath,
-        query: query,
-        hash: hash
-      }, undefined, location)
-    } else {
-      if (true) {
-        warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))));
-      }
-      return _createRoute(null, location)
-    }
-  }
-
-  function alias (
-    record,
-    location,
-    matchAs
-  ) {
-    var aliasedPath = fillParams(matchAs, location.params, ("aliased route with path \"" + matchAs + "\""));
-    var aliasedMatch = match({
-      _normalized: true,
-      path: aliasedPath
-    });
-    if (aliasedMatch) {
-      var matched = aliasedMatch.matched;
-      var aliasedRecord = matched[matched.length - 1];
-      location.params = aliasedMatch.params;
-      return _createRoute(aliasedRecord, location)
-    }
-    return _createRoute(null, location)
-  }
-
-  function _createRoute (
-    record,
-    location,
-    redirectedFrom
-  ) {
-    if (record && record.redirect) {
-      return redirect(record, redirectedFrom || location)
-    }
-    if (record && record.matchAs) {
-      return alias(record, location, record.matchAs)
-    }
-    return createRoute(record, location, redirectedFrom, router)
-  }
-
-  return {
-    match: match,
-    addRoutes: addRoutes
-  }
-}
-
-function matchRoute (
-  regex,
-  path,
-  params
-) {
-  var m = path.match(regex);
-
-  if (!m) {
-    return false
-  } else if (!params) {
-    return true
-  }
-
-  for (var i = 1, len = m.length; i < len; ++i) {
-    var key = regex.keys[i - 1];
-    var val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i];
-    if (key) {
-      params[key.name] = val;
-    }
-  }
-
-  return true
-}
-
-function resolveRecordPath (path, record) {
-  return resolvePath(path, record.parent ? record.parent.path : '/', true)
-}
-
-/*  */
-
-
-var positionStore = Object.create(null);
-
-function setupScroll () {
-  // Fix for #1585 for Firefox
-  window.history.replaceState({ key: getStateKey() }, '');
-  window.addEventListener('popstate', function (e) {
-    saveScrollPosition();
-    if (e.state && e.state.key) {
-      setStateKey(e.state.key);
-    }
-  });
-}
-
-function handleScroll (
-  router,
-  to,
-  from,
-  isPop
-) {
-  if (!router.app) {
-    return
-  }
-
-  var behavior = router.options.scrollBehavior;
-  if (!behavior) {
-    return
-  }
-
-  if (true) {
-    assert(typeof behavior === 'function', "scrollBehavior must be a function");
-  }
-
-  // wait until re-render finishes before scrolling
-  router.app.$nextTick(function () {
-    var position = getScrollPosition();
-    var shouldScroll = behavior(to, from, isPop ? position : null);
-
-    if (!shouldScroll) {
-      return
-    }
-
-    if (typeof shouldScroll.then === 'function') {
-      shouldScroll.then(function (shouldScroll) {
-        scrollToPosition((shouldScroll), position);
-      }).catch(function (err) {
-        if (true) {
-          assert(false, err.toString());
-        }
-      });
-    } else {
-      scrollToPosition(shouldScroll, position);
-    }
-  });
-}
-
-function saveScrollPosition () {
-  var key = getStateKey();
-  if (key) {
-    positionStore[key] = {
-      x: window.pageXOffset,
-      y: window.pageYOffset
-    };
-  }
-}
-
-function getScrollPosition () {
-  var key = getStateKey();
-  if (key) {
-    return positionStore[key]
-  }
-}
-
-function getElementPosition (el, offset) {
-  var docEl = document.documentElement;
-  var docRect = docEl.getBoundingClientRect();
-  var elRect = el.getBoundingClientRect();
-  return {
-    x: elRect.left - docRect.left - offset.x,
-    y: elRect.top - docRect.top - offset.y
-  }
-}
-
-function isValidPosition (obj) {
-  return isNumber(obj.x) || isNumber(obj.y)
-}
-
-function normalizePosition (obj) {
-  return {
-    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
-    y: isNumber(obj.y) ? obj.y : window.pageYOffset
-  }
-}
-
-function normalizeOffset (obj) {
-  return {
-    x: isNumber(obj.x) ? obj.x : 0,
-    y: isNumber(obj.y) ? obj.y : 0
-  }
-}
-
-function isNumber (v) {
-  return typeof v === 'number'
-}
-
-function scrollToPosition (shouldScroll, position) {
-  var isObject = typeof shouldScroll === 'object';
-  if (isObject && typeof shouldScroll.selector === 'string') {
-    var el = document.querySelector(shouldScroll.selector);
-    if (el) {
-      var offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {};
-      offset = normalizeOffset(offset);
-      position = getElementPosition(el, offset);
-    } else if (isValidPosition(shouldScroll)) {
-      position = normalizePosition(shouldScroll);
-    }
-  } else if (isObject && isValidPosition(shouldScroll)) {
-    position = normalizePosition(shouldScroll);
-  }
-
-  if (position) {
-    window.scrollTo(position.x, position.y);
-  }
-}
-
-/*  */
-
-var supportsPushState = inBrowser && (function () {
-  var ua = window.navigator.userAgent;
-
-  if (
-    (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
-    ua.indexOf('Mobile Safari') !== -1 &&
-    ua.indexOf('Chrome') === -1 &&
-    ua.indexOf('Windows Phone') === -1
-  ) {
-    return false
-  }
-
-  return window.history && 'pushState' in window.history
-})();
-
-// use User Timing api (if present) for more accurate key precision
-var Time = inBrowser && window.performance && window.performance.now
-  ? window.performance
-  : Date;
-
-var _key = genKey();
-
-function genKey () {
-  return Time.now().toFixed(3)
-}
-
-function getStateKey () {
-  return _key
-}
-
-function setStateKey (key) {
-  _key = key;
-}
-
-function pushState (url, replace) {
-  saveScrollPosition();
-  // try...catch the pushState call to get around Safari
-  // DOM Exception 18 where it limits to 100 pushState calls
-  var history = window.history;
-  try {
-    if (replace) {
-      history.replaceState({ key: _key }, '', url);
-    } else {
-      _key = genKey();
-      history.pushState({ key: _key }, '', url);
-    }
-  } catch (e) {
-    window.location[replace ? 'replace' : 'assign'](url);
-  }
-}
-
-function replaceState (url) {
-  pushState(url, true);
-}
-
-/*  */
-
-function runQueue (queue, fn, cb) {
-  var step = function (index) {
-    if (index >= queue.length) {
-      cb();
-    } else {
-      if (queue[index]) {
-        fn(queue[index], function () {
-          step(index + 1);
-        });
-      } else {
-        step(index + 1);
-      }
-    }
-  };
-  step(0);
-}
-
-/*  */
-
-function resolveAsyncComponents (matched) {
-  return function (to, from, next) {
-    var hasAsync = false;
-    var pending = 0;
-    var error = null;
-
-    flatMapComponents(matched, function (def, _, match, key) {
-      // if it's a function and doesn't have cid attached,
-      // assume it's an async component resolve function.
-      // we are not using Vue's default async resolving mechanism because
-      // we want to halt the navigation until the incoming component has been
-      // resolved.
-      if (typeof def === 'function' && def.cid === undefined) {
-        hasAsync = true;
-        pending++;
-
-        var resolve = once(function (resolvedDef) {
-          if (isESModule(resolvedDef)) {
-            resolvedDef = resolvedDef.default;
-          }
-          // save resolved on async factory in case it's used elsewhere
-          def.resolved = typeof resolvedDef === 'function'
-            ? resolvedDef
-            : _Vue.extend(resolvedDef);
-          match.components[key] = resolvedDef;
-          pending--;
-          if (pending <= 0) {
-            next();
-          }
-        });
-
-        var reject = once(function (reason) {
-          var msg = "Failed to resolve async component " + key + ": " + reason;
-          "development" !== 'production' && warn(false, msg);
-          if (!error) {
-            error = isError(reason)
-              ? reason
-              : new Error(msg);
-            next(error);
-          }
-        });
-
-        var res;
-        try {
-          res = def(resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-        if (res) {
-          if (typeof res.then === 'function') {
-            res.then(resolve, reject);
-          } else {
-            // new syntax in Vue 2.3
-            var comp = res.component;
-            if (comp && typeof comp.then === 'function') {
-              comp.then(resolve, reject);
-            }
-          }
-        }
-      }
-    });
-
-    if (!hasAsync) { next(); }
-  }
-}
-
-function flatMapComponents (
-  matched,
-  fn
-) {
-  return flatten(matched.map(function (m) {
-    return Object.keys(m.components).map(function (key) { return fn(
-      m.components[key],
-      m.instances[key],
-      m, key
-    ); })
-  }))
-}
-
-function flatten (arr) {
-  return Array.prototype.concat.apply([], arr)
-}
-
-var hasSymbol =
-  typeof Symbol === 'function' &&
-  typeof Symbol.toStringTag === 'symbol';
-
-function isESModule (obj) {
-  return obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module')
-}
-
-// in Webpack 2, require.ensure now also returns a Promise
-// so the resolve/reject functions may get called an extra time
-// if the user uses an arrow function shorthand that happens to
-// return that Promise.
-function once (fn) {
-  var called = false;
-  return function () {
-    var args = [], len = arguments.length;
-    while ( len-- ) args[ len ] = arguments[ len ];
-
-    if (called) { return }
-    called = true;
-    return fn.apply(this, args)
-  }
-}
-
-/*  */
-
-var History = function History (router, base) {
-  this.router = router;
-  this.base = normalizeBase(base);
-  // start with a route object that stands for "nowhere"
-  this.current = START;
-  this.pending = null;
-  this.ready = false;
-  this.readyCbs = [];
-  this.readyErrorCbs = [];
-  this.errorCbs = [];
-};
-
-History.prototype.listen = function listen (cb) {
-  this.cb = cb;
-};
-
-History.prototype.onReady = function onReady (cb, errorCb) {
-  if (this.ready) {
-    cb();
-  } else {
-    this.readyCbs.push(cb);
-    if (errorCb) {
-      this.readyErrorCbs.push(errorCb);
-    }
-  }
-};
-
-History.prototype.onError = function onError (errorCb) {
-  this.errorCbs.push(errorCb);
-};
-
-History.prototype.transitionTo = function transitionTo (location, onComplete, onAbort) {
-    var this$1 = this;
-
-  var route = this.router.match(location, this.current);
-  this.confirmTransition(route, function () {
-    this$1.updateRoute(route);
-    onComplete && onComplete(route);
-    this$1.ensureURL();
-
-    // fire ready cbs once
-    if (!this$1.ready) {
-      this$1.ready = true;
-      this$1.readyCbs.forEach(function (cb) { cb(route); });
-    }
-  }, function (err) {
-    if (onAbort) {
-      onAbort(err);
-    }
-    if (err && !this$1.ready) {
-      this$1.ready = true;
-      this$1.readyErrorCbs.forEach(function (cb) { cb(err); });
-    }
-  });
-};
-
-History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
-    var this$1 = this;
-
-  var current = this.current;
-  var abort = function (err) {
-    if (isError(err)) {
-      if (this$1.errorCbs.length) {
-        this$1.errorCbs.forEach(function (cb) { cb(err); });
-      } else {
-        warn(false, 'uncaught error during route navigation:');
-        console.error(err);
-      }
-    }
-    onAbort && onAbort(err);
-  };
-  if (
-    isSameRoute(route, current) &&
-    // in the case the route map has been dynamically appended to
-    route.matched.length === current.matched.length
-  ) {
-    this.ensureURL();
-    return abort()
-  }
-
-  var ref = resolveQueue(this.current.matched, route.matched);
-    var updated = ref.updated;
-    var deactivated = ref.deactivated;
-    var activated = ref.activated;
-
-  var queue = [].concat(
-    // in-component leave guards
-    extractLeaveGuards(deactivated),
-    // global before hooks
-    this.router.beforeHooks,
-    // in-component update hooks
-    extractUpdateHooks(updated),
-    // in-config enter guards
-    activated.map(function (m) { return m.beforeEnter; }),
-    // async components
-    resolveAsyncComponents(activated)
-  );
-
-  this.pending = route;
-  var iterator = function (hook, next) {
-    if (this$1.pending !== route) {
-      return abort()
-    }
-    try {
-      hook(route, current, function (to) {
-        if (to === false || isError(to)) {
-          // next(false) -> abort navigation, ensure current URL
-          this$1.ensureURL(true);
-          abort(to);
-        } else if (
-          typeof to === 'string' ||
-          (typeof to === 'object' && (
-            typeof to.path === 'string' ||
-            typeof to.name === 'string'
-          ))
-        ) {
-          // next('/') or next({ path: '/' }) -> redirect
-          abort();
-          if (typeof to === 'object' && to.replace) {
-            this$1.replace(to);
-          } else {
-            this$1.push(to);
-          }
-        } else {
-          // confirm transition and pass on the value
-          next(to);
-        }
-      });
-    } catch (e) {
-      abort(e);
-    }
-  };
-
-  runQueue(queue, iterator, function () {
-    var postEnterCbs = [];
-    var isValid = function () { return this$1.current === route; };
-    // wait until async components are resolved before
-    // extracting in-component enter guards
-    var enterGuards = extractEnterGuards(activated, postEnterCbs, isValid);
-    var queue = enterGuards.concat(this$1.router.resolveHooks);
-    runQueue(queue, iterator, function () {
-      if (this$1.pending !== route) {
-        return abort()
-      }
-      this$1.pending = null;
-      onComplete(route);
-      if (this$1.router.app) {
-        this$1.router.app.$nextTick(function () {
-          postEnterCbs.forEach(function (cb) { cb(); });
-        });
-      }
-    });
-  });
-};
-
-History.prototype.updateRoute = function updateRoute (route) {
-  var prev = this.current;
-  this.current = route;
-  this.cb && this.cb(route);
-  this.router.afterHooks.forEach(function (hook) {
-    hook && hook(route, prev);
-  });
-};
-
-function normalizeBase (base) {
-  if (!base) {
-    if (inBrowser) {
-      // respect <base> tag
-      var baseEl = document.querySelector('base');
-      base = (baseEl && baseEl.getAttribute('href')) || '/';
-      // strip full URL origin
-      base = base.replace(/^https?:\/\/[^\/]+/, '');
-    } else {
-      base = '/';
-    }
-  }
-  // make sure there's the starting slash
-  if (base.charAt(0) !== '/') {
-    base = '/' + base;
-  }
-  // remove trailing slash
-  return base.replace(/\/$/, '')
-}
-
-function resolveQueue (
-  current,
-  next
-) {
-  var i;
-  var max = Math.max(current.length, next.length);
-  for (i = 0; i < max; i++) {
-    if (current[i] !== next[i]) {
-      break
-    }
-  }
-  return {
-    updated: next.slice(0, i),
-    activated: next.slice(i),
-    deactivated: current.slice(i)
-  }
-}
-
-function extractGuards (
-  records,
-  name,
-  bind,
-  reverse
-) {
-  var guards = flatMapComponents(records, function (def, instance, match, key) {
-    var guard = extractGuard(def, name);
-    if (guard) {
-      return Array.isArray(guard)
-        ? guard.map(function (guard) { return bind(guard, instance, match, key); })
-        : bind(guard, instance, match, key)
-    }
-  });
-  return flatten(reverse ? guards.reverse() : guards)
-}
-
-function extractGuard (
-  def,
-  key
-) {
-  if (typeof def !== 'function') {
-    // extend now so that global mixins are applied.
-    def = _Vue.extend(def);
-  }
-  return def.options[key]
-}
-
-function extractLeaveGuards (deactivated) {
-  return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
-}
-
-function extractUpdateHooks (updated) {
-  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
-}
-
-function bindGuard (guard, instance) {
-  if (instance) {
-    return function boundRouteGuard () {
-      return guard.apply(instance, arguments)
-    }
-  }
-}
-
-function extractEnterGuards (
-  activated,
-  cbs,
-  isValid
-) {
-  return extractGuards(activated, 'beforeRouteEnter', function (guard, _, match, key) {
-    return bindEnterGuard(guard, match, key, cbs, isValid)
-  })
-}
-
-function bindEnterGuard (
-  guard,
-  match,
-  key,
-  cbs,
-  isValid
-) {
-  return function routeEnterGuard (to, from, next) {
-    return guard(to, from, function (cb) {
-      next(cb);
-      if (typeof cb === 'function') {
-        cbs.push(function () {
-          // #750
-          // if a router-view is wrapped with an out-in transition,
-          // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
-          // is no longer valid.
-          poll(cb, match.instances, key, isValid);
-        });
-      }
-    })
-  }
-}
-
-function poll (
-  cb, // somehow flow cannot infer this is a function
-  instances,
-  key,
-  isValid
-) {
-  if (instances[key]) {
-    cb(instances[key]);
-  } else if (isValid()) {
-    setTimeout(function () {
-      poll(cb, instances, key, isValid);
-    }, 16);
-  }
-}
-
-/*  */
-
-
-var HTML5History = (function (History$$1) {
-  function HTML5History (router, base) {
-    var this$1 = this;
-
-    History$$1.call(this, router, base);
-
-    var expectScroll = router.options.scrollBehavior;
-
-    if (expectScroll) {
-      setupScroll();
-    }
-
-    var initLocation = getLocation(this.base);
-    window.addEventListener('popstate', function (e) {
-      var current = this$1.current;
-
-      // Avoiding first `popstate` event dispatched in some browsers but first
-      // history route not updated since async guard at the same time.
-      var location = getLocation(this$1.base);
-      if (this$1.current === START && location === initLocation) {
-        return
-      }
-
-      this$1.transitionTo(location, function (route) {
-        if (expectScroll) {
-          handleScroll(router, route, current, true);
-        }
-      });
-    });
-  }
-
-  if ( History$$1 ) HTML5History.__proto__ = History$$1;
-  HTML5History.prototype = Object.create( History$$1 && History$$1.prototype );
-  HTML5History.prototype.constructor = HTML5History;
-
-  HTML5History.prototype.go = function go (n) {
-    window.history.go(n);
-  };
-
-  HTML5History.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      pushState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HTML5History.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      replaceState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HTML5History.prototype.ensureURL = function ensureURL (push) {
-    if (getLocation(this.base) !== this.current.fullPath) {
-      var current = cleanPath(this.base + this.current.fullPath);
-      push ? pushState(current) : replaceState(current);
-    }
-  };
-
-  HTML5History.prototype.getCurrentLocation = function getCurrentLocation () {
-    return getLocation(this.base)
-  };
-
-  return HTML5History;
-}(History));
-
-function getLocation (base) {
-  var path = window.location.pathname;
-  if (base && path.indexOf(base) === 0) {
-    path = path.slice(base.length);
-  }
-  return (path || '/') + window.location.search + window.location.hash
-}
-
-/*  */
-
-
-var HashHistory = (function (History$$1) {
-  function HashHistory (router, base, fallback) {
-    History$$1.call(this, router, base);
-    // check history fallback deeplinking
-    if (fallback && checkFallback(this.base)) {
-      return
-    }
-    ensureSlash();
-  }
-
-  if ( History$$1 ) HashHistory.__proto__ = History$$1;
-  HashHistory.prototype = Object.create( History$$1 && History$$1.prototype );
-  HashHistory.prototype.constructor = HashHistory;
-
-  // this is delayed until the app mounts
-  // to avoid the hashchange listener being fired too early
-  HashHistory.prototype.setupListeners = function setupListeners () {
-    var this$1 = this;
-
-    var router = this.router;
-    var expectScroll = router.options.scrollBehavior;
-    var supportsScroll = supportsPushState && expectScroll;
-
-    if (supportsScroll) {
-      setupScroll();
-    }
-
-    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', function () {
-      var current = this$1.current;
-      if (!ensureSlash()) {
-        return
-      }
-      this$1.transitionTo(getHash(), function (route) {
-        if (supportsScroll) {
-          handleScroll(this$1.router, route, current, true);
-        }
-        if (!supportsPushState) {
-          replaceHash(route.fullPath);
-        }
-      });
-    });
-  };
-
-  HashHistory.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      pushHash(route.fullPath);
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HashHistory.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      replaceHash(route.fullPath);
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HashHistory.prototype.go = function go (n) {
-    window.history.go(n);
-  };
-
-  HashHistory.prototype.ensureURL = function ensureURL (push) {
-    var current = this.current.fullPath;
-    if (getHash() !== current) {
-      push ? pushHash(current) : replaceHash(current);
-    }
-  };
-
-  HashHistory.prototype.getCurrentLocation = function getCurrentLocation () {
-    return getHash()
-  };
-
-  return HashHistory;
-}(History));
-
-function checkFallback (base) {
-  var location = getLocation(base);
-  if (!/^\/#/.test(location)) {
-    window.location.replace(
-      cleanPath(base + '/#' + location)
-    );
-    return true
-  }
-}
-
-function ensureSlash () {
-  var path = getHash();
-  if (path.charAt(0) === '/') {
-    return true
-  }
-  replaceHash('/' + path);
-  return false
-}
-
-function getHash () {
-  // We can't use window.location.hash here because it's not
-  // consistent across browsers - Firefox will pre-decode it!
-  var href = window.location.href;
-  var index = href.indexOf('#');
-  return index === -1 ? '' : href.slice(index + 1)
-}
-
-function getUrl (path) {
-  var href = window.location.href;
-  var i = href.indexOf('#');
-  var base = i >= 0 ? href.slice(0, i) : href;
-  return (base + "#" + path)
-}
-
-function pushHash (path) {
-  if (supportsPushState) {
-    pushState(getUrl(path));
-  } else {
-    window.location.hash = path;
-  }
-}
-
-function replaceHash (path) {
-  if (supportsPushState) {
-    replaceState(getUrl(path));
-  } else {
-    window.location.replace(getUrl(path));
-  }
-}
-
-/*  */
-
-
-var AbstractHistory = (function (History$$1) {
-  function AbstractHistory (router, base) {
-    History$$1.call(this, router, base);
-    this.stack = [];
-    this.index = -1;
-  }
-
-  if ( History$$1 ) AbstractHistory.__proto__ = History$$1;
-  AbstractHistory.prototype = Object.create( History$$1 && History$$1.prototype );
-  AbstractHistory.prototype.constructor = AbstractHistory;
-
-  AbstractHistory.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    this.transitionTo(location, function (route) {
-      this$1.stack = this$1.stack.slice(0, this$1.index + 1).concat(route);
-      this$1.index++;
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  AbstractHistory.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    this.transitionTo(location, function (route) {
-      this$1.stack = this$1.stack.slice(0, this$1.index).concat(route);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  AbstractHistory.prototype.go = function go (n) {
-    var this$1 = this;
-
-    var targetIndex = this.index + n;
-    if (targetIndex < 0 || targetIndex >= this.stack.length) {
-      return
-    }
-    var route = this.stack[targetIndex];
-    this.confirmTransition(route, function () {
-      this$1.index = targetIndex;
-      this$1.updateRoute(route);
-    });
-  };
-
-  AbstractHistory.prototype.getCurrentLocation = function getCurrentLocation () {
-    var current = this.stack[this.stack.length - 1];
-    return current ? current.fullPath : '/'
-  };
-
-  AbstractHistory.prototype.ensureURL = function ensureURL () {
-    // noop
-  };
-
-  return AbstractHistory;
-}(History));
-
-/*  */
-
-var VueRouter = function VueRouter (options) {
-  if ( options === void 0 ) options = {};
-
-  this.app = null;
-  this.apps = [];
-  this.options = options;
-  this.beforeHooks = [];
-  this.resolveHooks = [];
-  this.afterHooks = [];
-  this.matcher = createMatcher(options.routes || [], this);
-
-  var mode = options.mode || 'hash';
-  this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;
-  if (this.fallback) {
-    mode = 'hash';
-  }
-  if (!inBrowser) {
-    mode = 'abstract';
-  }
-  this.mode = mode;
-
-  switch (mode) {
-    case 'history':
-      this.history = new HTML5History(this, options.base);
-      break
-    case 'hash':
-      this.history = new HashHistory(this, options.base, this.fallback);
-      break
-    case 'abstract':
-      this.history = new AbstractHistory(this, options.base);
-      break
-    default:
-      if (true) {
-        assert(false, ("invalid mode: " + mode));
-      }
-  }
-};
-
-var prototypeAccessors = { currentRoute: { configurable: true } };
-
-VueRouter.prototype.match = function match (
-  raw,
-  current,
-  redirectedFrom
-) {
-  return this.matcher.match(raw, current, redirectedFrom)
-};
-
-prototypeAccessors.currentRoute.get = function () {
-  return this.history && this.history.current
-};
-
-VueRouter.prototype.init = function init (app /* Vue component instance */) {
-    var this$1 = this;
-
-  "development" !== 'production' && assert(
-    install.installed,
-    "not installed. Make sure to call `Vue.use(VueRouter)` " +
-    "before creating root instance."
-  );
-
-  this.apps.push(app);
-
-  // main app already initialized.
-  if (this.app) {
-    return
-  }
-
-  this.app = app;
-
-  var history = this.history;
-
-  if (history instanceof HTML5History) {
-    history.transitionTo(history.getCurrentLocation());
-  } else if (history instanceof HashHistory) {
-    var setupHashListener = function () {
-      history.setupListeners();
-    };
-    history.transitionTo(
-      history.getCurrentLocation(),
-      setupHashListener,
-      setupHashListener
-    );
-  }
-
-  history.listen(function (route) {
-    this$1.apps.forEach(function (app) {
-      app._route = route;
-    });
-  });
-};
-
-VueRouter.prototype.beforeEach = function beforeEach (fn) {
-  return registerHook(this.beforeHooks, fn)
-};
-
-VueRouter.prototype.beforeResolve = function beforeResolve (fn) {
-  return registerHook(this.resolveHooks, fn)
-};
-
-VueRouter.prototype.afterEach = function afterEach (fn) {
-  return registerHook(this.afterHooks, fn)
-};
-
-VueRouter.prototype.onReady = function onReady (cb, errorCb) {
-  this.history.onReady(cb, errorCb);
-};
-
-VueRouter.prototype.onError = function onError (errorCb) {
-  this.history.onError(errorCb);
-};
-
-VueRouter.prototype.push = function push (location, onComplete, onAbort) {
-  this.history.push(location, onComplete, onAbort);
-};
-
-VueRouter.prototype.replace = function replace (location, onComplete, onAbort) {
-  this.history.replace(location, onComplete, onAbort);
-};
-
-VueRouter.prototype.go = function go (n) {
-  this.history.go(n);
-};
-
-VueRouter.prototype.back = function back () {
-  this.go(-1);
-};
-
-VueRouter.prototype.forward = function forward () {
-  this.go(1);
-};
-
-VueRouter.prototype.getMatchedComponents = function getMatchedComponents (to) {
-  var route = to
-    ? to.matched
-      ? to
-      : this.resolve(to).route
-    : this.currentRoute;
-  if (!route) {
-    return []
-  }
-  return [].concat.apply([], route.matched.map(function (m) {
-    return Object.keys(m.components).map(function (key) {
-      return m.components[key]
-    })
-  }))
-};
-
-VueRouter.prototype.resolve = function resolve (
-  to,
-  current,
-  append
-) {
-  var location = normalizeLocation(
-    to,
-    current || this.history.current,
-    append,
-    this
-  );
-  var route = this.match(location, current);
-  var fullPath = route.redirectedFrom || route.fullPath;
-  var base = this.history.base;
-  var href = createHref(base, fullPath, this.mode);
-  return {
-    location: location,
-    route: route,
-    href: href,
-    // for backwards compat
-    normalizedTo: location,
-    resolved: route
-  }
-};
-
-VueRouter.prototype.addRoutes = function addRoutes (routes) {
-  this.matcher.addRoutes(routes);
-  if (this.history.current !== START) {
-    this.history.transitionTo(this.history.getCurrentLocation());
-  }
-};
-
-Object.defineProperties( VueRouter.prototype, prototypeAccessors );
-
-function registerHook (list, fn) {
-  list.push(fn);
-  return function () {
-    var i = list.indexOf(fn);
-    if (i > -1) { list.splice(i, 1); }
-  }
-}
-
-function createHref (base, fullPath, mode) {
-  var path = mode === 'hash' ? '#' + fullPath : fullPath;
-  return base ? cleanPath(base + '/' + path) : path
-}
-
-VueRouter.install = install;
-VueRouter.version = '3.0.1';
-
-if (inBrowser && window.Vue) {
-  window.Vue.use(VueRouter);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (VueRouter);
-
-
-/***/ }),
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(81)
-/* template */
-var __vue_template__ = __webpack_require__(82)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/views/MainPage.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1aff2807", Component.options)
-  } else {
-    hotAPI.reload("data-v-1aff2807", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 81 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue__);
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['articles'],
-    components: {
-        MainContent: __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue___default.a,
-        AdditionalTopics: __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue___default.a
-    },
-    methods: {
-        show: function show() {
-            console.log(this.articles);
-        }
-    },
-    created: function created() {
-        this.show();
-    }
-});
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("main-content", { attrs: { articles: _vm.articles } }),
-      _vm._v(" "),
-      _c("additional-topics", { attrs: { articles: _vm.articles } })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1aff2807", module.exports)
-  }
-}
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(84)
-/* template */
-var __vue_template__ = __webpack_require__(85)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/views/Article.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4be6f627", Component.options)
-  } else {
-    hotAPI.reload("data-v-4be6f627", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 84 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({});
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div")
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4be6f627", module.exports)
-  }
-}
-
-/***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(87)
-/* template */
-var __vue_template__ = __webpack_require__(88)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/views/Category.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6480121d", Component.options)
-  } else {
-    hotAPI.reload("data-v-6480121d", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 87 */
-/***/ (function(module, exports) {
-
-//
-//
-//
-
-/***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div")
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6480121d", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

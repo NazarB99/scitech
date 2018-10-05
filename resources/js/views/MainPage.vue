@@ -13,13 +13,5 @@
             MainContent,
             AdditionalTopics
         },
-        methods:{
-            show(){
-                console.log(this.articles);
-            }
-        },
-        created(){
-            this.show();
-        }
     }
 </script>
