@@ -203,8 +203,10 @@
                                                     </div>
                                                     <div class="pagi-text">
                                                         <h5 class="prev-title">
-                                                            <a href="../movie-fans-will-love-illustrated-movie-maps/index.html">Movie
-                                                                fans will love these illustrated movie maps</a></h5>
+                                                            <router-link :to="{ name: 'article', params: { id: prevArticle.id }}">
+                                                                {{prevArticle.title}}
+                                                            </router-link>
+                                                        </h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -215,8 +217,10 @@
                                                     </div>
                                                     <div class="pagi-text">
                                                         <h5 class="next-title">
-                                                            <a href="../tackle-user-research-testing/index.html">How do you
-                                                                tackle user research and testing?</a></h5>
+                                                            <router-link :to="{ name: 'article', params: { id: nextArticle.id}}">
+                                                                {{nextArticle.title}}
+                                                            </router-link>
+                                                        </h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -971,7 +975,9 @@
     export default {
         data(){
             return {
-                article: {}
+                article: {},
+                prevArticle:{},
+                nextArticle:{}
             }
         },
         props: ['articles'],
@@ -979,7 +985,11 @@
             fetchArticle() {
                 let article = this.articles.filter(article => article.id === this.$route.params.id);
                 this.article = article[0];
-            }
+                let prevArticle = this.articles.filter(article => article.id === this.$route.params.id - 1);
+                this.prevArticle = prevArticle[0];
+                let nextArticle = this.articles.filter(article => article.id === this.$route.params.id + 1);
+                this.nextArticle = nextArticle[0];
+            },
         },
         created() {
             this.fetchArticle()

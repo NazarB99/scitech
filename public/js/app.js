@@ -14035,7 +14035,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(14);
-module.exports = __webpack_require__(81);
+module.exports = __webpack_require__(84);
 
 
 /***/ }),
@@ -14049,15 +14049,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_MainPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__views_MainPage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Header_vue__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Header_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Header_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Logo_vue__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Logo_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Logo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Logo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_FooterSidebars_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Footer_vue__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Footer_vue__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Footer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Footer_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_Article_vue__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_Article_vue__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_Article_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__views_Article_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_Category_vue__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_Category_vue__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_Category_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__views_Category_vue__);
 __webpack_require__(15);
 
@@ -14075,10 +14075,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
 
 // Vue.component('single-article', require('./components/Article.vue'));
-Vue.use(__webpack_require__(80));
+Vue.use(__webpack_require__(83));
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    mode: 'history',
     routes: [{
         path: '/',
         name: 'main',
@@ -53440,7 +53439,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(63)
 /* template */
-var __vue_template__ = __webpack_require__(64)
+var __vue_template__ = __webpack_require__(67)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -53486,6 +53485,8 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MenuItem__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MenuItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__MenuItem__);
 //
 //
 //
@@ -53681,116 +53682,593 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['articles'],
+    props: ['articles', 'categories'],
     components: {
+        MenuItem: __WEBPACK_IMPORTED_MODULE_1__MenuItem___default.a,
         Animation: __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default.a
-    },
-    computed: {
-        threeDArticles: function threeDArticles() {
-            var filteredArticles = this.articles.filter(function (article) {
-                return article.category.id === 1;
-            });
-            return filteredArticles.slice(1, 6);
-        },
-        illustrations: function illustrations() {
-            var filteredArticles = this.articles.filter(function (article) {
-                return article.category.id === 2;
-            });
-            return filteredArticles.slice(1, 7);
-        }
     }
 });
 
 /***/ }),
 /* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(65)
+/* template */
+var __vue_template__ = __webpack_require__(66)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/MenuItem.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-23ec797d", Component.options)
+  } else {
+    hotAPI.reload("data-v-23ec797d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['articles', 'index'],
+    computed: {
+        science: function science() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 1;
+            });
+            return filteredArticles.slice(1, 6);
+        },
+        tech: function tech() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 2;
+            });
+            return filteredArticles.slice(1, 6);
+        },
+        fun: function fun() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 3;
+            });
+            return filteredArticles.slice(1, 6);
+        },
+        health: function health() {
+            var filteredArticles = this.articles.filter(function (article) {
+                return article.category.id === 4;
+            });
+            return filteredArticles.slice(1, 6);
+        }
+    }
+});
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm._l(_vm.science, function(article) {
+        return _vm.index === 0
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+              },
+              [
+                _vm._m(0, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-thumbnail" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mega-cat-name",
+                      attrs: {
+                        href: "category/creative-news/illustrations/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(article.category.category) +
+                          "\n            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("a", {
+                    staticClass: "penci-image-holder  penci-lazy",
+                    style: article.image
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-meta " }, [
+                  _c("h3", { staticClass: "post-mega-title entry-title" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "13-tips-making-vr-gaming-world/index.html"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(article.title) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "penci-mega-date" }, [
+                    _c("i", { staticClass: "fa fa-clock-o" }),
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm._f("moment")(
+                            article.created_at.date,
+                            "MMMM D, YYYY"
+                          )
+                        ) +
+                        "\n            "
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _vm._e()
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.tech, function(article) {
+        return _vm.index === 1
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+              },
+              [
+                _vm._m(1, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-thumbnail" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mega-cat-name",
+                      attrs: {
+                        href: "category/creative-news/illustrations/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(article.category.category) +
+                          "\n            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("a", {
+                    staticClass: "penci-image-holder  penci-lazy",
+                    style: article.image
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-meta " }, [
+                  _c("h3", { staticClass: "post-mega-title entry-title" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "13-tips-making-vr-gaming-world/index.html"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(article.title) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "penci-mega-date" }, [
+                    _c("i", { staticClass: "fa fa-clock-o" }),
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm._f("moment")(
+                            article.created_at.date,
+                            "MMMM D, YYYY"
+                          )
+                        ) +
+                        "\n            "
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _vm._e()
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.fun, function(article) {
+        return _vm.index === 2
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+              },
+              [
+                _vm._m(2, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-thumbnail" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mega-cat-name",
+                      attrs: {
+                        href: "category/creative-news/illustrations/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(article.category.category) +
+                          "\n            "
+                      )
+                    ]
+                  ),
+                  _c("a", {
+                    staticClass: "penci-image-holder  penci-lazy",
+                    style: article.image
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-meta " }, [
+                  _c("h3", { staticClass: "post-mega-title entry-title" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "13-tips-making-vr-gaming-world/index.html"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(article.title) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "penci-mega-date" }, [
+                    _c("i", { staticClass: "fa fa-clock-o" }),
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm._f("moment")(
+                            article.created_at.date,
+                            "MMMM D, YYYY"
+                          )
+                        ) +
+                        "\n            "
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _vm._e()
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.health, function(article) {
+        return _vm.index === 3
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+              },
+              [
+                _vm._m(3, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-thumbnail" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mega-cat-name",
+                      attrs: {
+                        href: "category/creative-news/illustrations/index.html"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(article.category.category) +
+                          "\n            "
+                      )
+                    ]
+                  ),
+                  _c("a", {
+                    staticClass: "penci-image-holder  penci-lazy",
+                    style: article.image
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "penci-mega-meta " }, [
+                  _c("h3", { staticClass: "post-mega-title entry-title" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "13-tips-making-vr-gaming-world/index.html"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(article.title) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "penci-mega-date" }, [
+                    _c("i", { staticClass: "fa fa-clock-o" }),
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm._f("moment")(
+                            article.created_at.date,
+                            "MMMM D, YYYY"
+                          )
+                        ) +
+                        "\n            "
+                    )
+                  ])
+                ])
+              ]
+            )
+          : _vm._e()
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
+      _c(
+        "a",
+        {
+          staticClass: "mega-cat-name",
+          attrs: { href: "category/creative-news/3d-design/index.html" }
+        },
+        [_vm._v("\n                3D Design\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
+      _c(
+        "a",
+        {
+          staticClass: "mega-cat-name",
+          attrs: { href: "category/creative-news/3d-design/index.html" }
+        },
+        [_vm._v("\n                3D Design\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
+      _c(
+        "a",
+        {
+          staticClass: "mega-cat-name",
+          attrs: { href: "category/creative-news/3d-design/index.html" }
+        },
+        [_vm._v("\n                3D Design\n            ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
+      _c(
+        "a",
+        {
+          staticClass: "mega-cat-name",
+          attrs: { href: "category/creative-news/3d-design/index.html" }
+        },
+        [_vm._v("\n                3D Design\n            ")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-23ec797d", module.exports)
+  }
+}
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53816,499 +54294,137 @@ var render = function() {
             }
           },
           [
-            _c("ul", { staticClass: "menu", attrs: { id: "menu-main-menu" } }, [
-              _c(
-                "li",
-                {
-                  staticClass:
-                    "menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751",
-                  attrs: { id: "menu-item-751" }
-                },
-                [
-                  _c("router-link", { attrs: { to: "{name:'home'}" } }, [
-                    _vm._v("Home")
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass:
-                    "menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726",
-                  attrs: { id: "menu-item-726" }
-                },
-                [
-                  _c(
-                    "a",
-                    { attrs: { href: "category/creative-news/index.html" } },
-                    [_vm._v("Creative News")]
-                  ),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "sub-menu" }, [
-                    _c(
-                      "li",
-                      {
-                        staticClass: "menu-item-0",
-                        attrs: { id: "menu-item-0" }
-                      },
-                      [
-                        _c("div", { staticClass: "penci-megamenu" }, [
-                          _vm._m(0),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "penci-content-megamenu penci-content-megamenu-style-1"
-                            },
-                            [
+            _c(
+              "ul",
+              { staticClass: "menu", attrs: { id: "menu-main-menu" } },
+              [
+                _c(
+                  "li",
+                  {
+                    staticClass:
+                      "menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751",
+                    attrs: { id: "menu-item-751" }
+                  },
+                  [
+                    _c("router-link", { attrs: { to: { name: "main" } } }, [
+                      _vm._v("Home")
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.categories, function(category, index) {
+                  return _c(
+                    "li",
+                    {
+                      staticClass:
+                        "menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726",
+                      attrs: { id: "menu-item-726" }
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "category/creative-news/index.html" }
+                        },
+                        [_vm._v(_vm._s(category.category))]
+                      ),
+                      _vm._v(" "),
+                      _c("ul", { staticClass: "sub-menu" }, [
+                        _c(
+                          "li",
+                          {
+                            staticClass: "menu-item-0",
+                            attrs: { id: "menu-item-0" }
+                          },
+                          [
+                            _c("div", { staticClass: "penci-megamenu" }, [
                               _c(
                                 "div",
                                 {
                                   staticClass:
-                                    "penci-mega-latest-posts col-mn-5 mega-row-1 penci-post-border-bottom"
+                                    "penci-content-megamenu penci-content-megamenu-style-1"
                                 },
                                 [
                                   _c(
                                     "div",
                                     {
                                       staticClass:
-                                        "penci-mega-row penci-mega-8 row-active",
-                                      attrs: {
-                                        "data-current": "1",
-                                        "data-blockUid": "penci_megamenu__47694"
-                                      }
+                                        "penci-mega-latest-posts col-mn-5 mega-row-1 penci-post-border-bottom"
                                     },
                                     [
                                       _c(
                                         "div",
                                         {
                                           staticClass:
-                                            "penci-block_content penci-mega-row_content",
+                                            "penci-mega-row penci-mega-8 row-active",
                                           attrs: {
-                                            id:
-                                              "penci_megamenu__47694block_content"
+                                            "data-current": "1",
+                                            "data-blockUid":
+                                              "penci_megamenu__47694"
                                           }
                                         },
                                         [
-                                          _vm._l(_vm.threeDArticles, function(
-                                            article
-                                          ) {
-                                            return _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
-                                              },
-                                              [
-                                                _vm._m(1, true),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-thumbnail"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        staticClass:
-                                                          "mega-cat-name",
-                                                        attrs: {
-                                                          href:
-                                                            "category/creative-news/illustrations/index.html"
-                                                        }
-                                                      },
-                                                      [_vm._v("Illustrations")]
-                                                    ),
-                                                    _c("a", {
-                                                      staticClass:
-                                                        "penci-image-holder  penci-lazy",
-                                                      style: article.image
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "penci-mega-meta "
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "h3",
-                                                      {
-                                                        staticClass:
-                                                          "post-mega-title entry-title"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            attrs: {
-                                                              href:
-                                                                "13-tips-making-vr-gaming-world/index.html"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                                    " +
-                                                                _vm._s(
-                                                                  article.title
-                                                                ) +
-                                                                "\n                                                                "
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticClass:
-                                                          "penci-mega-date"
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-clock-o"
-                                                        }),
-                                                        _vm._v(
-                                                          "\n                                                                " +
-                                                            _vm._s(
-                                                              _vm._f("moment")(
-                                                                article
-                                                                  .created_at
-                                                                  .date,
-                                                                "MMMM D, YYYY"
-                                                              )
-                                                            ) +
-                                                            "\n                                                            "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          }),
-                                          _vm._v(" "),
-                                          _c("animation")
-                                        ],
-                                        2
-                                      ),
-                                      _vm._v(" "),
-                                      _vm._m(2)
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm._m(3),
-                                  _vm._v(" "),
-                                  _vm._m(4),
-                                  _vm._v(" "),
-                                  _vm._m(5),
-                                  _vm._v(" "),
-                                  _vm._m(6),
-                                  _vm._v(" "),
-                                  _c("animation")
-                                ],
-                                1
-                              )
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass:
-                    "menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu penci-megamenu-container menu-item-748",
-                  attrs: { id: "menu-item-748" }
-                },
-                [
-                  _c(
-                    "a",
-                    {
-                      attrs: {
-                        href: "category/creative-news/illustrations/index.html"
-                      }
-                    },
-                    [_vm._v("Illustrations")]
-                  ),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "sub-menu" }, [
-                    _c("li", { staticClass: "menu-item-0" }, [
-                      _c("div", { staticClass: "penci-megamenu" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "penci-content-megamenu penci-content-megamenu-style-1"
-                          },
-                          [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "penci-mega-latest-posts col-mn-6 mega-row-1 "
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "penci-mega-row penci-mega-4 row-active",
-                                    attrs: {
-                                      "data-current": "1",
-                                      "data-blockUid": "penci_megamenu__6823"
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "penci-block_content penci-mega-row_content",
-                                        attrs: {
-                                          id:
-                                            "penci_megamenu__6823block_content"
-                                        }
-                                      },
-                                      [
-                                        _vm._l(_vm.illustrations, function(
-                                          article
-                                        ) {
-                                          return _c(
+                                          _c(
                                             "div",
                                             {
                                               staticClass:
-                                                "penci-mega-post penci-mega-post-1 penci-imgtype-landscape"
+                                                "penci-block_content penci-mega-row_content",
+                                              attrs: {
+                                                id:
+                                                  "penci_megamenu__47694block_content"
+                                              }
                                             },
                                             [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-thumbnail"
-                                                },
-                                                [
-                                                  _c(
-                                                    "a",
-                                                    {
-                                                      staticClass:
-                                                        "mega-cat-name",
-                                                      attrs: {
-                                                        href:
-                                                          "category/creative-news/illustrations/index.html"
-                                                      }
-                                                    },
-                                                    [_vm._v("Illustrations")]
-                                                  ),
-                                                  _c("a", {
-                                                    staticClass:
-                                                      "penci-image-holder  penci-lazy",
-                                                    style: article.image
-                                                  })
-                                                ]
-                                              ),
+                                              _c("MenuItem", {
+                                                attrs: {
+                                                  articles: _vm.articles,
+                                                  index: index
+                                                }
+                                              }),
                                               _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "penci-mega-meta "
-                                                },
-                                                [
-                                                  _c(
-                                                    "h3",
-                                                    {
-                                                      staticClass:
-                                                        "post-mega-title entry-title"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          attrs: {
-                                                            href:
-                                                              "10-incredible-online-art-schools/index.html"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                                    " +
-                                                              _vm._s(
-                                                                article.title
-                                                              ) +
-                                                              "\n                                                                "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "p",
-                                                    {
-                                                      staticClass:
-                                                        "penci-mega-date"
-                                                    },
-                                                    [
-                                                      _c("i", {
-                                                        staticClass:
-                                                          "fa fa-clock-o"
-                                                      }),
-                                                      _vm._v(
-                                                        "\n                                                                " +
-                                                          _vm._s(
-                                                            _vm._f("moment")(
-                                                              article.created_at
-                                                                .date,
-                                                              "MMMM D, YYYY"
-                                                            )
-                                                          ) +
-                                                          "\n                                                            "
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        }),
-                                        _vm._v(" "),
-                                        _c("animation")
-                                      ],
-                                      2
-                                    ),
-                                    _vm._v(" "),
-                                    _vm._m(7)
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("animation")
-                              ],
-                              1
-                            )
+                                              _c("animation")
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._m(0, true)
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(1, true),
+                                      _vm._v(" "),
+                                      _vm._m(2, true),
+                                      _vm._v(" "),
+                                      _vm._m(3, true),
+                                      _vm._v(" "),
+                                      _vm._m(4, true),
+                                      _vm._v(" "),
+                                      _c("animation")
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            ])
                           ]
                         )
                       ])
-                    ])
-                  ])
-                ]
-              )
-            ])
+                    ]
+                  )
+                })
+              ],
+              2
+            )
           ]
         ),
         _vm._v(" "),
-        _vm._m(8)
+        _vm._m(5)
       ])
     ]
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "penci-mega-child-categories col-mn-5 mega-row-1 penci-child_cat-style-1"
-      },
-      [
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child  cat-active mega-cat-child-loaded",
-            attrs: {
-              "data-id": "penci-mega-8",
-              href: "category/creative-news/3d-design/index.html"
-            }
-          },
-          [_c("span", [_vm._v("3D Design")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-4",
-              href: "category/creative-news/illustrations/index.html"
-            }
-          },
-          [_c("span", [_vm._v("Illustrations")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-5",
-              href: "category/creative-news/typography/index.html"
-            }
-          },
-          [_c("span", [_vm._v("Typography")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-6",
-              href: "category/creative-news/uiux/index.html"
-            }
-          },
-          [_c("span", [_vm._v("UI/UX")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mega-cat-child ",
-            attrs: {
-              "data-id": "penci-mega-7",
-              href: "category/creative-news/web-design/index.html"
-            }
-          },
-          [_c("span", [_vm._v("Web Design")])]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "penci-mega-thumbnail" }, [
-      _c(
-        "a",
-        {
-          staticClass: "mega-cat-name",
-          attrs: { href: "category/creative-news/3d-design/index.html" }
-        },
-        [
-          _vm._v(
-            "\n                                                                3D Design\n                                                            "
-          )
-        ]
-      )
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -54523,36 +54639,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "penci-slider-nav" }, [
-      _c(
-        "a",
-        {
-          staticClass: "penci-mega-pag penci-slider-prev penci-pag-disabled",
-          attrs: {
-            "data-block_id": "penci_megamenu__6823block_content",
-            href: "#"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-angle-left" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "penci-mega-pag penci-slider-next ",
-          attrs: {
-            "data-block_id": "penci_megamenu__6823block_content",
-            href: "#"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-angle-right" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "header__social-search" }, [
       _c(
         "div",
@@ -54758,6 +54844,7 @@ var staticRenderFns = [
               ])
             ]
           ),
+          _vm._v(" "),
           _c(
             "a",
             {
@@ -54772,6 +54859,7 @@ var staticRenderFns = [
             [
               _c("span", { staticClass: "socail-media-item__content" }, [
                 _c("i", { staticClass: "fa fa-snapchat" }),
+                _vm._v(" "),
                 _c("span", { staticClass: "social_title screen-reader-text" }, [
                   _vm._v("Snapchat")
                 ])
@@ -54793,15 +54881,15 @@ if (false) {
 }
 
 /***/ }),
-/* 65 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(66)
+var __vue_script__ = __webpack_require__(69)
 /* template */
-var __vue_template__ = __webpack_require__(67)
+var __vue_template__ = __webpack_require__(70)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54840,7 +54928,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 66 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54866,7 +54954,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 67 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -54919,15 +55007,15 @@ if (false) {
 }
 
 /***/ }),
-/* 68 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(69)
+var __vue_script__ = __webpack_require__(72)
 /* template */
-var __vue_template__ = __webpack_require__(70)
+var __vue_template__ = __webpack_require__(73)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54966,7 +55054,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 69 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55137,7 +55225,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 70 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55797,15 +55885,15 @@ if (false) {
 }
 
 /***/ }),
-/* 71 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(72)
+var __vue_script__ = __webpack_require__(75)
 /* template */
-var __vue_template__ = __webpack_require__(73)
+var __vue_template__ = __webpack_require__(76)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55844,7 +55932,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 72 */
+/* 75 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55921,7 +56009,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 73 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56169,15 +56257,15 @@ if (false) {
 }
 
 /***/ }),
-/* 74 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(75)
+var __vue_script__ = __webpack_require__(78)
 /* template */
-var __vue_template__ = __webpack_require__(76)
+var __vue_template__ = __webpack_require__(79)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56216,11 +56304,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 75 */
+/* 78 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -57194,7 +57286,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            article: {}
+            article: {},
+            prevArticle: {},
+            nextArticle: {}
         };
     },
 
@@ -57207,6 +57301,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return article.id === _this.$route.params.id;
             });
             this.article = article[0];
+            var prevArticle = this.articles.filter(function (article) {
+                return article.id === _this.$route.params.id - 1;
+            });
+            this.prevArticle = prevArticle[0];
+            var nextArticle = this.articles.filter(function (article) {
+                return article.id === _this.$route.params.id + 1;
+            });
+            this.nextArticle = nextArticle[0];
         }
     },
     created: function created() {
@@ -57215,7 +57317,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 76 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -57310,22 +57412,96 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(4),
-                        _vm._v(" "),
-                        _vm._m(5),
+                        _c("div", { staticClass: "penci-post-pagination" }, [
+                          _c("div", { staticClass: "prev-post" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "prev-post-inner penci_mobj__body"
+                              },
+                              [
+                                _vm._m(4),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "pagi-text" }, [
+                                  _c(
+                                    "h5",
+                                    { staticClass: "prev-title" },
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          attrs: {
+                                            to: {
+                                              name: "article",
+                                              params: { id: _vm.prevArticle.id }
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                                            " +
+                                              _vm._s(_vm.prevArticle.title) +
+                                              "\n                                                        "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ])
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "next-post " }, [
+                            _c("div", { staticClass: "next-post-inner" }, [
+                              _vm._m(5),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "pagi-text" }, [
+                                _c(
+                                  "h5",
+                                  { staticClass: "next-title" },
+                                  [
+                                    _c(
+                                      "router-link",
+                                      {
+                                        attrs: {
+                                          to: {
+                                            name: "article",
+                                            params: { id: _vm.nextArticle.id }
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                                            " +
+                                            _vm._s(_vm.nextArticle.title) +
+                                            "\n                                                        "
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ])
+                            ])
+                          ])
+                        ]),
                         _vm._v(" "),
                         _vm._m(6),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _vm._m(8)
                       ]
                     )
                   ])
                 ]
               ),
               _vm._v(" "),
-              _vm._m(8),
+              _vm._m(9),
               _vm._v(" "),
-              _vm._m(9)
+              _vm._m(10)
             ])
           ])
         ])
@@ -57772,62 +57948,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "penci-post-pagination" }, [
-      _c("div", { staticClass: "prev-post" }, [
-        _c("div", { staticClass: "prev-post-inner penci_mobj__body" }, [
-          _c("div", { staticClass: "prev-post-title" }, [
-            _c("span", [
-              _c("i", { staticClass: "fa fa-angle-left" }),
-              _vm._v("previous post")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "pagi-text" }, [
-            _c("h5", { staticClass: "prev-title" }, [
-              _c(
-                "a",
-                {
-                  attrs: {
-                    href:
-                      "../movie-fans-will-love-illustrated-movie-maps/index.html"
-                  }
-                },
-                [
-                  _vm._v(
-                    "Movie\n                                                            fans will love these illustrated movie maps"
-                  )
-                ]
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "next-post " }, [
-        _c("div", { staticClass: "next-post-inner" }, [
-          _c("div", { staticClass: "prev-post-title next-post-title" }, [
-            _c("span", [
-              _vm._v("next post"),
-              _c("i", { staticClass: "fa fa-angle-right" })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "pagi-text" }, [
-            _c("h5", { staticClass: "next-title" }, [
-              _c(
-                "a",
-                {
-                  attrs: { href: "../tackle-user-research-testing/index.html" }
-                },
-                [
-                  _vm._v(
-                    "How do you\n                                                            tackle user research and testing?"
-                  )
-                ]
-              )
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "prev-post-title" }, [
+      _c("span", [
+        _c("i", { staticClass: "fa fa-angle-left" }),
+        _vm._v("previous post")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "prev-post-title next-post-title" }, [
+      _c("span", [
+        _vm._v("next post"),
+        _c("i", { staticClass: "fa fa-angle-right" })
       ])
     ])
   },
@@ -60495,15 +60630,15 @@ if (false) {
 }
 
 /***/ }),
-/* 77 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(78)
+var __vue_script__ = __webpack_require__(81)
 /* template */
-var __vue_template__ = __webpack_require__(79)
+var __vue_template__ = __webpack_require__(82)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -60542,7 +60677,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 78 */
+/* 81 */
 /***/ (function(module, exports) {
 
 //
@@ -60550,7 +60685,7 @@ module.exports = Component.exports
 //
 
 /***/ }),
-/* 79 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -60570,7 +60705,7 @@ if (false) {
 }
 
 /***/ }),
-/* 80 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function (global, factory) {
@@ -65281,7 +65416,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 81 */
+/* 84 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

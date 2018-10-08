@@ -17,7 +17,6 @@ import Category from './views/Category.vue';
 Vue.use(require('vue-moment'));
 
 const router = new VueRouter({
-    mode: 'history',
     routes: [
         {
             path: '/',

@@ -66,7 +66,7 @@
     <div id="page"
          class="site">
         <div class="site-header-wrapper">
-            <top-header :articles="articles"></top-header><!-- #masthead -->
+            <top-header :articles="articles" :categories="categories"></top-header><!-- #masthead -->
             <logo></logo>
         </div>
         <div class="penci-header-mobile">
