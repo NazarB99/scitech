@@ -20,7 +20,7 @@
                                     <div class="penci-entry-categories">
                                     <span class="penci-cat-links"><a
                                             href="../category/creative-news/3d-design/index.html"
-                                            rel="category tag">3D Design</a></span></div>
+                                            rel="category tag">{{article.category.category}}</a></span></div>
                                     <h1 class="entry-title penci-entry-title">{{article.title}}</h1>
                                     <div class="entry-meta penci-entry-meta">
                                     <span class="entry-meta-item penci-byline">by <span class="author vcard">
@@ -28,12 +28,10 @@
                                            href="../author/admin/index.html">Penci Design</a></span>
                                     </span><span class="entry-meta-item penci-posted-on">
                                     <i class="fa fa-clock-o"></i>
-                                    <time class="entry-date published">November 3, 2017</time>
+                                    <time class="entry-date published">
+                                        {{article.created_at.date | moment("MMMM D, YYYY")}}
+                                    </time>
                                     <time class="updated">December 1, 2017</time></span>
-                                        <span class="entry-meta-item penci-comment-count">
-                                        <a class="penci_pmeta-link" href="index.html#respond">
-                                            <i class="la la-comments"></i>0</a>
-                                    </span>
                                         <span class="entry-meta-item penci-post-countview">
                                         <span class="entry-meta-item penci-post-countview penci_post-meta_item">
                                             <i class="fa fa-eye"></i>
@@ -671,25 +669,16 @@
                             </aside><!-- #secondary -->
                             <aside class="widget-area widget-area-1 penci-sticky-sidebar penci-sidebar-widgets">
                                 <div class="theiaStickySidebar">
-                                    <div id="search-2"
-                                         class="widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_search">
-                                        <form method="get"
-                                              class="search-form"
-                                              action="http://pennews.pencidesign.com/pennews-creative/">
-                                            <label>
-                                                <span class="screen-reader-text">Search for:</span>
-                                                <input type="search"
-                                                       class="search-field"
-                                                       placeholder="Enter keyword..."
-                                                       value=""
-                                                       name="s">
-                                            </label>
-                                            <button type="submit"
-                                                    class="search-submit">
-                                                <i class="fa fa-search"></i>
-                                                <span class="screen-reader-text">Search</span>
-                                            </button>
-                                        </form>
+                                    <div id="search-2" class="widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_search"><form method="get" class="search-form" action="http://pennews.pencidesign.com/pennews-creative/">
+                                        <label>
+                                            <span class="screen-reader-text">Search for:</span>
+                                            <input type="search" class="search-field" placeholder="Enter keyword..." value="" name="s">
+                                        </label>
+                                        <button type="submit" class="search-submit">
+                                            <i class="fa fa-search"></i>
+                                            <span class="screen-reader-text">Search</span>
+                                        </button>
+                                    </form>
                                     </div>
                                     <div id="penci-social-counter--29121"
                                          class="penci-block-vc penci-social-counter penci-social-counter--style-1 widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-social_counter penci-widget__social_counter penci-link-filter-hidden penci-vc-column-1">

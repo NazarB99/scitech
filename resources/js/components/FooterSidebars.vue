@@ -24,8 +24,9 @@
                                                 </a>
                                             </h3>
                                             <div class="penci-schema-markup">
-                                                    <span class="author vcard"><a class="url fn n"
-                                                                                  href="author/admin/index.html">Penci Design</a></span>
+                                                    <span class="author vcard">
+                                                        <a class="url fn n" href="author/admin/index.html">Penci Design</a>
+                                                    </span>
                                             </div>
                                             <div class="penci_post-meta">
                                                     <span class="entry-meta-item penci-posted-on"><i class="fa fa-clock-o"></i>
@@ -34,8 +35,11 @@
                                                         <time class="updated">December 1, 2017</time>
                                                     </span>
                                                 <span class="entry-meta-item penci-comment-count">
-                                                            <a class="penci_pmeta-link" href="10-incredible-online-art-schools/index.html#respond">
-                                                                <i class="la la-comments"></i>0</a></span>
+                                                            <router-link class="penci_pmeta-link"
+                                                               :to="{name:'article',params:{id: item.id}}">
+                                                                <i class="la la-comments"></i>0
+                                                            </router-link>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>

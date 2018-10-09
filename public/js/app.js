@@ -51193,11 +51193,13 @@ var render = function() {
                           { staticClass: "penci__post-title entry-title" },
                           [
                             _c(
-                              "a",
+                              "router-link",
                               {
                                 attrs: {
-                                  href:
-                                    "13-tips-making-vr-gaming-world/index.html"
+                                  to: {
+                                    name: "article",
+                                    params: { id: _vm.mainThreeD.id }
+                                  }
                                 }
                               },
                               [
@@ -51208,7 +51210,8 @@ var render = function() {
                                 )
                               ]
                             )
-                          ]
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _vm._m(2),
@@ -51303,7 +51306,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\n                                        " +
-                                      _vm._s(article.created_at) +
+                                      _vm._s(article.created_at.date) +
                                       "\n                                    "
                                   )
                                 ]
@@ -51343,7 +51346,7 @@ var staticRenderFns = [
               title: "3D Design"
             }
           },
-          [_vm._v("3D Design")]
+          [_vm._v("Science")]
         )
       ])
     ])
@@ -51659,6 +51662,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -51734,17 +51739,25 @@ var render = function() {
                           { staticClass: "penci__post-title entry-title" },
                           [
                             _c(
-                              "a",
+                              "router-link",
                               {
                                 attrs: {
-                                  href:
-                                    "10-incredible-online-art-schools/index.html",
-                                  title: " 10 incredible online art schools "
+                                  to: {
+                                    name: "article",
+                                    params: { id: _vm.mainIllustration.id }
+                                  }
                                 }
                               },
-                              [_vm._v(_vm._s(_vm.mainIllustration.title))]
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.mainIllustration.title) +
+                                    "\n                            "
+                                )
+                              ]
                             )
-                          ]
+                          ],
+                          1
                         ),
                         _vm._v(" "),
                         _vm._m(2),
@@ -51819,11 +51832,13 @@ var render = function() {
                               { staticClass: "penci__post-title entry-title" },
                               [
                                 _c(
-                                  "a",
+                                  "router-link",
                                   {
                                     attrs: {
-                                      href:
-                                        "movie-fans-will-love-illustrated-movie-maps/index.html"
+                                      to: {
+                                        name: "article",
+                                        params: { id: article.id }
+                                      }
                                     }
                                   },
                                   [
@@ -51834,7 +51849,8 @@ var render = function() {
                                     )
                                   ]
                                 )
-                              ]
+                              ],
+                              1
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "penci-schema-markup" }, [
@@ -52193,7 +52209,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         latestArticles: function latestArticles() {
-            return this.articles.slice(1, 6).filter(function (article) {
+            return this.articles.slice(1, 7).filter(function (article) {
                 return article.category.id;
             });
         }
@@ -52268,11 +52284,13 @@ var render = function() {
                                 },
                                 [
                                   _c(
-                                    "a",
+                                    "router-link",
                                     {
                                       attrs: {
-                                        href:
-                                          "10-incredible-online-art-schools/index.html",
+                                        to: {
+                                          name: "article",
+                                          params: { id: article.id }
+                                        },
                                         title:
                                           " 10 incredible online art schools "
                                       }
@@ -52285,7 +52303,8 @@ var render = function() {
                                       )
                                     ]
                                   )
-                                ]
+                                ],
+                                1
                               ),
                               _vm._v(" "),
                               _vm._m(1, true),
@@ -52808,6 +52827,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['articles'],
@@ -52939,12 +52960,15 @@ var render = function() {
                                                   },
                                                   [
                                                     _c(
-                                                      "a",
+                                                      "router-link",
                                                       {
                                                         attrs: {
-                                                          href:
-                                                            "/article/" +
-                                                            article.id
+                                                          to: {
+                                                            name: "article",
+                                                            params: {
+                                                              id: article.id
+                                                            }
+                                                          }
                                                         }
                                                       },
                                                       [
@@ -52961,7 +52985,8 @@ var render = function() {
                                                         )
                                                       ]
                                                     )
-                                                  ]
+                                                  ],
+                                                  1
                                                 ),
                                                 _vm._v(" "),
                                                 _c(
@@ -53090,12 +53115,15 @@ var render = function() {
                                                   },
                                                   [
                                                     _c(
-                                                      "a",
+                                                      "router-link",
                                                       {
                                                         attrs: {
-                                                          href:
-                                                            "/article/" +
-                                                            article.id
+                                                          to: {
+                                                            name: "article",
+                                                            params: {
+                                                              id: article.id
+                                                            }
+                                                          }
                                                         }
                                                       },
                                                       [
@@ -53112,7 +53140,8 @@ var render = function() {
                                                         )
                                                       ]
                                                     )
-                                                  ]
+                                                  ],
+                                                  1
                                                 ),
                                                 _vm._v(" "),
                                                 _c(
@@ -53153,11 +53182,7 @@ var render = function() {
                                                     _c(
                                                       "time",
                                                       {
-                                                        staticClass: "updated",
-                                                        attrs: {
-                                                          datetime:
-                                                            "2017-12-01T07:45:15+00:00"
-                                                        }
+                                                        staticClass: "updated"
                                                       },
                                                       [
                                                         _vm._v(
@@ -53318,7 +53343,11 @@ var staticRenderFns = [
       _c(
         "a",
         { staticClass: "url fn n", attrs: { href: "author/admin/index.html" } },
-        [_vm._v("Penci Design")]
+        [
+          _vm._v(
+            "Penci Design\n                                                            "
+          )
+        ]
       )
     ])
   },
@@ -53939,23 +53968,28 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "penci-mega-meta " }, [
-                  _c("h3", { staticClass: "post-mega-title entry-title" }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: {
-                          href: "13-tips-making-vr-gaming-world/index.html"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(article.title) +
-                            "\n                "
-                        )
-                      ]
-                    )
-                  ]),
+                  _c(
+                    "h3",
+                    { staticClass: "post-mega-title entry-title" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            to: { name: "article", params: { id: article.id } }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(article.title) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("p", { staticClass: "penci-mega-date" }, [
                     _c("i", { staticClass: "fa fa-clock-o" }),
@@ -55214,6 +55248,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['categories', 'articles'],
@@ -55361,7 +55399,38 @@ var render = function() {
                                               ]
                                             ),
                                             _vm._v(" "),
-                                            _vm._m(2, true)
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass:
+                                                  "entry-meta-item penci-comment-count"
+                                              },
+                                              [
+                                                _c(
+                                                  "router-link",
+                                                  {
+                                                    staticClass:
+                                                      "penci_pmeta-link",
+                                                    attrs: {
+                                                      to: {
+                                                        name: "article",
+                                                        params: { id: item.id }
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "la la-comments"
+                                                    }),
+                                                    _vm._v(
+                                                      "0\n                                                        "
+                                                    )
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
                                           ]
                                         )
                                       ]
@@ -55373,7 +55442,7 @@ var render = function() {
                           })
                         ),
                         _vm._v(" "),
-                        _vm._m(3)
+                        _vm._m(2)
                       ]
                     )
                   ]
@@ -55381,7 +55450,7 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _vm._m(4),
+            _vm._m(3),
             _vm._v(" "),
             _c(
               "div",
@@ -55398,7 +55467,7 @@ var render = function() {
                     attrs: { id: "penci-popular-cat--38952" }
                   },
                   [
-                    _vm._m(5),
+                    _vm._m(4),
                     _vm._v(" "),
                     _c(
                       "ul",
@@ -55471,21 +55540,6 @@ var staticRenderFns = [
           [_vm._v("Penci Design")]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
-      _c(
-        "a",
-        {
-          staticClass: "penci_pmeta-link",
-          attrs: { href: "10-incredible-online-art-schools/index.html#respond" }
-        },
-        [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
-      )
     ])
   },
   function() {
@@ -57271,17 +57325,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -57352,7 +57395,21 @@ var render = function() {
                         "entry-header penci-entry-header penci-title-"
                     },
                     [
-                      _vm._m(0),
+                      _c("div", { staticClass: "penci-entry-categories" }, [
+                        _c("span", { staticClass: "penci-cat-links" }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href:
+                                  "../category/creative-news/3d-design/index.html",
+                                rel: "category tag"
+                              }
+                            },
+                            [_vm._v(_vm._s(_vm.article.category.category))]
+                          )
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "h1",
@@ -57360,7 +57417,43 @@ var render = function() {
                         [_vm._v(_vm._s(_vm.article.title))]
                       ),
                       _vm._v(" "),
-                      _vm._m(1)
+                      _c(
+                        "div",
+                        { staticClass: "entry-meta penci-entry-meta" },
+                        [
+                          _vm._m(0),
+                          _c(
+                            "span",
+                            { staticClass: "entry-meta-item penci-posted-on" },
+                            [
+                              _c("i", { staticClass: "fa fa-clock-o" }),
+                              _vm._v(" "),
+                              _c(
+                                "time",
+                                { staticClass: "entry-date published" },
+                                [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(
+                                        _vm._f("moment")(
+                                          _vm.article.created_at.date,
+                                          "MMMM D, YYYY"
+                                        )
+                                      ) +
+                                      "\n                                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("time", { staticClass: "updated" }, [
+                                _vm._v("December 1, 2017")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(1)
+                        ]
+                      )
                     ]
                   )
                 ])
@@ -57514,17 +57607,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "penci-entry-categories" }, [
-      _c("span", { staticClass: "penci-cat-links" }, [
+    return _c("span", { staticClass: "entry-meta-item penci-byline" }, [
+      _vm._v("by "),
+      _c("span", { staticClass: "author vcard" }, [
         _c(
           "a",
           {
-            attrs: {
-              href: "../category/creative-news/3d-design/index.html",
-              rel: "category tag"
-            }
+            staticClass: "url fn n",
+            attrs: { href: "../author/admin/index.html" }
           },
-          [_vm._v("3D Design")]
+          [_vm._v("Penci Design")]
         )
       ])
     ])
@@ -57533,62 +57625,26 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "entry-meta penci-entry-meta" }, [
-      _c("span", { staticClass: "entry-meta-item penci-byline" }, [
-        _vm._v("by "),
-        _c("span", { staticClass: "author vcard" }, [
+    return _c("span", { staticClass: "entry-meta-item penci-post-countview" }, [
+      _c(
+        "span",
+        {
+          staticClass:
+            "entry-meta-item penci-post-countview penci_post-meta_item"
+        },
+        [
+          _c("i", { staticClass: "fa fa-eye" }),
+          _vm._v(" "),
           _c(
-            "a",
+            "span",
             {
-              staticClass: "url fn n",
-              attrs: { href: "../author/admin/index.html" }
+              staticClass:
+                "penci-post-countview-number penci-post-countview-p686"
             },
-            [_vm._v("Penci Design")]
+            [_vm._v("471")]
           )
-        ])
-      ]),
-      _c("span", { staticClass: "entry-meta-item penci-posted-on" }, [
-        _c("i", { staticClass: "fa fa-clock-o" }),
-        _vm._v(" "),
-        _c("time", { staticClass: "entry-date published" }, [
-          _vm._v("November 3, 2017")
-        ]),
-        _vm._v(" "),
-        _c("time", { staticClass: "updated" }, [_vm._v("December 1, 2017")])
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "entry-meta-item penci-comment-count" }, [
-        _c(
-          "a",
-          {
-            staticClass: "penci_pmeta-link",
-            attrs: { href: "index.html#respond" }
-          },
-          [_c("i", { staticClass: "la la-comments" }), _vm._v("0")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "entry-meta-item penci-post-countview" }, [
-        _c(
-          "span",
-          {
-            staticClass:
-              "entry-meta-item penci-post-countview penci_post-meta_item"
-          },
-          [
-            _c("i", { staticClass: "fa fa-eye" }),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "penci-post-countview-number penci-post-countview-p686"
-              },
-              [_vm._v("471")]
-            )
-          ]
-        )
-      ])
+        ]
+      )
     ])
   },
   function() {

@@ -5,7 +5,7 @@
             <div class="penci-block-heading">
                 <h3 class="penci-block__title">
                     <a href="category/creative-news/3d-design/index.html"
-                       title="3D Design">3D Design</a></h3></div>
+                       title="3D Design">Science</a></h3></div>
             <div id="penci_block_23__32021619block_content"
                  class="penci-block_content">
                 <div class="penci-block_content__items penci-block-items__1">
@@ -60,9 +60,9 @@
                             </div>
                             <div class="penci_post_content">
                                 <h3 class="penci__post-title entry-title">
-                                    <a href="13-tips-making-vr-gaming-world/index.html">
+                                    <router-link :to="{name:'article',params:{id:mainThreeD.id}}">
                                         {{mainThreeD.title}}
-                                    </a>
+                                    </router-link>
                                 </h3>
                                 <div class="penci-schema-markup">
                                     <span class="author vcard">
@@ -110,7 +110,7 @@
                                                            href="author/admin/index.html">Penci Design</a>
                                                     </span>
                                         <time class="entry-date published">
-                                            {{article.created_at}}
+                                            {{article.created_at.date}}
                                         </time>
                                     </div>
                                 </div>

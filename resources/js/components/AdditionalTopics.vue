@@ -27,10 +27,10 @@
                                                     </div>
                                                     <div class="penci_post_content">
                                                         <h3 class="penci__post-title entry-title">
-                                                            <a v-bind:href="'/article/'+article.id">
+                                                            <router-link :to="{name:'article',params:{id:article.id}}">
                                                                 {{article.title.split(" ").splice(0,5).join(" ") +
                                                                 "..."}}
-                                                            </a>
+                                                            </router-link>
                                                         </h3>
                                                         <div class="penci-schema-markup">
                                                                         <span class="author vcard">
@@ -87,20 +87,22 @@
                                                     </div>
                                                     <div class="penci_post_content">
                                                         <h3 class="penci__post-title entry-title">
-                                                            <a v-bind:href="'/article/'+article.id">
+                                                            <router-link :to="{name:'article',params:{id:article.id}}">
                                                                 {{article.title.split(" ").splice(0,5).join(" ") +
                                                                 "..."}}
-                                                            </a>
+                                                            </router-link>
                                                         </h3>
                                                         <div class="penci-schema-markup">
-                                                                        <span class="author vcard"><a class="url fn n"
-                                                                                                      href="author/admin/index.html">Penci Design</a></span>
+                                                            <span class="author vcard">
+                                                                <a class="url fn n"
+                                                                    href="author/admin/index.html">Penci Design
+                                                                </a>
+                                                            </span>
                                                             <time class="entry-date published"
                                                                   datetime="2017-11-03T03:11:47+00:00">
                                                                 {{article.created_at.date | moment("MMMM D, YYYY")}}
                                                             </time>
-                                                            <time class="updated"
-                                                                  datetime="2017-12-01T07:45:15+00:00">
+                                                            <time class="updated">
                                                                 December 1, 2017
                                                             </time>
                                                         </div>

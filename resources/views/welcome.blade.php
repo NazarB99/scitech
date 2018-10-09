@@ -5,10 +5,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
     <title>Home - PenNews Creative</title>
-    <link rel="stylesheet"
-          href="http://fonts.googleapis.com/css?family=Roboto%3A300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C700%2C700italic%2C800%2C800italic%7CMukta+Vaani%3A300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C700%2C700italic%2C800%2C800italic%7COswald%3A300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C700%2C700italic%2C800%2C800italic%7CTeko%3A300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C700%2C700italic%2C800%2C800italic%7CRoboto+Mono%3A300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C700%2C700italic%2C800%2C800italic%7COverpass+Mono%3A300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C700%2C700italic%2C800%2C800italic%3A300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C700%2C700italic%2C800%2C800italic%26subset%3Dcyrillic%2Ccyrillic-ext%2Cgreek%2Cgreek-ext%2Clatin-ext">
-    <link rel="stylesheet"
-          href="http://fonts.googleapis.com/css?family=Oswald%3A400&amp;ver=4.9.8">
+    <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet"
           href="/css/styles.css">
     <link rel="stylesheet"

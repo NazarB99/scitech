@@ -18,9 +18,11 @@
                            title="10 incredible online art schools"> <span
                                 class="screen-reader-text">10 incredible online art schools</span></a>
                         <div class="penci_post_content">
-                            <h3 class="penci__post-title entry-title"><a
-                                    href="10-incredible-online-art-schools/index.html"
-                                    title=" 10 incredible online art schools ">{{mainIllustration.title}}</a>
+                            <h3 class="penci__post-title entry-title">
+                                <router-link
+                                   :to="{name:'article',params:{id:mainIllustration.id}}">
+                                    {{mainIllustration.title}}
+                                </router-link>
                             </h3>
                             <div class="penci-schema-markup">
                                 <span class="author vcard">
@@ -50,9 +52,9 @@
                                 <span class="screen-reader-text">Movie fans will love these illustrated movie maps</span></a>
                             <div class="penci_post_content">
                                 <h3 class="penci__post-title entry-title">
-                                    <a href="movie-fans-will-love-illustrated-movie-maps/index.html">
+                                    <router-link :to="{name:'article',params:{id:article.id}}">
                                         {{article.title}}
-                                    </a>
+                                    </router-link>
                                 </h3>
                                 <div class="penci-schema-markup">
 

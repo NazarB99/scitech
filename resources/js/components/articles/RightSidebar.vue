@@ -21,10 +21,10 @@
                                    :style="article.image"></a>
                                 <div class="penci_post_content penci_mobj__body">
                                     <h3 class="penci__post-title entry-title">
-                                        <a href="10-incredible-online-art-schools/index.html"
+                                        <router-link :to="{name:'article', params:{id: article.id}}"
                                            title=" 10 incredible online art schools ">
                                             {{article.title}}
-                                        </a>
+                                        </router-link>
                                     </h3>
                                     <div class="penci-schema-markup">
 
@@ -99,7 +99,7 @@
         },
         computed:{
             latestArticles(){
-                return this.articles.slice(1,6).filter(article => article.category.id);
+                return this.articles.slice(1,7).filter(article => article.category.id);
             }
         }
     }
