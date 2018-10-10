@@ -66,6 +66,81 @@
     font-family: 'Roboto Mono', monospace;
 }
 
+.penci-author-content h5 a{
+    font-family: 'Roboto Mono', monospace !important;
+    font-size: 1.4rem !important;
+    color: white !important;
+}
+
+.author-description{
+    font-family: 'Roboto Mono', monospace !important;
+    font-size: 1.4rem;
+    color: #8a8a8a !important;
+}
+
+.penci-page-style-5 .penci-active-thumb .penci-container, .penci-single-style-5 .penci-active-thumb .penci-container {
+    clear: both;
+}
+
+.widget .search-form .search-field{
+    width: 135% !important;
+    font-family: 'Roboto Mono', monospace !important;
+    font-size: 1.3rem;
+}
+
+/*.entry-media__content {*/
+    /*background: transparent !important;*/
+    /*width: 100% !important;*/
+    /*z-index: 10 !important;*/
+    /*position: absolute !important;*/
+    /*bottom: -100% !important;*/
+/*}*/
+
+#penci-ad_box--34697 .penci-promo-item.penci-banner-has-text:after {
+    content: none !important;
+}
+
+#penci_block_6__79102493 .penci-subcat-filter .penci-subcat-item a, #penci_block_6__79102493 .penci-subcat-list .flexMenu-viewMore > a {
+    font-family: "Roboto" !important;
+    font-weight: 400 !important;
+}
+
+@media screen and (min-width: 768px ) {
+}
+
+#penci_block_23__51985344 .penci-subcat-filter .penci-subcat-item a, #penci_block_23__51985344 .penci-subcat-list .flexMenu-viewMore > a {
+    font-family: "Roboto";
+    font-weight: 400;
+}
+
+#penci_block_23__51985344.penci-block-vc .penci-cat-name {
+    font-family: "Roboto";
+    font-weight: 400;
+}
+
+#penci_block_23__51985344 .penci-pmore-link .more-link {
+    font-family: "Mukta Vaani";
+    font-weight: 400;
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_block_23__51985344 .penci__post-title {
+        font-size: 13px !important;
+    }
+}
+
+@media screen and (min-width: 768px ) {
+    #penci_block_23__51985344 .block23_first_item .penci__post-title {
+        font-size: 18px !important;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .penci-container-fluid, .two-sidebar .site-main .penci-container {
+        max-width: 1430px;
+    }
+}
+
 @media only screen and (max-width: 650px) {
     .entry-title{
         margin-left: 2%;

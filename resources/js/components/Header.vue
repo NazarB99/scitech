@@ -14,7 +14,9 @@
                     <li id="menu-item-726"
                         v-for="(category,index) in categories"
                         class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726">
-                        <a href="category/creative-news/index.html">{{category.category}}</a>
+                        <router-link :to="{name:'getArticleByCategory',params:{id: category.id}}">
+                            {{category.category}}
+                        </router-link>
                         <ul class="sub-menu">
                             <li id="menu-item-0"
                                 class="menu-item-0">

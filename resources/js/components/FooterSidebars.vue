@@ -19,9 +19,9 @@
                                         <a class="penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon" :style="item.image"></a>
                                         <div class="penci_post_content penci_mobj__body">
                                             <h3 class="penci__post-title entry-title">
-                                                <a href="#">
+                                                <router-link :to="{name:'article',params:{id:item.id}}">
                                                     {{item.title}}
-                                                </a>
+                                                </router-link>
                                             </h3>
                                             <div class="penci-schema-markup">
                                                     <span class="author vcard">

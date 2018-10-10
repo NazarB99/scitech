@@ -285,12 +285,6 @@
         }
 
     })();</script>
-<link rel="stylesheet"
-      href="http://fonts.googleapis.com/css?family=Roboto+Mono">
-<link rel="stylesheet"
-      href="http://fonts.googleapis.com/css?family=Mukta+Vaani">
-<link rel="stylesheet"
-      href="http://fonts.googleapis.com/css?family=Overpass+Mono">
 <script src="/js/scripts.js"></script>
 <script src="/js/demobar.js"></script>
 <script src="/js/easypiechart.js"></script>

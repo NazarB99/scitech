@@ -53711,6 +53711,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -54357,11 +54359,22 @@ var render = function() {
                     },
                     [
                       _c(
-                        "a",
+                        "router-link",
                         {
-                          attrs: { href: "category/creative-news/index.html" }
+                          attrs: {
+                            to: {
+                              name: "getArticleByCategory",
+                              params: { id: category.id }
+                            }
+                          }
                         },
-                        [_vm._v(_vm._s(category.category))]
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(category.category) +
+                              "\n                        "
+                          )
+                        ]
                       ),
                       _vm._v(" "),
                       _c("ul", { staticClass: "sub-menu" }, [
@@ -54444,7 +54457,8 @@ var render = function() {
                           ]
                         )
                       ])
-                    ]
+                    ],
+                    1
                   )
                 })
               ],
@@ -55346,14 +55360,26 @@ var render = function() {
                                               "penci__post-title entry-title"
                                           },
                                           [
-                                            _c("a", { attrs: { href: "#" } }, [
-                                              _vm._v(
-                                                "\n                                                " +
-                                                  _vm._s(item.title) +
-                                                  "\n                                            "
-                                              )
-                                            ])
-                                          ]
+                                            _c(
+                                              "router-link",
+                                              {
+                                                attrs: {
+                                                  to: {
+                                                    name: "article",
+                                                    params: { id: item.id }
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                " +
+                                                    _vm._s(item.title) +
+                                                    "\n                                            "
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
                                         ),
                                         _vm._v(" "),
                                         _vm._m(1, true),
@@ -60734,11 +60760,1116 @@ module.exports = Component.exports
 
 /***/ }),
 /* 81 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 /* 82 */
@@ -60748,9 +61879,7315 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "home page-template page-template-page-templates page-template-full-width page-template-page-templatesfull-width-php page page-id-10 custom-background wp-custom-logo header-sticky penci_enable_ajaxsearch penci_enable_retina penci_sticky_content_sidebar penci_dis_padding_bw penci_dark_layout wpb-js-composer js-comp-ver-5.4.5 vc_responsive"
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "site-content",
+            staticStyle: { transform: "none" },
+            attrs: { id: "content" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "content-area penci-archive",
+                staticStyle: { transform: "none" },
+                attrs: { id: "primary" }
+              },
+              [
+                _c(
+                  "main",
+                  {
+                    staticClass: "site-main",
+                    staticStyle: { transform: "none" },
+                    attrs: { id: "main" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "penci-container",
+                        staticStyle: { transform: "none" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "penci-container__content",
+                            staticStyle: { transform: "none" }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "penci-wide-content penci-content-novc penci-sticky-content",
+                                staticStyle: {
+                                  position: "relative",
+                                  overflow: "visible",
+                                  "margin-bottom": "20px",
+                                  "box-sizing": "border-box",
+                                  "min-height": "1px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "theiaStickySidebar",
+                                    staticStyle: {
+                                      "padding-top": "1px",
+                                      "padding-bottom": "1px",
+                                      position: "static",
+                                      transform: "none"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-archive__content penci-layout-blog-boxed",
+                                        attrs: { id: "penci-archive__content" }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "penci_breadcrumbs " },
+                                          [
+                                            _c(
+                                              "ul",
+                                              {
+                                                attrs: {
+                                                  itemscope: "",
+                                                  itemtype:
+                                                    "http://schema.org/BreadcrumbList"
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "li",
+                                                  {
+                                                    attrs: {
+                                                      itemprop:
+                                                        "itemListElement",
+                                                      itemscope: "",
+                                                      itemtype:
+                                                        "http://schema.org/ListItem"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass: "home",
+                                                        attrs: {
+                                                          href:
+                                                            "http://pennews.pencidesign.com/pennews-creative",
+                                                          itemprop: "item"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            attrs: {
+                                                              itemprop: "name"
+                                                            }
+                                                          },
+                                                          [_vm._v("Home")]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("meta", {
+                                                      attrs: {
+                                                        itemprop: "position",
+                                                        content: "1"
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "li",
+                                                  {
+                                                    attrs: {
+                                                      itemprop:
+                                                        "itemListElement",
+                                                      itemscope: "",
+                                                      itemtype:
+                                                        "http://schema.org/ListItem"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      staticClass:
+                                                        "fa fa-angle-right"
+                                                    }),
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href: "index.html",
+                                                          itemprop: "item"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("span", {
+                                                          attrs: {
+                                                            itemprop: "name"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("meta", {
+                                                      attrs: {
+                                                        itemprop: "position",
+                                                        content: "2"
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "header",
+                                          {
+                                            staticClass:
+                                              "entry-header penci-entry-header penci-archive-entry-header"
+                                          },
+                                          [
+                                            _c(
+                                              "h1",
+                                              {
+                                                staticClass:
+                                                  "page-title penci-page-title penci-title-"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "Category : Creative\n                                            News"
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "penci-archive__list_posts"
+                                          },
+                                          [
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-691 post type-post status-publish format-standard has-post-thumbnail hentry category-illustrations tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu4-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../10-incredible-online-art-schools/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../10-incredible-online-art-schools/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "10 incredible online art schools"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:12:23+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:45:01+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../10-incredible-online-art-schools/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:12:23+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:45:01+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../10-incredible-online-art-schools/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-690 post type-post status-publish format-standard has-post-thumbnail hentry category-3d-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d4-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../13-tips-making-vr-gaming-world/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../13-tips-making-vr-gaming-world/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "13 tips for making a VR gaming world"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:58+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:35:21+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../13-tips-making-vr-gaming-world/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:58+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:35:21+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../13-tips-making-vr-gaming-world/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-689 post type-post status-publish format-standard has-post-thumbnail hentry category-uiux tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux3-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../create-engaging-designs-ui-ux-courses/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../create-engaging-designs-ui-ux-courses/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Create engaging designs with these UI and\n                                                            UX courses"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:53+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:35:28+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../create-engaging-designs-ui-ux-courses/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:53+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:35:28+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../create-engaging-designs-ui-ux-courses/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-688 post type-post status-publish format-standard has-post-thumbnail hentry category-web-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web4-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../developer-tools-need-know-right-now/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../developer-tools-need-know-right-now/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "The developer tools you need to know\n                                                            right now"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:47+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:45:15+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../developer-tools-need-know-right-now/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:47+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:45:15+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../developer-tools-need-know-right-now/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-687 post type-post status-publish format-standard has-post-thumbnail hentry category-uiux tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux4-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../tackle-user-research-testing/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tackle-user-research-testing/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "How do you tackle user research and\n                                                            testing?"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:43+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:35:55+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../tackle-user-research-testing/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:43+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:35:55+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../tackle-user-research-testing/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-686 post type-post status-publish format-standard has-post-thumbnail hentry category-3d-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d5-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../develop-mythical-creatures/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../develop-mythical-creatures/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "How to develop mythical creatures"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:38+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:36:05+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../develop-mythical-creatures/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:38+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:36:05+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../develop-mythical-creatures/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-685 post type-post status-publish format-standard has-post-thumbnail hentry category-illustrations tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu5-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../movie-fans-will-love-illustrated-movie-maps/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../movie-fans-will-love-illustrated-movie-maps/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Movie fans will love these illustrated\n                                                            movie maps"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:31+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:36:13+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../movie-fans-will-love-illustrated-movie-maps/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:31+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:36:13+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../movie-fans-will-love-illustrated-movie-maps/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-684 post type-post status-publish format-standard has-post-thumbnail hentry category-web-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web5-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../web-industry-coping-uncertain-times/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../web-industry-coping-uncertain-times/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "How the web industry is coping in\n                                                            uncertain times"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:27+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:36:20+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../web-industry-coping-uncertain-times/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:27+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:36:20+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../web-industry-coping-uncertain-times/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-683 post type-post status-publish format-standard has-post-thumbnail hentry category-uiux tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux5-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../8-great-business-cards-ux-designers/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../8-great-business-cards-ux-designers/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "8 great business cards for UX\n                                                            designers"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:22+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:36:29+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../8-great-business-cards-ux-designers/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:22+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:36:29+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../8-great-business-cards-ux-designers/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "article",
+                                              {
+                                                staticClass:
+                                                  "penci-imgtype-landscape post-682 post type-post status-publish format-standard has-post-thumbnail hentry category-3d-design tag-creative tag-news tag-pennews tag-wordpress penci-post-item"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "article_content penci_media_object"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-media penci_mobj__img"
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-link-post penci-image-holder penci-lazy",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d6-480x320.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            href:
+                                                              "../../see-maya-2018s-amazing-new-3d-tools-action/index.html"
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "entry-text penci_mobj__body"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "header",
+                                                          {
+                                                            staticClass:
+                                                              "entry-header"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h2",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../see-maya-2018s-amazing-new-3d-tools-action/index.html",
+                                                                      rel:
+                                                                        "bookmark"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "See Maya 2018’s amazing new 3D tools in\n                                                            action"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:11:12+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:36:38+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "entry-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-byline"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "by "
+                                                                    ),
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../see-maya-2018s-amazing-new-3d-tools-action/index.html",
+                                                                          rel:
+                                                                            "bookmark"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "entry-date published",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-11-03T03:11:12+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "November 3, 2017"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _c(
+                                                                          "time",
+                                                                          {
+                                                                            staticClass:
+                                                                              "updated",
+                                                                            attrs: {
+                                                                              datetime:
+                                                                                "2017-12-01T07:36:38+00:00"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "December 1, 2017"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../see-maya-2018s-amazing-new-3d-tools-action/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "entry-content"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Far far away, behind the word mountains,\n                                                        far from the countries Vokalia and Consonantia, there live the\n                                                    "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "footer",
+                                                          {
+                                                            staticClass:
+                                                              "entry-footer"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "tags-links penci-tags-links"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/creative/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "creative"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/news/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "news"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/pennews/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "pennews"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../tag/wordpress/index.html",
+                                                                      rel: "tag"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "wordpress"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "penci-pagination penci-pag-left"
+                                          },
+                                          [
+                                            _c(
+                                              "nav",
+                                              {
+                                                staticClass:
+                                                  "navigation pagination",
+                                                attrs: { role: "navigation" }
+                                              },
+                                              [
+                                                _c(
+                                                  "h2",
+                                                  {
+                                                    staticClass:
+                                                      "screen-reader-text"
+                                                  },
+                                                  [_vm._v("Posts navigation")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "nav-links" },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "page-numbers current",
+                                                        attrs: {
+                                                          "aria-current": "page"
+                                                        }
+                                                      },
+                                                      [_vm._v("1")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass:
+                                                          "page-numbers",
+                                                        attrs: {
+                                                          href:
+                                                            "page/2/index.html"
+                                                        }
+                                                      },
+                                                      [_vm._v("2")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "page-numbers dots"
+                                                      },
+                                                      [_vm._v("…")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass:
+                                                          "page-numbers",
+                                                        attrs: {
+                                                          href:
+                                                            "page/4/index.html"
+                                                        }
+                                                      },
+                                                      [_vm._v("4")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass:
+                                                          "next page-numbers",
+                                                        attrs: {
+                                                          href:
+                                                            "page/2/index.html"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-angle-right"
+                                                        })
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "aside",
+                              {
+                                staticClass:
+                                  "widget-area widget-area-2 penci-sticky-sidebar penci-sidebar-widgets",
+                                staticStyle: {
+                                  position: "relative",
+                                  overflow: "visible",
+                                  "margin-bottom": "20px",
+                                  "box-sizing": "border-box",
+                                  "min-height": "2721px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "theiaStickySidebar",
+                                    staticStyle: {
+                                      "padding-top": "0px",
+                                      "padding-bottom": "1px",
+                                      position: "absolute",
+                                      transform: "translateY(1467px)",
+                                      width: "300px",
+                                      top: "0px"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block-vc penci-ad-box penci-list-banner widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-ad_box penci-widget__ad_box penci-link-filter-hidden penci-empty-block-title penci-vc-column-1",
+                                        attrs: { id: "penci-ad_box--34697" }
+                                      },
+                                      [
+                                        _c("div", {
+                                          staticClass: "penci-block-heading"
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block_content"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-promo-item penci-banner-has-text"
+                                              },
+                                              [
+                                                _c("a", {
+                                                  staticClass:
+                                                    "penci-promo-link",
+                                                  attrs: {
+                                                    href: "#",
+                                                    target: "_self"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("img", {
+                                                  staticClass:
+                                                    "penci-image-holder penci-ad-image  penci-lazy attachment-full",
+                                                  attrs: {
+                                                    width: "600",
+                                                    height: "500",
+                                                    src: "/img/banner.jpg",
+                                                    alt: ""
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_mc4wp_form_widget",
+                                        attrs: { id: "mc4wp_form_widget-2" }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block-heading"
+                                          },
+                                          [
+                                            _c(
+                                              "h4",
+                                              {
+                                                staticClass:
+                                                  "widget-title penci-block__title"
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v("Newsletter")
+                                                ])
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "form",
+                                          {
+                                            staticClass:
+                                              "mc4wp-form mc4wp-form-796",
+                                            attrs: {
+                                              id: "mc4wp-form-1",
+                                              method: "post",
+                                              "data-id": "796",
+                                              "data-name": "Subscrible"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "mc4wp-form-fields"
+                                              },
+                                              [
+                                                _c(
+                                                  "p",
+                                                  { staticClass: "mdes" },
+                                                  [
+                                                    _vm._v(
+                                                      "Subscribe my Newsletter for new\n                                            blog posts, tips & new photos. Let's stay updated!"
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "p",
+                                                  { staticClass: "mname" },
+                                                  [
+                                                    _c("input", {
+                                                      attrs: {
+                                                        type: "text",
+                                                        name: "NAME",
+                                                        placeholder: "Name..."
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "p",
+                                                  { staticClass: "memail" },
+                                                  [
+                                                    _c("input", {
+                                                      attrs: {
+                                                        type: "email",
+                                                        id: "mc4wp_email",
+                                                        name: "EMAIL",
+                                                        placeholder: "Email...",
+                                                        required: ""
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "p",
+                                                  { staticClass: "msubmit" },
+                                                  [
+                                                    _c("input", {
+                                                      attrs: {
+                                                        type: "submit",
+                                                        value: "Subscribe"
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                staticStyle: {
+                                                  display: "none !important"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "Leave this field empty if you're human:\n                                            "
+                                                ),
+                                                _c("input", {
+                                                  attrs: {
+                                                    type: "text",
+                                                    name: "_mc4wp_honeypot",
+                                                    value: "",
+                                                    tabindex: "-1",
+                                                    autocomplete: "off"
+                                                  }
+                                                })
+                                              ]
+                                            ),
+                                            _c("input", {
+                                              attrs: {
+                                                type: "hidden",
+                                                name: "_mc4wp_timestamp",
+                                                value: "1537945503"
+                                              }
+                                            }),
+                                            _c("input", {
+                                              attrs: {
+                                                type: "hidden",
+                                                name: "_mc4wp_form_id",
+                                                value: "796"
+                                              }
+                                            }),
+                                            _c("input", {
+                                              attrs: {
+                                                type: "hidden",
+                                                name: "_mc4wp_form_element_id",
+                                                value: "mc4wp-form-1"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("div", {
+                                              staticClass: "mc4wp-response"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block-vc penci-block_6 penci__general-meta widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-block_6 penci-widget__block_6 penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-1",
+                                        attrs: {
+                                          id: "penci_block_6__79102493",
+                                          "data-current": "1",
+                                          "data-blockuid":
+                                            "penci_block_6__79102493"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block-heading"
+                                          },
+                                          [
+                                            _c(
+                                              "h3",
+                                              {
+                                                staticClass:
+                                                  "penci-block__title"
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v("Editor's Picks")
+                                                ])
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block_content",
+                                            attrs: {
+                                              id:
+                                                "penci_block_6__79102493block_content"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-block_content__items penci-block-items__1"
+                                              },
+                                              [
+                                                _c(
+                                                  "article",
+                                                  {
+                                                    staticClass:
+                                                      "hentry penci-post-item"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "penci_media_object "
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d1-280x186.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            "data-delay": "",
+                                                            href:
+                                                              "../../learn-model-3d-portrait-zbrush-maya/index.html",
+                                                            title:
+                                                              "Learn how to model a 3D portrait in ZBrush and Maya"
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "penci_post_content penci_mobj__body"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h3",
+                                                              {
+                                                                staticClass:
+                                                                  "penci__post-title entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../learn-model-3d-portrait-zbrush-maya/index.html",
+                                                                      title:
+                                                                        " Learn how to model a 3D portrait in ZBrush and Maya "
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Learn\n                                                        how to model a 3D portrait in ZBrush and Maya"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:04:36+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:39:14+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:36+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3, 2017"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:39:14+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1, 2017"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../learn-model-3d-portrait-zbrush-maya/index.html#comments"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "26 "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "article",
+                                                  {
+                                                    staticClass:
+                                                      "hentry penci-post-item"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "penci_media_object "
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/typo1-280x186.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            "data-delay": "",
+                                                            href:
+                                                              "../../get-grips-accessible-web-typography/index.html",
+                                                            title:
+                                                              "Get to grips with accessible web typography"
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "penci_post_content penci_mobj__body"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h3",
+                                                              {
+                                                                staticClass:
+                                                                  "penci__post-title entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../get-grips-accessible-web-typography/index.html",
+                                                                      title:
+                                                                        " Get to grips with accessible web typography "
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Get to\n                                                        grips with accessible web typography"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:04:33+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:39:21+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:33+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3, 2017"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:39:21+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1, 2017"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../get-grips-accessible-web-typography/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "article",
+                                                  {
+                                                    staticClass:
+                                                      "hentry penci-post-item"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "penci_media_object "
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu1-280x186.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            "data-delay": "",
+                                                            href:
+                                                              "../../meet-artist-brought-pratchetts-discworld-life/index.html",
+                                                            title:
+                                                              "Meet the artist who brought Pratchett’s Discworld to life"
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "penci_post_content penci_mobj__body"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h3",
+                                                              {
+                                                                staticClass:
+                                                                  "penci__post-title entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../meet-artist-brought-pratchetts-discworld-life/index.html",
+                                                                      title:
+                                                                        " Meet the artist who brought Pratchett’s Discworld to life "
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Meet\n                                                        the artist who brought Pratchett’s Discworld to life"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:04:28+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:39:29+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:28+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3, 2017"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:39:29+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1, 2017"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../meet-artist-brought-pratchetts-discworld-life/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "article",
+                                                  {
+                                                    staticClass:
+                                                      "hentry penci-post-item"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "penci_media_object "
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web1-280x186.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            "data-delay": "",
+                                                            href:
+                                                              "../../build-web-animations-without-writing-line-code/index.html",
+                                                            title:
+                                                              "Build web animations without writing a line of code"
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "penci_post_content penci_mobj__body"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h3",
+                                                              {
+                                                                staticClass:
+                                                                  "penci__post-title entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../build-web-animations-without-writing-line-code/index.html",
+                                                                      title:
+                                                                        " Build web animations without writing a line of code "
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Build\n                                                        web animations without writing a line of code"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:04:23+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:39:38+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:23+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3, 2017"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:39:38+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1, 2017"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../build-web-animations-without-writing-line-code/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "article",
+                                                  {
+                                                    staticClass:
+                                                      "hentry penci-post-item"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "penci_media_object "
+                                                      },
+                                                      [
+                                                        _c("a", {
+                                                          staticClass:
+                                                            "penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon",
+                                                          staticStyle: {
+                                                            display: "block",
+                                                            "background-image":
+                                                              'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d2-280x186.jpg")'
+                                                          },
+                                                          attrs: {
+                                                            "data-delay": "",
+                                                            href:
+                                                              "../../move-daz-studio-zbrush/index.html",
+                                                            title:
+                                                              "How to move between DAZ Studio and ZBrush"
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "penci_post_content penci_mobj__body"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h3",
+                                                              {
+                                                                staticClass:
+                                                                  "penci__post-title entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../move-daz-studio-zbrush/index.html",
+                                                                      title:
+                                                                        " How to move between DAZ Studio and ZBrush "
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "How to\n                                                        move between DAZ Studio and ZBrush"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:04:18+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:39:50+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:18+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3, 2017"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:39:50+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1, 2017"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../move-daz-studio-zbrush/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-loader-effect penci-loading-animation-9"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-loading-circle"
+                                                  },
+                                                  [
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle1 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle2 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle3 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle4 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle5 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle6 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle7 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle8 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle9 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle10 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle11 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle12 penci-loading-circle-inner"
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "aside",
+                              {
+                                staticClass:
+                                  "widget-area widget-area-1 penci-sticky-sidebar penci-sidebar-widgets",
+                                staticStyle: {
+                                  position: "relative",
+                                  overflow: "visible",
+                                  "margin-bottom": "20px",
+                                  "box-sizing": "border-box",
+                                  "min-height": "2721px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "theiaStickySidebar",
+                                    staticStyle: {
+                                      "padding-top": "0px",
+                                      "padding-bottom": "1px",
+                                      position: "absolute",
+                                      transform: "translateY(1391px)",
+                                      width: "300px",
+                                      top: "0px"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_search",
+                                        attrs: { id: "search-2" }
+                                      },
+                                      [
+                                        _c(
+                                          "form",
+                                          {
+                                            staticClass: "search-form",
+                                            attrs: {
+                                              method: "get",
+                                              action:
+                                                "http://pennews.pencidesign.com/pennews-creative/"
+                                            }
+                                          },
+                                          [
+                                            _c("label", [
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "screen-reader-text"
+                                                },
+                                                [_vm._v("Search for:")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("input", {
+                                                staticClass: "search-field",
+                                                attrs: {
+                                                  type: "search",
+                                                  placeholder:
+                                                    "Enter keyword...",
+                                                  value: "",
+                                                  name: "s"
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "search-submit",
+                                                attrs: { type: "submit" }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-search"
+                                                }),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "screen-reader-text"
+                                                  },
+                                                  [_vm._v("Search")]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block-vc penci-social-counter penci-social-counter--style-1 widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-social_counter penci-widget__social_counter penci-link-filter-hidden penci-vc-column-1",
+                                        attrs: {
+                                          id: "penci-social-counter--31763"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block-heading"
+                                          },
+                                          [
+                                            _c(
+                                              "h3",
+                                              {
+                                                staticClass:
+                                                  "penci-block__title"
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v("Our Networks")
+                                                ])
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block_content"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-social__item penci-social__facebook penci-social__empty"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-social__content"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "https://www.facebook.com/PenciDesign"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-facebook"
+                                                        }),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "penci-social__name"
+                                                          },
+                                                          [_vm._v("Facebook")]
+                                                        ),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "penci-social__button"
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fa fa-thumbs-o-up"
+                                                            }),
+                                                            _vm._v("Like")
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-social__item penci-social__twitter penci-social__empty"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-social__content"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "https://twitter.com/envato"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-twitter"
+                                                        }),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "penci-social__name"
+                                                          },
+                                                          [_vm._v("Twitter")]
+                                                        ),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "penci-social__button"
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fa fa-user-plus"
+                                                            }),
+                                                            _vm._v("Follow")
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-social__item penci-social__youtube penci-social__empty"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-social__content"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          href:
+                                                            "http://www.youtube.com/envato"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-youtube-play"
+                                                        }),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "penci-social__name"
+                                                          },
+                                                          [_vm._v("Youtube")]
+                                                        ),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "penci-social__button"
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fa fa-user-plus"
+                                                            }),
+                                                            _vm._v("Subscribe")
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "penci-block-vc penci-block_23 penci__general-meta widget penci-block-vc penci-widget-sidebar style-title-7 style-title-left penci-block-vc penci-widget penci-block_23 penci-widget__block_23 left penci-imgtype-landscape penci-link-filter-hidden penci-vc-column-1",
+                                        attrs: {
+                                          id: "penci_block_23__51985344",
+                                          "data-current": "1",
+                                          "data-blockuid":
+                                            "penci_block_23__51985344"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block-heading"
+                                          },
+                                          [
+                                            _c(
+                                              "h3",
+                                              {
+                                                staticClass:
+                                                  "penci-block__title"
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v("Popular Posts")
+                                                ])
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block_content",
+                                            attrs: {
+                                              id:
+                                                "penci_block_23__51985344block_content"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-block_content__items penci-block-items__1"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-block-wrapper-item"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "article",
+                                                      {
+                                                        staticClass:
+                                                          "block23_first_item hentry penci-post-item"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "penci_post_thumb"
+                                                          },
+                                                          [
+                                                            _c("a", {
+                                                              staticClass:
+                                                                "penci-image-holder  penci-lazy",
+                                                              staticStyle: {
+                                                                display:
+                                                                  "block",
+                                                                "background-image":
+                                                                  'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/web2-480x320.jpg")'
+                                                              },
+                                                              attrs: {
+                                                                "data-delay":
+                                                                  "",
+                                                                href:
+                                                                  "../../use-markdown-web-development/index.html",
+                                                                title:
+                                                                  "How to use Markdown in web development"
+                                                              }
+                                                            }),
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "social-buttons"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "social-buttons__content"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci-social-item facebook",
+                                                                        attrs: {
+                                                                          target:
+                                                                            "_blank",
+                                                                          rel:
+                                                                            "noopener",
+                                                                          title:
+                                                                            "",
+                                                                          href:
+                                                                            "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "fa fa-facebook"
+                                                                          }
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci-social-item twitter",
+                                                                        attrs: {
+                                                                          target:
+                                                                            "_blank",
+                                                                          rel:
+                                                                            "noopener",
+                                                                          title:
+                                                                            "",
+                                                                          href:
+                                                                            "https://twitter.com/intent/tweet?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F&text=How%20to%20use%20Markdown%20in%20web%20development"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "fa fa-twitter"
+                                                                          }
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci-social-item google_plus",
+                                                                        attrs: {
+                                                                          target:
+                                                                            "_blank",
+                                                                          rel:
+                                                                            "noopener",
+                                                                          title:
+                                                                            "",
+                                                                          href:
+                                                                            "https://plus.google.com/share?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "fa fa-google-plus"
+                                                                          }
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci-social-item pinterest",
+                                                                        attrs: {
+                                                                          target:
+                                                                            "_blank",
+                                                                          rel:
+                                                                            "noopener",
+                                                                          title:
+                                                                            "",
+                                                                          href:
+                                                                            "http://pinterest.com/pin/create/button?url=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fuse-markdown-web-development%2F&media=http%3A%2F%2Fpennews.pencidesign.com%2Fpennews-creative%2Fwp-content%2Fuploads%2Fsites%2F30%2F2017%2F11%2Fweb2.jpg&description=How%20to%20use%20Markdown%20in%20web%20development"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "fa fa-pinterest"
+                                                                          }
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci-social-item email",
+                                                                        attrs: {
+                                                                          target:
+                                                                            "_blank",
+                                                                          rel:
+                                                                            "noopener",
+                                                                          href:
+                                                                            "mailto:?subject=How%20to%20use%20Markdown%20in%20web%20development&BODY=http://pennews.pencidesign.com/pennews-creative/use-markdown-web-development/"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "fa fa-envelope"
+                                                                          }
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    staticClass:
+                                                                      "social-buttons__toggle",
+                                                                    attrs: {
+                                                                      href: "#"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-share"
+                                                                    })
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "penci_post_content"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "h3",
+                                                              {
+                                                                staticClass:
+                                                                  "penci__post-title entry-title"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href:
+                                                                        "../../use-markdown-web-development/index.html",
+                                                                      title:
+                                                                        " How to use Markdown in web development "
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "How to use\n                                                        Markdown in web development"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-schema-markup"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "author vcard"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "url fn n",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../author/admin/index.html"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Penci Design"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-date published",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-11-03T03:03:43+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "November 3, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "time",
+                                                                  {
+                                                                    staticClass:
+                                                                      "updated",
+                                                                    attrs: {
+                                                                      datetime:
+                                                                        "2017-12-01T07:40:15+00:00"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                                December 1, 2017\n                                                            "
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post-meta"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-posted-on"
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fa fa-clock-o"
+                                                                    }),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:03:43+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3, 2017"
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:40:15+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1, 2017"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "entry-meta-item penci-comment-count"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        staticClass:
+                                                                          "penci_pmeta-link",
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../use-markdown-web-development/index.html#respond"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "i",
+                                                                          {
+                                                                            staticClass:
+                                                                              "la la-comments"
+                                                                          }
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "0"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci-post-excerpt"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Far far away, behind the word\n                                                            mountains, far from the countries Vokalia...\n                                                        "
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "block23_items"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "article",
+                                                          {
+                                                            staticClass:
+                                                              "hentry penci-post-item"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_thumb"
+                                                              },
+                                                              [
+                                                                _c("a", {
+                                                                  staticClass:
+                                                                    "penci-image-holder  penci-lazy",
+                                                                  staticStyle: {
+                                                                    display:
+                                                                      "block",
+                                                                    "background-image":
+                                                                      'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/3d1-280x186.jpg")'
+                                                                  },
+                                                                  attrs: {
+                                                                    "data-delay":
+                                                                      "",
+                                                                    href:
+                                                                      "../../learn-model-3d-portrait-zbrush-maya/index.html",
+                                                                    title:
+                                                                      "Learn how to model a 3D portrait in ZBrush and Maya"
+                                                                  }
+                                                                })
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_content"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "h3",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci__post-title entry-title"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../learn-model-3d-portrait-zbrush-maya/index.html",
+                                                                          title:
+                                                                            " Learn how to model a 3D portrait in ZBrush and Maya "
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Learn\n                                                            how to model a 3D portrait in..."
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci-schema-markup"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:36+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:39:14+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "article",
+                                                          {
+                                                            staticClass:
+                                                              "hentry penci-post-item"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_thumb"
+                                                              },
+                                                              [
+                                                                _c("a", {
+                                                                  staticClass:
+                                                                    "penci-image-holder  penci-lazy",
+                                                                  staticStyle: {
+                                                                    display:
+                                                                      "block",
+                                                                    "background-image":
+                                                                      'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu1-280x186.jpg")'
+                                                                  },
+                                                                  attrs: {
+                                                                    "data-delay":
+                                                                      "",
+                                                                    href:
+                                                                      "../../meet-artist-brought-pratchetts-discworld-life/index.html",
+                                                                    title:
+                                                                      "Meet the artist who brought Pratchett’s Discworld to life"
+                                                                  }
+                                                                })
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_content"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "h3",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci__post-title entry-title"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../meet-artist-brought-pratchetts-discworld-life/index.html",
+                                                                          title:
+                                                                            " Meet the artist who brought Pratchett’s Discworld to life "
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Meet\n                                                            the artist who brought Pratchett’s Discworld to..."
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci-schema-markup"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:28+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:39:29+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "article",
+                                                          {
+                                                            staticClass:
+                                                              "hentry penci-post-item"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_thumb"
+                                                              },
+                                                              [
+                                                                _c("a", {
+                                                                  staticClass:
+                                                                    "penci-image-holder  penci-lazy",
+                                                                  staticStyle: {
+                                                                    display:
+                                                                      "block",
+                                                                    "background-image":
+                                                                      'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/ux1-280x186.jpg")'
+                                                                  },
+                                                                  attrs: {
+                                                                    "data-delay":
+                                                                      "",
+                                                                    href:
+                                                                      "../../10-essential-tools-freelance-ux-designers/index.html",
+                                                                    title:
+                                                                      "10 essential tools for freelance UX designers"
+                                                                  }
+                                                                })
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_content"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "h3",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci__post-title entry-title"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../10-essential-tools-freelance-ux-designers/index.html",
+                                                                          title:
+                                                                            " 10 essential tools for freelance UX designers "
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "10\n                                                            essential tools for freelance UX designers"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci-schema-markup"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:04:03+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:40:07+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "article",
+                                                          {
+                                                            staticClass:
+                                                              "hentry penci-post-item"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_thumb"
+                                                              },
+                                                              [
+                                                                _c("a", {
+                                                                  staticClass:
+                                                                    "penci-image-holder  penci-lazy",
+                                                                  staticStyle: {
+                                                                    display:
+                                                                      "block",
+                                                                    "background-image":
+                                                                      'url("http://max.pennews.pencidesign.com/pennews-creative/wp-content/uploads/sites/30/2017/11/illu5-280x186.jpg")'
+                                                                  },
+                                                                  attrs: {
+                                                                    "data-delay":
+                                                                      "",
+                                                                    href:
+                                                                      "../../movie-fans-will-love-illustrated-movie-maps/index.html",
+                                                                    title:
+                                                                      "Movie fans will love these illustrated movie maps"
+                                                                  }
+                                                                })
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "penci_post_content"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "h3",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci__post-title entry-title"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "a",
+                                                                      {
+                                                                        attrs: {
+                                                                          href:
+                                                                            "../../movie-fans-will-love-illustrated-movie-maps/index.html",
+                                                                          title:
+                                                                            " Movie fans will love these illustrated movie maps "
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Movie\n                                                            fans will love these illustrated movie maps"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "penci-schema-markup"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "author vcard"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            staticClass:
+                                                                              "url fn n",
+                                                                            attrs: {
+                                                                              href:
+                                                                                "../../author/admin/index.html"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "Penci Design"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "entry-date published",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-11-03T03:11:31+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "November 3,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "time",
+                                                                      {
+                                                                        staticClass:
+                                                                          "updated",
+                                                                        attrs: {
+                                                                          datetime:
+                                                                            "2017-12-01T07:36:13+00:00"
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "December 1,\n                                                                    2017\n                                                                "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "penci-loader-effect penci-loading-animation-9"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "penci-loading-circle"
+                                                  },
+                                                  [
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle1 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle2 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle3 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle4 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle5 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle6 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle7 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle8 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle9 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle10 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle11 penci-loading-circle-inner"
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "penci-loading-circle12 penci-loading-circle-inner"
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "widget  penci-block-vc penci-widget-sidebar style-title-7 style-title-left widget_categories",
+                                        attrs: { id: "categories-2" }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "penci-block-heading"
+                                          },
+                                          [
+                                            _c(
+                                              "h4",
+                                              {
+                                                staticClass:
+                                                  "widget-title penci-block__title"
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v("Categories")
+                                                ])
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("ul", [
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "cat-item cat-item-8"
+                                            },
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href: "3d-design/index.html"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v("3D Design "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "category-item-count"
+                                                    },
+                                                    [_vm._v("(8)")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "cat-item cat-item-3"
+                                            },
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "../editors-picks/index.html"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Editor's\n                                            Picks "
+                                                  ),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "category-item-count"
+                                                    },
+                                                    [_vm._v("(14)")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "cat-item cat-item-4"
+                                            },
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "illustrations/index.html"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Illustrations\n                                            "
+                                                  ),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "category-item-count"
+                                                    },
+                                                    [_vm._v("(7)")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "cat-item cat-item-5"
+                                            },
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "typography/index.html"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v("Typography "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "category-item-count"
+                                                    },
+                                                    [_vm._v("(6)")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "cat-item cat-item-6"
+                                            },
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href: "uiux/index.html"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v("UI/UX "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "category-item-count"
+                                                    },
+                                                    [_vm._v("(6)")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "cat-item cat-item-7"
+                                            },
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  attrs: {
+                                                    href:
+                                                      "web-design/index.html"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v("Web Design "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass:
+                                                        "category-item-count"
+                                                    },
+                                                    [_vm._v("(6)")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
