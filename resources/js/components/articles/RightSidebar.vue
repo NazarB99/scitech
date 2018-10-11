@@ -8,7 +8,7 @@
                  data-blockUid="penci_block_6__24888952">
                 <div class="penci-block-heading">
                     <h3 class="penci-block__title">
-                        <span>Recent Posts</span>
+                        <span>Недавние посты</span>
                     </h3>
                 </div>
                 <div id="penci_block_6__24888952block_content"

@@ -10,7 +10,7 @@
                          data-current="1"
                          data-blockUid="penci_block_6__98815468">
                         <div class="penci-block-heading">
-                            <h3 class="penci-block__title"><span>Recent Posts</span></h3></div>
+                            <h3 class="penci-block__title"><span>Последнее</span></h3></div>
                         <div id="penci_block_6__98815468block_content"
                              class="penci-block_content">
                             <div class="penci-block_content__items penci-block-items__1">
@@ -142,7 +142,7 @@
                     <div id="penci-popular-cat--38952"
                          class="penci-block-popular-cat  widget penci-block-vc widget_categories widget footer-widget penci-block-vc penci-fwidget-sidebar style-title-1 style-title-left penci-block-vc penci-widget penci-popular_category penci-widget__popular_category penci-link-filter-hidden penci-vc-column-1">
                         <div class="penci-block-heading">
-                            <h3 class="penci-block__title"><span>Categories</span></h3></div>
+                            <h3 class="penci-block__title"><span>Категории</span></h3></div>
                         <ul>
                             <li class="cat-item cat-item-3" v-for="category in categories">
                                 <a href="category/editors-picks/index.html">

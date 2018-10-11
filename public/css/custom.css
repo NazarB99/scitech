@@ -62,6 +62,18 @@
     color: #aaaaaa;
 }
 
+h1.page-title{
+    font-family: 'Roboto Mono', monospace !important;
+    font-weight: 700 !important;
+    font-size: 3rem !important;
+}
+
+h2.entry-title a{
+    font-family: 'Roboto Mono', monospace !important;
+    color: #ffffff !important;
+    font-size: 18px !important;
+}
+
 .submit{
     font-family: 'Roboto Mono', monospace;
 }
@@ -151,4 +163,10 @@
     .entry-title{
         margin-left: 6%;
     }
+}
+
+.entry-meta{
+    font-size: 1.2rem !important;
+    font-family: 'Roboto Mono', monospace !important;
+    color: #999999 !important;
 }

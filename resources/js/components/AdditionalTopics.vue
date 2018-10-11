@@ -15,7 +15,7 @@
                                         <div class="penci-block-heading">
                                             <h3 class="penci-block__title">
                                                 <a href="category/creative-news/uiux/index.html"
-                                                   title="UI/UX Update">UI/UX Update</a></h3></div>
+                                                   title="UI/UX Update">Развлечения</a></h3></div>
                                         <div id="penci_block_8__92338740block_content"
                                              class="penci-block_content">
                                             <div class="penci-block_content__items penci-block-items__1">
@@ -76,7 +76,7 @@
                                         <div class="penci-block-heading">
                                             <h3 class="penci-block__title">
                                                 <a href="category/creative-news/web-design/index.html"
-                                                   title="Web Design">Web Design</a></h3></div>
+                                                   title="Web Design">Здоровье</a></h3></div>
                                         <div id="penci_block_8__41716964block_content"
                                              class="penci-block_content">
                                             <div class="penci-block_content__items penci-block-items__1">

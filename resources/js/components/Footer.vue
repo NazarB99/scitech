@@ -10,11 +10,8 @@
                          alt="PenNews Creative"/>
                 </a>
             </div>
-            <div class="penci-footer-text-wrap ">PenNews is The Best WordPress Theme for News &amp; Magazine,
-                designed and developed by PenciDesign. This is a powerful theme with tons of options, which help
-                you
-                easily create/dit your Websites in minutes. You can use this WordPress Theme for every purposes.
-                <div class="footer-email-wrap">Contact us: <a href="mailto:contact@yoursite.com">contact@yoursite.com</a>
+            <div class="penci-footer-text-wrap ">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                <div class="footer-email-wrap">Связаться с нами : <a href="#">contact@yoursite.com</a>
                 </div>
             </div>
             <div class="footer__social-media">

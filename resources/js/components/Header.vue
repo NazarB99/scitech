@@ -9,7 +9,7 @@
                     class="menu">
                     <li id="menu-item-751"
                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-751">
-                        <router-link :to="{name:'main'}">Home</router-link>
+                        <router-link :to="{name:'main'}">На главную</router-link>
                     </li>
                     <li id="menu-item-726"
                         v-for="(category,index) in categories"

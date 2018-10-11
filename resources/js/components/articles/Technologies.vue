@@ -5,7 +5,7 @@
          data-blockUid="penci_grid_2__5897368">
         <div class="penci-block-heading">
             <h3 class="penci-block__title">
-                <a href="#">Technologies</a>
+                <a href="#">Технологии</a>
             </h3>
         </div>
         <div id="penci_grid_2__5897368block_content"

@@ -5,7 +5,7 @@
             <div class="penci-block-heading">
                 <h3 class="penci-block__title">
                     <a href="category/creative-news/3d-design/index.html"
-                       title="3D Design">Science</a></h3></div>
+                       title="3D Design">Наука</a></h3></div>
             <div id="penci_block_23__32021619block_content"
                  class="penci-block_content">
                 <div class="penci-block_content__items penci-block-items__1">
@@ -13,9 +13,7 @@
                         <article class="block23_first_item hentry penci-post-item">
                             <div class="penci_post_thumb">
                                 <a class="penci-image-holder  penci-lazy penci-image_has_icon"
-                                   data-delay=""
-                                   href="13-tips-making-vr-gaming-world/index.html"
-                                   title="13 tips for making a VR gaming world"></a>
+                                   :style="mainThreeD.image"></a>
                                 <span class="social-buttons">
                                                 <span class="social-buttons__content">
                                             <a class="penci-social-item facebook"
