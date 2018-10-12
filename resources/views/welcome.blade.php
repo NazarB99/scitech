@@ -65,7 +65,7 @@ penci_dark_layout wpb-js-composer js-comp-ver-5.4.5 vc_responsive">
     <div id="page"
          class="site">
         <div class="site-header-wrapper">
-            <top-header articles="'articles'" categories="'categories'"></top-header><!-- #masthead -->
+            <top-header articles="{{$articles}}" categories="{{$categories}}"></top-header><!-- #masthead -->
             <logo></logo>
         </div>
         <div class="penci-header-mobile">
@@ -146,7 +146,7 @@ penci_dark_layout wpb-js-composer js-comp-ver-5.4.5 vc_responsive">
                   content="2018"/>
             <meta itemprop="copyrightHolder"
                   content="PenNews Creative"/>
-            <footer-sidebars categories="'categories'" articles="'articles'"></footer-sidebars>
+            <footer-sidebars categories="{{$categories}}" articles="{{$articles}}"></footer-sidebars>
             <b-footer></b-footer>
         </footer><!-- #colophon -->
     </div><!-- #page -->

@@ -79,7 +79,7 @@
                                                                                         href="../../10-incredible-online-art-schools/index.html"
                                                                                         rel="bookmark">
                                                                                     <time
-                                                                                        class="entry-date published">{{article.created_at.date | moment("MMMM D, YYYY")}}
+                                                                                        class="entry-date published">{{article.created_at | moment("MMMM D, YYYY")}}
                                                                                     </time>
                                                                                     </a>
                                                                                 </span>
@@ -413,10 +413,12 @@
         },
         methods: {
             fetchArticles() {
-                this.articlesCategory = this.articles.filter(article => article.category.id === this.$route.params.id);
+                let articles = JSON.parse(this.articles);
+                this.articlesCategory = articles.filter(article => article.category.id === this.$route.params.id);
             },
             fetchCategory(){
-                this.selectedCategory = this.categories.filter(category => category.id ===
+                let categories = JSON.parse(this.categories);
+                this.selectedCategory = categories.filter(category => category.id ===
                     this.$route.params.id)
             }
         },

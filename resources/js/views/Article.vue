@@ -29,7 +29,7 @@
                                     </span><span class="entry-meta-item penci-posted-on">
                                     <i class="fa fa-clock-o"></i>
                                     <time class="entry-date published">
-                                        {{article.created_at.date | moment("MMMM D, YYYY")}}
+                                        {{article.created_at | moment("MMMM D, YYYY")}}
                                     </time>
                                     <time class="updated">December 1, 2017</time></span>
                                         <span class="entry-meta-item penci-post-countview">
@@ -677,13 +677,14 @@
         props: ['articles'],
         methods: {
             fetchArticle() {
-                let article = this.articles.filter(article => article.id === this.$route.params.id);
+                let articles = JSON.parse(this.articles);
+                let article = articles.filter(article => article.id === this.$route.params.id);
                 this.article = article[0];
-                let prevArticle = this.articles.filter(article => article.id === this.$route.params.id - 1);
+                let prevArticle = articles.filter(article => article.id === this.$route.params.id - 1);
                 if (prevArticle[0] !== null && prevArticle[0] !== undefined){
                     this.prevArticle = prevArticle[0];
                 }
-                let nextArticle = this.articles.filter(article => article.id === this.$route.params.id + 1);
+                let nextArticle = articles.filter(article => article.id === this.$route.params.id + 1);
                 if (nextArticle[0] !== null && nextArticle[0] !== undefined){
                     this.nextArticle = nextArticle[0];
                 }

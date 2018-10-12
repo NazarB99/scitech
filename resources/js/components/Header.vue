@@ -12,7 +12,7 @@
                         <router-link :to="{name:'main'}">На главную</router-link>
                     </li>
                     <li id="menu-item-726"
-                        v-for="(category,index) in categories"
+                        v-for="(category,index) in parsedCategories"
                         class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children penci-mega-menu penci-megamenu-container menu-item-726">
                         <router-link :to="{name:'getArticleByCategory',params:{id: category.id}}">
                             {{category.category}}
@@ -28,7 +28,7 @@
                                                  data-blockUid="penci_megamenu__47694">
                                                 <div id="penci_megamenu__47694block_content"
                                                      class="penci-block_content penci-mega-row_content">
-                                                    <MenuItem :articles="articles" :index="index"></MenuItem>
+                                                    <MenuItem :articles="parsedArticles" :index="index"></MenuItem>
                                                     <animation></animation>
                                                 </div>
                                                 <span class="penci-slider-nav">
@@ -204,6 +204,14 @@
         components: {
             MenuItem,
             Animation
+        },
+        computed: {
+            parsedArticles() {
+                return JSON.parse(this.articles)
+            },
+            parsedCategories() {
+                return JSON.parse(this.categories)
+            }
         }
     }
 </script>

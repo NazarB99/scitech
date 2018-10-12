@@ -14096,38 +14096,31 @@ var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
 
 var app = new Vue({
     el: '#app',
-    data: function data() {
-        return {
-            articles: [],
-            categories: []
-        };
-    },
-    created: function created() {
-        this.fetchLatestArticles();
-        this.fetchCategories();
-    },
-
-    methods: {
-        fetchLatestArticles: function fetchLatestArticles() {
-            var _this = this;
-
-            axios.get('/articles').then(function (_ref) {
-                var data = _ref.data;
-
-                _this.articles = data.data;
-                router.push({ name: 'main', params: { articles: _this.articles } });
-            });
-        },
-        fetchCategories: function fetchCategories() {
-            var _this2 = this;
-
-            axios.get('/categories').then(function (_ref2) {
-                var data = _ref2.data;
-
-                _this2.categories = data.data;
-            });
-        }
-    },
+    // data() {
+    //     return {
+    //         articles: [],
+    //         categories:[]
+    //     }
+    // },
+    // created() {
+    //     this.fetchLatestArticles();
+    //     this.fetchCategories();
+    // },
+    // methods: {
+    //     fetchLatestArticles() {
+    //         axios.get('/articles')
+    //             .then(({data}) => {
+    //                 this.articles = data.data;
+    //                 router.push({name: 'main', params: {articles: this.articles}})
+    //             })
+    //     },
+    //     fetchCategories() {
+    //         axios.get('/categories')
+    //             .then(({data}) => {
+    //                 this.categories = data.data;
+    //             })
+    //     },
+    // },
     components: {
         TopHeader: __WEBPACK_IMPORTED_MODULE_2__components_Header_vue___default.a,
         Logo: __WEBPACK_IMPORTED_MODULE_3__components_Logo_vue___default.a,
@@ -50105,14 +50098,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['articles'],
     components: {
         MainContent: __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue___default.a,
         AdditionalTopics: __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue___default.a
     },
-    created: function created() {
-        console.log(this.articles);
+    computed: {
+        parsedArticles: function parsedArticles() {
+            return JSON.parse(this.articles);
+        }
     }
 });
 
@@ -50832,7 +50828,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Animation: __WEBPACK_IMPORTED_MODULE_3__articles_Animation_vue___default.a,
         RightSidebar: __WEBPACK_IMPORTED_MODULE_2__articles_RightSidebar_vue___default.a
     }
-
 });
 
 /***/ }),
@@ -51241,7 +51236,7 @@ var render = function() {
                                     "\n                                                    " +
                                       _vm._s(
                                         _vm._f("moment")(
-                                          _vm.mainThreeD.created_at.date,
+                                          _vm.mainThreeD.created_at,
                                           "MMMM D, YYYY"
                                         )
                                       ) +
@@ -51316,7 +51311,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\n                                        " +
-                                      _vm._s(article.created_at.date) +
+                                      _vm._s(article.created_at) +
                                       "\n                                    "
                                   )
                                 ]
@@ -51774,7 +51769,7 @@ var render = function() {
                                     "\n                                    " +
                                       _vm._s(
                                         _vm._f("moment")(
-                                          _vm.mainIllustration.created_at.date,
+                                          _vm.mainIllustration.created_at,
                                           "MMMM D, YYYY"
                                         )
                                       ) +
@@ -51866,7 +51861,7 @@ var render = function() {
                                     "\n                                    " +
                                       _vm._s(
                                         _vm._f("moment")(
-                                          article.created_at.date,
+                                          article.created_at,
                                           "MMMM D, YYYY"
                                         )
                                       ) +
@@ -51911,7 +51906,7 @@ var render = function() {
                                       _vm._v(
                                         _vm._s(
                                           _vm._f("moment")(
-                                            article.created_at.date,
+                                            article.created_at,
                                             "MMMM D, YYYY"
                                           )
                                         )
@@ -53439,9 +53434,9 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("main-content", { attrs: { articles: _vm.articles } }),
+      _c("main-content", { attrs: { articles: _vm.parsedArticles } }),
       _vm._v(" "),
-      _c("additional-topics", { attrs: { articles: _vm.articles } })
+      _c("additional-topics", { attrs: { articles: _vm.parsedArticles } })
     ],
     1
   )
@@ -53719,6 +53714,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         MenuItem: __WEBPACK_IMPORTED_MODULE_1__MenuItem___default.a,
         Animation: __WEBPACK_IMPORTED_MODULE_0__articles_Animation_vue___default.a
+    },
+    computed: {
+        parsedArticles: function parsedArticles() {
+            return JSON.parse(this.articles);
+        },
+        parsedCategories: function parsedCategories() {
+            return JSON.parse(this.categories);
+        }
     }
 });
 
@@ -54346,7 +54349,7 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm._l(_vm.categories, function(category, index) {
+                _vm._l(_vm.parsedCategories, function(category, index) {
                   return _c(
                     "li",
                     {
@@ -54422,7 +54425,7 @@ var render = function() {
                                             [
                                               _c("MenuItem", {
                                                 attrs: {
-                                                  articles: _vm.articles,
+                                                  articles: _vm.parsedArticles,
                                                   index: index
                                                 }
                                               }),
@@ -57071,17 +57074,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchArticle: function fetchArticle() {
             var _this = this;
 
-            var article = this.articles.filter(function (article) {
+            var articles = JSON.parse(this.articles);
+            var article = articles.filter(function (article) {
                 return article.id === _this.$route.params.id;
             });
             this.article = article[0];
-            var prevArticle = this.articles.filter(function (article) {
+            var prevArticle = articles.filter(function (article) {
                 return article.id === _this.$route.params.id - 1;
             });
             if (prevArticle[0] !== null && prevArticle[0] !== undefined) {
                 this.prevArticle = prevArticle[0];
             }
-            var nextArticle = this.articles.filter(function (article) {
+            var nextArticle = articles.filter(function (article) {
                 return article.id === _this.$route.params.id + 1;
             });
             if (nextArticle[0] !== null && nextArticle[0] !== undefined) {
@@ -57177,7 +57181,7 @@ var render = function() {
                                     "\n                                    " +
                                       _vm._s(
                                         _vm._f("moment")(
-                                          _vm.article.created_at.date,
+                                          _vm.article.created_at,
                                           "MMMM D, YYYY"
                                         )
                                       ) +
@@ -58900,14 +58904,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchArticles: function fetchArticles() {
             var _this = this;
 
-            this.articlesCategory = this.articles.filter(function (article) {
+            var articles = JSON.parse(this.articles);
+            this.articlesCategory = articles.filter(function (article) {
                 return article.category.id === _this.$route.params.id;
             });
         },
         fetchCategory: function fetchCategory() {
             var _this2 = this;
 
-            this.selectedCategory = this.categories.filter(function (category) {
+            var categories = JSON.parse(this.categories);
+            this.selectedCategory = categories.filter(function (category) {
                 return category.id === _this2.$route.params.id;
             });
         }
@@ -59188,9 +59194,7 @@ var render = function() {
                                                                                         _vm._f(
                                                                                           "moment"
                                                                                         )(
-                                                                                          article
-                                                                                            .created_at
-                                                                                            .date,
+                                                                                          article.created_at,
                                                                                           "MMMM D, YYYY"
                                                                                         )
                                                                                       ) +

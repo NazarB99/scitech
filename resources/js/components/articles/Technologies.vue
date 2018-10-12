@@ -35,7 +35,7 @@
                                     <i class="fa fa-clock-o"></i>
                                     <time
                                         class="entry-date published">
-                                        {{mainIllustration.created_at.date | moment("MMMM D, YYYY")}}
+                                        {{mainIllustration.created_at | moment("MMMM D, YYYY")}}
                                     </time>
                                     <time class="updated">December 1, 2017</time></span>
                                 <span class="entry-meta-item penci-comment-count">
@@ -63,7 +63,7 @@
                                     </span>
                                     <time class="entry-date published"
                                           datetime="2017-11-03T03:11:31+00:00">
-                                        {{article.created_at.date | moment("MMMM D, YYYY")}}
+                                        {{article.created_at | moment("MMMM D, YYYY")}}
                                     </time>
                                     <time class="updated"
                                           datetime="2017-12-01T07:36:13+00:00">
@@ -74,7 +74,7 @@
                                     <span class="entry-meta-item penci-posted-on"><i
                                             class="fa fa-clock-o"></i><time
                                             class="entry-date published"
-                                            datetime="2017-11-03T03:11:31+00:00">{{article.created_at.date | moment("MMMM D, YYYY")}}</time><time
+                                            datetime="2017-11-03T03:11:31+00:00">{{article.created_at | moment("MMMM D, YYYY")}}</time><time
                                             class="updated"
                                             datetime="2017-12-01T07:36:13+00:00">December 1, 2017</time></span>
                                     <span

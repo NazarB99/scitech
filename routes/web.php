@@ -12,7 +12,9 @@
 */
 
 Route::get('/{any?}', function (){
-    return view('main');
+    return view('main')
+        ->with('articles',\App\Article::with('category')->get())
+        ->with('categories',\App\Category::with('articles')->get());
 })->where('any', '.*');
 
 //Route::get('/', function () {

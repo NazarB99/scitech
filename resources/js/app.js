@@ -39,31 +39,31 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    data() {
-        return {
-            articles: [],
-            categories:[]
-        }
-    },
-    created() {
-        this.fetchLatestArticles();
-        this.fetchCategories();
-    },
-    methods: {
-        fetchLatestArticles() {
-            axios.get('/articles')
-                .then(({data}) => {
-                    this.articles = data.data;
-                    router.push({name: 'main', params: {articles: this.articles}})
-                })
-        },
-        fetchCategories() {
-            axios.get('/categories')
-                .then(({data}) => {
-                    this.categories = data.data;
-                })
-        },
-    },
+    // data() {
+    //     return {
+    //         articles: [],
+    //         categories:[]
+    //     }
+    // },
+    // created() {
+    //     this.fetchLatestArticles();
+    //     this.fetchCategories();
+    // },
+    // methods: {
+    //     fetchLatestArticles() {
+    //         axios.get('/articles')
+    //             .then(({data}) => {
+    //                 this.articles = data.data;
+    //                 router.push({name: 'main', params: {articles: this.articles}})
+    //             })
+    //     },
+    //     fetchCategories() {
+    //         axios.get('/categories')
+    //             .then(({data}) => {
+    //                 this.categories = data.data;
+    //             })
+    //     },
+    // },
     components:{
         TopHeader,
         Logo,

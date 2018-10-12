@@ -652,7 +652,6 @@
             Technologies,
             Animation,
             RightSidebar
-        }
-
+        },
     }
 </script>

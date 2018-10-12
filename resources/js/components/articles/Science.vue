@@ -72,7 +72,7 @@
                                                 <span class="entry-meta-item penci-posted-on">
                                                     <i class="fa fa-clock-o"></i>
                                                     <time class="entry-date published">
-                                                        {{mainThreeD.created_at.date | moment("MMMM D, YYYY") }}
+                                                        {{mainThreeD.created_at | moment("MMMM D, YYYY") }}
                                                     </time>
                                                 </span>
                                     <span class="entry-meta-item penci-comment-count">
@@ -108,7 +108,7 @@
                                                            href="author/admin/index.html">Penci Design</a>
                                                     </span>
                                         <time class="entry-date published">
-                                            {{article.created_at.date}}
+                                            {{article.created_at}}
                                         </time>
                                     </div>
                                 </div>
