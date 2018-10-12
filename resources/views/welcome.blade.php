@@ -58,12 +58,14 @@
             }</style>
     </noscript>
 </head>
-<body class="home page-template page-template-page-templates page-template-full-width page-template-page-templatesfull-width-php page page-id-10 custom-background wp-custom-logo header-sticky penci_enable_ajaxsearch penci_enable_retina penci_sticky_content_sidebar penci_dis_padding_bw penci_dark_layout wpb-js-composer js-comp-ver-5.4.5 vc_responsive">
+<body class="home page-template page-template-page-templates page-template-full-width page-template-page-templatesfull-width-php page page-id-10
+custom-background wp-custom-logo header-sticky penci_enable_ajaxsearch penci_enable_retina penci_sticky_content_sidebar penci_dis_padding_bw
+penci_dark_layout wpb-js-composer js-comp-ver-5.4.5 vc_responsive">
 <div id="app">
     <div id="page"
          class="site">
         <div class="site-header-wrapper">
-            <top-header :articles="articles" :categories="categories"></top-header><!-- #masthead -->
+            <top-header articles="'articles'" categories="'categories'"></top-header><!-- #masthead -->
             <logo></logo>
         </div>
         <div class="penci-header-mobile">
@@ -144,7 +146,7 @@
                   content="2018"/>
             <meta itemprop="copyrightHolder"
                   content="PenNews Creative"/>
-            <footer-sidebars v-bind:categories="categories" v-bind:articles="articles"></footer-sidebars>
+            <footer-sidebars categories="'categories'" articles="'articles'"></footer-sidebars>
             <b-footer></b-footer>
         </footer><!-- #colophon -->
     </div><!-- #page -->
@@ -155,10 +157,10 @@
            class="custom-logo-link"
            rel="home">
             <img width="357"
-            height="120"
-            src="/img/logo.png"
-            class="custom-logo"
-            alt="PenNews Creative"/>
+                 height="120"
+                 src="/img/logo.png"
+                 class="custom-logo"
+                 alt="PenNews Creative"/>
         </a>
     </div>
     <div class="header-social sidebar-nav-social">
@@ -167,43 +169,51 @@
                target="_blank"
                href="#"
                title="Facebook"
-               rel="noopener"><span class="socail-media-item__content"><i class="fa fa-facebook"></i><span class="social_title screen-reader-text">Facebook</span></span></a><a
+               rel="noopener"><span class="socail-media-item__content"><i class="fa fa-facebook"></i><span
+                            class="social_title screen-reader-text">Facebook</span></span></a><a
                     class="social-media-item socail_media__twitter"
                     target="_blank"
                     href="#"
                     title="Twitter"
-                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-twitter"></i><span class="social_title screen-reader-text">Twitter</span></span></a><a
+                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-twitter"></i><span
+                            class="social_title screen-reader-text">Twitter</span></span></a><a
                     class="social-media-item socail_media__instagram"
                     target="_blank"
                     href="#"
                     title="Instagram"
-                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-instagram"></i><span class="social_title screen-reader-text">Instagram</span></span></a><a
+                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-instagram"></i><span
+                            class="social_title screen-reader-text">Instagram</span></span></a><a
                     class="social-media-item socail_media__pinterest"
                     target="_blank"
                     href="#"
                     title="Pinterest"
-                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-pinterest"></i><span class="social_title screen-reader-text">Pinterest</span></span></a><a
+                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-pinterest"></i><span
+                            class="social_title screen-reader-text">Pinterest</span></span></a><a
                     class="social-media-item socail_media__behance"
                     target="_blank"
                     href="#"
                     title="Behance"
-                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-behance"></i><span class="social_title screen-reader-text">Behance</span></span></a><a
+                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-behance"></i><span
+                            class="social_title screen-reader-text">Behance</span></span></a><a
                     class="social-media-item socail_media__tumblr"
                     target="_blank"
                     href="#"
                     title="Tumblr"
-                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-tumblr"></i><span class="social_title screen-reader-text">Tumblr</span></span></a><a
+                    rel="noopener"><span class="socail-media-item__content"><i class="fa fa-tumblr"></i><span
+                            class="social_title screen-reader-text">Tumblr</span></span></a><a
                     class="social-media-item socail_media__youtube"
                     target="_blank"
                     href="#"
                     title="Youtube"
                     rel="noopener"><span class="socail-media-item__content"><i class="fa fa-youtube-play"></i><span
-                            class="social_title screen-reader-text">Youtube</span></span></a><a class="social-media-item socail_media__snapchat"
-                                                                                                target="_blank"
-                                                                                                href="#"
-                                                                                                title="Snapchat"
-                                                                                                rel="noopener"><span
-                        class="socail-media-item__content"><i class="fa fa-snapchat"></i><span class="social_title screen-reader-text">Snapchat</span></span></a>
+                            class="social_title screen-reader-text">Youtube</span></span></a><a
+                    class="social-media-item socail_media__snapchat"
+                    target="_blank"
+                    href="#"
+                    title="Snapchat"
+                    rel="noopener"><span
+                        class="socail-media-item__content"><i class="fa fa-snapchat"></i><span
+                            class="social_title screen-reader-text">Snapchat</span></span></a>
         </div>
     </div>
     <nav class="mobile-navigation"

@@ -13,5 +13,8 @@
             MainContent,
             AdditionalTopics
         },
+        created(){
+            console.log(this.articles);
+        }
     }
 </script>

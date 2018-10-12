@@ -11,9 +11,13 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/{any?}', function (){
     return view('main');
-});
+})->where('any', '.*');
+
+//Route::get('/', function () {
+//    return view('main');
+//});
 
 Route::get('/articles','ArticleController@getByCategory')->name('articles_by_category');
 Route::get('/categories','ArticleController@getCategories')->name('articles_by_category');

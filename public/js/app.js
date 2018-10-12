@@ -14078,6 +14078,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 Vue.use(__webpack_require__(83));
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
+    mode: 'history',
     routes: [{
         path: '/',
         name: 'main',
@@ -50109,6 +50110,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         MainContent: __WEBPACK_IMPORTED_MODULE_0__components_MainContent_vue___default.a,
         AdditionalTopics: __WEBPACK_IMPORTED_MODULE_1__components_AdditionalTopics_vue___default.a
+    },
+    created: function created() {
+        console.log(this.articles);
     }
 });
 
