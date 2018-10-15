@@ -39,4 +39,22 @@ class ArticleController extends Controller
         return $articles;
     }
 
+    public function postCategory(Request $request)
+    {
+        $category = Category::create([
+           'category' => $request->category
+        ]);
+
+        return $request;
+    }
+
+    public function postArticle(Request $request)
+    {
+        $category = Article::create([
+            'category' => $request->category
+        ]);
+
+        return $request;
+    }
+
 }

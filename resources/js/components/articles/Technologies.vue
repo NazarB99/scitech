@@ -14,9 +14,9 @@
                 <div class="penci-block-wrapper-item penci-wrapper-hasitems">
                     <article class="grid2_first_item hentry penci-post-item">
                         <a class="penci-image-holder  penci-lazy penci-gradient penci-image_has_icon"
-                           href="10-incredible-online-art-schools/index.html"
-                           title="10 incredible online art schools"> <span
-                                class="screen-reader-text">10 incredible online art schools</span></a>
+                           :style="mainIllustration.image">
+                            <span class="screen-reader-text">10 incredible online art schools</span>
+                        </a>
                         <div class="penci_post_content">
                             <h3 class="penci__post-title entry-title">
                                 <router-link

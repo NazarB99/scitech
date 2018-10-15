@@ -16,7 +16,8 @@
                             <div class="penci-block_content__items penci-block-items__1">
                                 <article class="hentry penci-post-item" v-for="item in recents">
                                     <div class="penci_media_object ">
-                                        <a class="penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon" :style="item.image"></a>
+                                        <a class="penci-image-holder  penci-lazy penci_mobj__img penci-image_has_icon"
+                                           :style="item.image"></a>
                                         <div class="penci_post_content penci_mobj__body">
                                             <h3 class="penci__post-title entry-title">
                                                 <router-link :to="{name:'article',params:{id:item.id}}">
@@ -25,18 +26,20 @@
                                             </h3>
                                             <div class="penci-schema-markup">
                                                     <span class="author vcard">
-                                                        <a class="url fn n" href="author/admin/index.html">Penci Design</a>
+                                                        <a class="url fn n"
+                                                           href="author/admin/index.html">Penci Design</a>
                                                     </span>
                                             </div>
                                             <div class="penci_post-meta">
-                                                    <span class="entry-meta-item penci-posted-on"><i class="fa fa-clock-o"></i>
-                                                        <time class="entry-date published">{{item.created_at.date |
+                                                    <span class="entry-meta-item penci-posted-on"><i
+                                                            class="fa fa-clock-o"></i>
+                                                        <time class="entry-date published">{{item.created_at |
                                                             moment("MMMM D, YYYY")}}</time>
                                                         <time class="updated">December 1, 2017</time>
                                                     </span>
                                                 <span class="entry-meta-item penci-comment-count">
                                                             <router-link class="penci_pmeta-link"
-                                                               :to="{name:'article',params:{id: item.id}}">
+                                                                         :to="{name:'article',params:{id: item.id}}">
                                                                 <i class="la la-comments"></i>0
                                                             </router-link>
                                                 </span>
@@ -144,11 +147,11 @@
                         <div class="penci-block-heading">
                             <h3 class="penci-block__title"><span>Категории</span></h3></div>
                         <ul>
-                            <li class="cat-item cat-item-3" v-for="category in categories">
-                                <a href="category/editors-picks/index.html">
+                            <li class="cat-item cat-item-3" v-for="category in parsedCategories">
+                                <router-link :to="{name:'getArticleByCategory',params:{id:category.id}}">
                                     {{category.category}}
-                                    <span class="category-item-count">({{category.articles_num}})</span>
-                                </a>
+                                    <span class="category-item-count">({{category.articles.length}})</span>
+                                </router-link>
                             </li>
                         </ul>
                     </div>
@@ -159,10 +162,16 @@
 </template>
 <script>
     export default {
-        props:['categories','articles'],
-        computed:{
-            recents(){
-                return this.articles.slice(0,2)
+        props: ['categories', 'articles'],
+        computed: {
+            recents() {
+                return this.parsedArticles.slice(0, 2)
+            },
+            parsedArticles() {
+                return JSON.parse(this.articles)
+            },
+            parsedCategories() {
+                return JSON.parse(this.categories)
             },
         }
     }

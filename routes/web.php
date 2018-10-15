@@ -10,12 +10,39 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/login', function (){
+    return view('login');
+});
+
+Route::get('/main', function (){
+    return view('admin.main')->with('categories',\App\Category::with('articles')->get());
+})->middleware('admin');
+
+Route::get('/create/category',function (){
+    return view('admin.create_category');
+});
+
+Route::post('/post/category',[
+   'uses' => 'ArticleController@postCategory',
+   'as' => 'post.category'
+]);
+
+Route::get('/create/article',function (){
+    return view('admin.create_article')->with('categories',\App\Category::all());
+});
+
+Route::post('/post/article',[
+    'uses' => 'ArticleController@postArticle',
+    'as' => 'post.article'
+]);
 
 Route::get('/{any?}', function (){
     return view('main')
         ->with('articles',\App\Article::with('category')->get())
         ->with('categories',\App\Category::with('articles')->get());
 })->where('any', '.*');
+
+
 
 //Route::get('/', function () {
 //    return view('main');

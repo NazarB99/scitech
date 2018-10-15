@@ -101,12 +101,12 @@
             </div>
             <div class="penci-mega-meta ">
                 <h3 class="post-mega-title entry-title">
-                    <a href="13-tips-making-vr-gaming-world/index.html">
+                    <router-link :to="{name:'article',params:{id:article.id}}">
                         {{article.title}}
-                    </a>
+                    </router-link>
                 </h3>
                 <p class="penci-mega-date"><i class="fa fa-clock-o"></i>
-                    {{article.created_at.date | moment("MMMM D, YYYY") }}
+                    {{article.created_at| moment("MMMM D, YYYY") }}
                 </p>
             </div>
         </div>
