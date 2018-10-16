@@ -18,8 +18,9 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-6 mt-3 offset-4">
+                    <a href="/" class="btn btn-secondary btn-lg">Main Page</a>
                     <a href="/create/category" class="btn btn-primary btn-lg">Create category</a>
-                    <a class="btn btn-secondary btn-lg">Create article</a>
+                    <a href="/create/article" class="btn btn-secondary btn-lg">Create article</a>
                 </div>
             </div>
         </div>

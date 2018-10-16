@@ -58,6 +58,8 @@ const app = new Vue({
             name: '',
             password: '',
             category: '',
+            articleTitle:'',
+            articleImage:'',
             articleText: '',
             articleCategory: null,
             successPosting: false,
@@ -74,8 +76,8 @@ const app = new Vue({
         submitCategory() {
             axios.post('/post/category', {category: this.category})
                 .then(response => {
-                    if (response.status == 200) {
-                        this.successPosting = true
+                    if (response.status === 200) {
+                        this.successPosting = true;
                         setTimeout(() => {
                             this.successPosting = false;
                             this.category = '';
@@ -91,13 +93,14 @@ const app = new Vue({
         },
         submitArticle() {
             if (this.articleText && this.articleCategory) {
-                axios.post('/post/article', {article: this.articleText, category: this.articleCategory})
+                axios.post('/post/article', {article: this.articleText, category: this.articleCategory,title:this.articleTitle,image:this.articleImage})
                     .then(response => {
-                        if (response.status == 200) {
-                            this.successPosting = true
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successPosting = true;
                             setTimeout(() => {
                                 this.successPosting = false;
                                 this.category = '';
+                                window.location.href = '/main';
                             }, 4000)
                         } else {
                             this.failed = true;
@@ -106,6 +109,7 @@ const app = new Vue({
                                 this.category = '';
                             }, 4000)
                         }
+                        console.log(response);
                     })
             }else {
                 this.failed = true;
@@ -114,6 +118,14 @@ const app = new Vue({
                     this.category = '';
                 }, 8000)
             }
+        },
+        uploadFile(e){
+            let data = new FormData();
+            data.append('file', document.getElementById('image_article').files[0]);
+
+            axios.post('/post/image',data).then((response) => {
+                this.articleImage = response.data;
+            });
         }
 
     },

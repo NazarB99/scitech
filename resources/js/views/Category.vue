@@ -414,12 +414,22 @@
         methods: {
             fetchArticles() {
                 let articles = JSON.parse(this.articles);
-                this.articlesCategory = articles.filter(article => article.category.id === this.$route.params.id);
+                this.articlesCategory = articles.filter(article => article.category.id === this.$route.params.id)
+                    .sort(function compare(a, b) {
+                    let dateA = new Date(a.created_at);
+                    let dateB = new Date(b.created_at);
+                    return dateB - dateA ;
+                });
             },
             fetchCategory(){
                 let categories = JSON.parse(this.categories);
                 this.selectedCategory = categories.filter(category => category.id ===
                     this.$route.params.id)
+            },
+            getLatest(article) {
+                if(article.year >= 1500 && inventor.year <= 1600){
+                    return inventor;
+                }
             }
         },
         created(){
