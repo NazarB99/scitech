@@ -7,6 +7,9 @@ require('froala-editor/css/froala_editor.pkgd.min.css');
 require('font-awesome/css/font-awesome.css');
 require('froala-editor/css/froala_style.min.css');
 
+const moment = require('moment');
+require('moment/locale/ru');
+
 // Import and use Vue Froala lib.
 import VueFroala from 'vue-froala-wysiwyg';
 
@@ -15,6 +18,10 @@ Vue.use(VueFroala);
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
+
+Vue.use(require('vue-moment'), {
+    moment
+});
 
 import MainPage from './views/MainPage';
 import TopHeader from './components/Header.vue';
@@ -26,9 +33,6 @@ import Category from './views/Category.vue';
 import AdminCategory from './components/admin/Category.vue';
 import Message from './components/admin/comps/Message.vue';
 import SelectCategory from './components/admin/comps/SelectCategory.vue';
-
-// Vue.component('single-article', require('./components/Article.vue'));
-Vue.use(require('vue-moment'));
 
 const router = new VueRouter({
     mode: 'history',
